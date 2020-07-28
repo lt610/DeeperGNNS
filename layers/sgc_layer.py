@@ -5,7 +5,7 @@ from layers.pair_norm import PairNorm
 
 
 class SGCLayer(nn.Module):
-    def __init__(self, in_dim, out_dim, bias=True, k=1, graph_norm=True, pair_norm=False):
+    def __init__(self, in_dim, out_dim, bias=False, k=1, graph_norm=True, pair_norm=False):
         super(SGCLayer, self).__init__()
         self.linear = nn.Linear(in_dim, out_dim, bias)
         self.k = k
@@ -20,7 +20,7 @@ class SGCLayer(nn.Module):
     def reset_parameters(self):
         nn.init.xavier_uniform_(self.linear.weight)
 
-        if self.bias:
+        if self.linear.bias is not None:
             nn.init.zeros_(self.linear.bias)
 
     def forward(self, graph, features):
@@ -37,8 +37,8 @@ class SGCLayer(nn.Module):
 
         for _ in range(self.k):
             if self.graph_norm:
-                features = features * norm
-            g.ndata['h'] = features
+                h = features * norm
+            g.ndata['h'] = h
             """update_all()相当于register_message，register_reduce，send，recv一步到位，
             message和recv函数也可以自定义"""
             g.update_all(fn.copy_u('h', 'm'),
@@ -46,16 +46,16 @@ class SGCLayer(nn.Module):
             """ndata内部是一个字典，键值是唯一的，update_all内部的计算应该是在局部副本变量上进行的，
             因此一开始ndata['h']指向features，内部更新后指向新的变量。这里也可以不pop，
             直接将features指向ndata['h']，即引用赋值"""
-            features = g.ndata.pop('h')
+            h = g.ndata.pop('h')
 
             """对称归一化的邻接矩阵，聚合前后都有一次norm"""
             if self.graph_norm:
-                features = features * norm
+                h = h * norm
 
             if self.pair_norm:
-                features = self.pn(features)
+                h = self.pn(h)
 
-        features = self.linear(features)
+        h = self.linear(h)
 
-        return features
+        return h
 

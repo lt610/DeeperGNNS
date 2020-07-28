@@ -3,6 +3,8 @@ from torch import nn
 import dgl.function as fn
 from torch.nn import functional as F
 from layers.pair_norm import PairNorm
+
+
 def cal_gain(fun, param=None):
     gain = 1
     if fun is F.sigmoid:
@@ -35,3 +37,50 @@ class GCNLayer(nn.Module):
         if batch_norm:
             self.bn = nn.BatchNorm1d(out_dim)
         self.pair_norm = pair_norm
+        if pair_norm:
+            self.pn = PairNorm(mode='PN-SCS', scale=1)
+        self.residual = residual
+        if residual:
+            if in_dim != out_dim:
+                self.res_fc = nn.Linear(in_dim, out_dim, bias)
+            else:
+                self.res_fc = Identity()
+        self.dropout = nn.Dropout(dropout)
+        self.dropedge = nn.Dropout(dropedge)
+        self.reset_parameters()
+
+    def reset_parameters(self):
+        gain = cal_gain(self.activation)
+        nn.init.xavier_uniform_(self.linear.weight, gain=gain)
+        if self.linear.bias is not None:
+            nn.init.zeros_(self.linear.bias)
+        if isinstance(self.res_fc, nn.Linear):
+            nn.init.xavier_normal_(self.res_fc.weight, gain=gain)
+
+    def forward(self, graph, features):
+        h_pre = features
+        g = graph.local_var()
+        if self.graph_norm:
+            degs = g.in_degress().float().clamp(min=1)
+            norm = th.pow(degs, -0.5)
+            norm = norm.to(features.device).unsqueeze(1)
+            h = features * norm
+        g.ndata['h'] = h
+        w = th.ones(g.number_of_edges(), 1).to(features.device)
+        g.edata['w'] = self.dropedge(w)
+        g.update_all(fn.u_mul_e('h', 'w', 'm'),
+                     fn.sum('m', 'h'))
+        h = g.ndata.pop('h')
+        if self.grahp_norm:
+            h = h * norm
+        h = self.linear(h)
+        if self.batch_norm:
+            h = self.bn(h)
+        if self.pair_norm:
+            h = self.pn(h)
+        if self.activation is not None:
+            h= self.activation(h)
+        if self.residual:
+            h = h + self.res_fc(h_pre)
+        h = self.dropout(h)
+        return h
