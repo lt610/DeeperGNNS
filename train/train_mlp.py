@@ -17,17 +17,20 @@ if __name__ == '__main__':
     parser.add_argument('--batch_norm', action='store_true', default=False)
     parser.add_argument('--residual', action='store_true', default=False)
     parser.add_argument('--dropout', type=float, default=0)
+
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=1e-2)
     parser.add_argument('--weight_decay', type=float, default=0)
-    parser.add_argument('--num_epochs', type=int, default=500)
-    parser.add_argument('--patience', type=int, default=30)
+    parser.add_argument('--num_epochs', type=int, default=400)
+    parser.add_argument('--patience', type=int, default=40)
     args = parser.parse_args()
 
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
     model = MLPNet(num_feats, num_classes, args.num_hidden, args.num_layers,
                    batch_norm=args.batch_norm, residual=args.residual, dropout=args.dropout)
+
     set_seed(args.seed)
+
     optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
     early_stopping = EarlyStopping(args.patience, file_name='tmp')
 
@@ -38,6 +41,7 @@ if __name__ == '__main__':
     train_mask = train_mask.to(device)
     val_mask = val_mask.to(device)
     test_mask = test_mask.to(device)
+    print(model)
     model = model.to(device)
 
     dur = []

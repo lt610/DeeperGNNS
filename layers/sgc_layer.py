@@ -26,10 +26,10 @@ class SGCLayer(nn.Module):
     def forward(self, graph, features):
         """创建一个局部副本变量，这样如果有修改操作不会造成交叉影响"""
         g = graph.local_var()
-
+        h = features
         if self.graph_norm:
             """保证度数至少为1，事实上添加了自循环后应该可以保证了"""
-            degs = g.in_degress().float().clamp(min=1)
+            degs = g.in_degrees().float().clamp(min=1)
             norm = th.pow(degs, -0.5)
             """features的维度是[n,d]，[n]维度的tensor广播后是[d,n]，所以需要unsqueeze将[n]添
             加一个维度变成[n,1]，这样经过广播后也是[n,d]"""
@@ -37,7 +37,7 @@ class SGCLayer(nn.Module):
 
         for _ in range(self.k):
             if self.graph_norm:
-                h = features * norm
+                h = h * norm
             g.ndata['h'] = h
             """update_all()相当于register_message，register_reduce，send，recv一步到位，
             message和recv函数也可以自定义"""

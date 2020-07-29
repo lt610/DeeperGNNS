@@ -2,15 +2,7 @@ import torch as th
 import torch.nn as nn
 import torch.nn.functional as F
 
-from layers.gcn_layer import cal_gain
-
-
-class Identity(nn.Module):
-    def __init__(self):
-        super(Identity, self).__init__()
-
-    def forward(self, x):
-        return x
+from layers.gcn_layer import cal_gain, Identity
 
 
 class SingleHeadGATLayer(nn.Module):
@@ -33,6 +25,7 @@ class SingleHeadGATLayer(nn.Module):
         self.dropout = nn.Dropout(dropout)
         self.reset_parameters()
 
+    """这儿有点问题"""
     def reset_parameters(self):
         gain = cal_gain("leaky_relu")
         nn.init.xavier_normal_(self.fc.weight, gain=gain)

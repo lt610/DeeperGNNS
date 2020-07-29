@@ -32,7 +32,7 @@ class GCNLayer(nn.Module):
         super(GCNLayer, self).__init__()
         self.linear = nn.Linear(in_dim, out_dim, bias)
         self.activation = activation
-        self.grahp_norm = graph_norm
+        self.graph_norm = graph_norm
         self.batch_norm = batch_norm
         if batch_norm:
             self.bn = nn.BatchNorm1d(out_dim)
@@ -58,12 +58,14 @@ class GCNLayer(nn.Module):
             nn.init.zeros_(self.linear.bias)
         if isinstance(self.res_fc, nn.Linear):
             nn.init.xavier_normal_(self.res_fc.weight, gain=gain)
+            if self.res_fc.bias is not None:
+                nn.init.zeros_(self.res_fc.bias)
 
     def forward(self, graph, features):
         h_pre = features
         g = graph.local_var()
         if self.graph_norm:
-            degs = g.in_degress().float().clamp(min=1)
+            degs = g.in_degrees().float().clamp(min=1)
             norm = th.pow(degs, -0.5)
             norm = norm.to(features.device).unsqueeze(1)
             h = features * norm
@@ -73,7 +75,7 @@ class GCNLayer(nn.Module):
         g.update_all(fn.u_mul_e('h', 'w', 'm'),
                      fn.sum('m', 'h'))
         h = g.ndata.pop('h')
-        if self.grahp_norm:
+        if self.graph_norm:
             h = h * norm
         h = self.linear(h)
         if self.batch_norm:

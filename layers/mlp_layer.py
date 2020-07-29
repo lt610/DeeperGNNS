@@ -26,6 +26,8 @@ class MLPLayer(nn.Module):
         nn.init.xavier_normal_(self.linear.weight, gain=gain)
         if isinstance(self.res_fc, nn.Linear):
             nn.init.xavier_normal_(self.res_fc.weight, gain=gain)
+            if self.res_fc.bias is not None:
+                nn.init.zeros_(self.res_fc.bias)
 
     def forward(self, g, features):
         h_pre = features
