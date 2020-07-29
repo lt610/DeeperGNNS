@@ -1,6 +1,5 @@
 from layers.sgc_layer import SGCLayer
 import torch.nn as nn
-import torch.nn.functional as F
 
 
 class SGCNet(nn.Module):

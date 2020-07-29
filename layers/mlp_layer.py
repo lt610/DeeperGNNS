@@ -16,6 +16,8 @@ class MLPLayer(nn.Module):
                 self.res_fc = nn.Linear(in_dim, out_dim, bias)
             else:
                 self.res_fc = Identity()
+        else:
+            self.register_buffer('res_fc', None)
         self.dropout = nn.Dropout(dropout)
         self.reset_parameters()
 

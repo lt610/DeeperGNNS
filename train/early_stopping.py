@@ -23,7 +23,7 @@ class EarlyStopping(object):
         self.best_score = None
         self.is_stop = False
         # self.path = generate_path("result/model_state", file_name, ".pt")
-        self.path = "result/model_state/tmp.pt"
+        self.path = "../result/model_state/tmp.pt"
 
     def __call__(self, score, model):
         if self.best_score is None:

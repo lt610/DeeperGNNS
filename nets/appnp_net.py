@@ -1,10 +1,10 @@
 import torch.nn as nn
 from dgl.nn.pytorch import APPNPConv
 from nets.mlp_net import MLPNet
-
+import torch.nn.functional as F
 
 class APPNPNet(nn.Module):
-    def __init__(self, num_feats, num_classes, k, alpha, num_hidden, num_layers, bias=False, activation=None,
+    def __init__(self, num_feats, num_classes, k, alpha, num_hidden, num_layers, bias=False, activation=F.relu,
                  batch_norm=False, residual=False, dropout=0):
         super(APPNPNet, self).__init__()
         self.mlp = MLPNet(num_feats, num_classes, num_hidden, num_layers, bias,

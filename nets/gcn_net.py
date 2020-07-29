@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 
 class GCNNet(nn.Module):
-    def __init__(self, num_feats, num_classes, num_hidden, num_layers, bias=False, activation=None, graph_norm=True,
+    def __init__(self, num_feats, num_classes, num_hidden, num_layers, bias=False, activation=F.relu, graph_norm=True,
                  batch_norm=False, pair_norm=False, residual=False, dropout=0, dropedge=0):
         super(GCNNet, self).__init__()
         self.num_layers = num_layers

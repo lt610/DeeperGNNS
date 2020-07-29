@@ -49,12 +49,12 @@ def load_data_default(dataset_name):
     test_mask = th.BoolTensor(data.test_mask)
     num_feats = data.features.shape[1]
     num_classes = data.num_labels
-    g = data.graph
+    graph = data.graph
     # add self loop
-    g.remove_edges_from(nx.selfloop_edges(g))
-    g = DGLGraph(g)
-    g.add_edges(g.nodes(), g.nodes())
-    return g, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes
+    graph.remove_edges_from(nx.selfloop_edges(graph))
+    graph = DGLGraph(graph)
+    graph.add_edges(graph.nodes(), graph.nodes())
+    return graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes
 
 
 def load_data_mine(dataset_name, train_ratio=0.6, val_ratio=0.2, random_seed=None):

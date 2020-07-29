@@ -1,9 +1,10 @@
 import torch.nn as nn
 from layers.mlp_layer import MLPLayer
+import torch.nn.functional as F
 
 
 class MLPNet(nn.Module):
-    def __init__(self, num_feats, num_classes, num_hidden, num_layers, bias=False, activation=None,
+    def __init__(self, num_feats, num_classes, num_hidden, num_layers, bias=False, activation=F.relu,
                  batch_norm=False, residual=False, dropout=0):
         super(MLPNet, self).__init__()
         self.num_layers = num_layers
