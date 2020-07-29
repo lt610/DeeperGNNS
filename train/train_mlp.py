@@ -29,7 +29,7 @@ if __name__ == '__main__':
     model = MLPNet(num_feats, num_classes, args.num_hidden, args.num_layers,
                    batch_norm=args.batch_norm, residual=args.residual, dropout=args.dropout)
 
-    set_seed(args.seed)
+    # set_seed(args.seed)
 
     optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
     early_stopping = EarlyStopping(args.patience, file_name='tmp')

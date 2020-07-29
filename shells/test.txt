@@ -1,7 +1,1 @@
-python train_gcnii.py --dataset cora --num_hidden 64 --num_layers 64 --dropout 0.6 --alpha 0.1 --lamda 0.5 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 400 --patience 40
-python train_gcnii.py --dataset cora --num_hidden 64 --num_layers 64 --dropout 0.5 --alpha 0.1 --lamda 0.5 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 400 --patience 40
-python train_gcnii.py --dataset cora --num_hidden 64 --num_layers 64 --dropout 0.4 --alpha 0.1 --lamda 0.5 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 400 --patience 40
-python train_gcnii.py --dataset cora --num_hidden 64 --num_layers 64 --dropout 0.3 --alpha 0.1 --lamda 0.5 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 400 --patience 40
-python train_gcnii.py --dataset cora --num_hidden 64 --num_layers 64 --dropout 0.2 --alpha 0.1 --lamda 0.5 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 400 --patience 40
-python train_gcnii.py --dataset cora --num_hidden 64 --num_layers 64 --dropout 0.1 --alpha 0.1 --lamda 0.5 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 400 --patience 40
-python train_gcnii.py --dataset cora --num_hidden 64 --num_layers 64 --dropout 0 --alpha 0.1 --lamda 0.5 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 400 --patience 40
+python train_gcnii.py --dataset cora --num_hidden 64 --num_layers 64 --dropout 0.6 --alpha 0.1 --lamda 0.5 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 1000 --patience 100

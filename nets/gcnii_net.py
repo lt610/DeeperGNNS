@@ -22,7 +22,7 @@ class GCNIINet(nn.Module):
         self.params2 = list(self.fcs.parameters())
         self.activation = activation
         self.dropout = nn.Dropout(dropout)
-        self.reset_parameters()
+        # self.reset_parameters()
 
     def reset_parameters(self):
         gain = cal_gain(self.activation)

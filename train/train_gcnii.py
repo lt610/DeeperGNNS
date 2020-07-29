@@ -14,15 +14,15 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='cora')
     parser.add_argument('--num_hidden', type=int, default=64)
-    parser.add_argument('--num_layers', type=int, default=64)
+    parser.add_argument('--num_layers', type=int, default=3)
     parser.add_argument('--dropout', type=float, default=0)
     parser.add_argument('--alpha', type=float, default=0.1)
     parser.add_argument('--lamda', type=float, default=0.5)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=1e-2)
-    parser.add_argument('--weight_decay1', type=float, default=0.01)
-    parser.add_argument('--weight_decay2', type=float, default=0.0005)
+    parser.add_argument('--weight_decay1', type=float, default=0)
+    parser.add_argument('--weight_decay2', type=float, default=0)
     parser.add_argument('--num_epochs', type=int, default=400)
     parser.add_argument('--patience', type=int, default=40)
     args = parser.parse_args()
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     model = GCNIINet(num_feats, num_classes, args.num_hidden, args.num_layers,
                      dropout=args.dropout, alpha=args.alpha, lamda=args.lamda)
 
-    set_seed(args.seed)
+    # set_seed(args.seed)
 
     optimizer = th.optim.Adam([
         {'params': model.params1, 'weight_decay': args.weight_decay1},

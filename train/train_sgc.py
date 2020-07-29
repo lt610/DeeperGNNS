@@ -26,7 +26,7 @@ if __name__ == '__main__':
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
     model = SGCNet(num_feats, num_classes, args.num_layers, pair_norm=args.pair_norm)
 
-    set_seed(args.seed)
+    # set_seed(args.seed)
 
     optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
     early_stopping = EarlyStopping(args.patience, file_name='tmp')

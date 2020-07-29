@@ -25,7 +25,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='cora')
     parser.add_argument('--num_hidden', type=int, default=64)
-    parser.add_argument('--num_layers', type=int, default=3)
+    parser.add_argument('--num_layers', type=int, default=2)
     parser.add_argument('--batch_norm', action='store_true', default=False)
     parser.add_argument('--pair_norm', action='store_true', default=False)
     parser.add_argument('--residual', action='store_true', default=False)
@@ -43,7 +43,7 @@ if __name__ == '__main__':
     model = GCNNet(num_feats, num_classes, args.num_hidden, args.num_layers, batch_norm=args.batch_norm,
                    pair_norm=args.pair_norm, residual=args.residual, dropout=args.dropout, dropedge=args.dropedge)
 
-    set_seed(args.seed)
+    # set_seed(args.seed)
 
     optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
     early_stopping = EarlyStopping(args.patience, file_name='tmp')
