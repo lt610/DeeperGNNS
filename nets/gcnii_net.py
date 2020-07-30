@@ -13,10 +13,10 @@ class GCNIINet(nn.Module):
         super(GCNIINet, self).__init__()
         self.convs = nn.ModuleList()
         for i in range(num_layers):
-            beta = math.log(lamda / (i + 1) + 1)
+            beta = math.log(lamda/(i+1)+1)
             if variant:
                 self.convs.append(GCNIIVariantLayer(num_hidden, num_hidden, bias, activation,
-                                                    graph_norm, alpha, beta))
+                                             graph_norm, alpha, beta))
             else:
                 self.convs.append(GCNIILayer(num_hidden, num_hidden, bias, activation,
                                              graph_norm, alpha, beta))
@@ -31,10 +31,12 @@ class GCNIINet(nn.Module):
 
     def reset_parameters(self):
         gain = cal_gain(self.activation)
-        for fc in self.fcs:
-            nn.init.xavier_uniform_(fc.weight, gain=gain)
-            if fc.bias is not None:
-                nn.init.zeros_(fc.bias)
+        nn.init.xavier_uniform_(self.fcs[0].weight, gain=gain)
+        if self.fcs[0].bias is not None:
+            nn.init.zeros_(self.fcs[0].bias)
+        nn.init.xavier_uniform_(self.fcs[-1].weight)
+        if self.fcs[-1].bias is not None:
+            nn.init.zeros_(self.fcs[-1].bias)
 
     def forward(self, graph, features):
         h0 = F.dropout(features, self.dropout, self.training)
