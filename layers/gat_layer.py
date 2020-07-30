@@ -46,7 +46,7 @@ class SingleHeadGATLayer(nn.Module):
         h = th.sum(alpha * nodes.mailbox['z'], dim=1)
         return {'h': h}
 
-    def forward(self, g, features):
+    def forward(self, graph, features):
         g = g.local_var()
         h_pre = features
         z = self.fc(features)

@@ -6,10 +6,11 @@ from layers.pair_norm import PairNorm
 from layers.gcn_layer import cal_gain, Identity
 
 
-class GCNIILayer(nn.Module):
+class GCNIIVariantLayer(nn.Module):
     def __init__(self, in_dim, out_dim, bias=False, activation=None, graph_norm=True, alpha=0, beta=0):
-        super(GCNIILayer, self).__init__()
-        self.linear = nn.Linear(in_dim, out_dim, bias)
+        super(GCNIIVariantLayer, self).__init__()
+        self.linear1 = nn.Linear(in_dim, out_dim, bias)
+        self.linear2 = nn.Linear(in_dim, out_dim, bias)
         self.activation = activation
         self.graph_norm = graph_norm
         self.alpha = alpha
@@ -18,9 +19,12 @@ class GCNIILayer(nn.Module):
 
     def reset_parameters(self):
         gain = cal_gain(self.activation)
-        nn.init.xavier_uniform_(self.linear.weight, gain=gain)
-        if self.linear.bias is not None:
-            nn.init.zeros_(self.linear.bias)
+        nn.init.xavier_uniform_(self.linear1.weight, gain=gain)
+        if self.linear1.bias is not None:
+            nn.init.zeros_(self.linear1.bias)
+        nn.init.xavier_uniform_(self.linear2.weight, gain=gain)
+        if self.linear2.bias is not None:
+            nn.init.zeros_(self.linear2.bias)
 
     def forward(self, graph, features, initial_features):
         g = graph.local_var()
@@ -37,8 +41,10 @@ class GCNIILayer(nn.Module):
         h = g.ndata.pop('h')
         if self.graph_norm:
             h = h * norm
-        h = (1 - self.alpha) * h + self.alpha * initial_features
-        h = (1 - self.beta) * h + self.beta * self.linear(h)
+        h = (1 - self.alpha) * h
+        h = (1 - self.beta) * h + self.beta * self.linear1(h)
         if self.activation is not None:
             h = self.activation(h)
+        ifeatures = self.alpha * initial_features
+        h = h + (1 - self.beta) * ifeatures + self.beta * self.linear2(ifeatures)
         return h

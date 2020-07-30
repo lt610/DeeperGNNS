@@ -35,7 +35,19 @@ import os
 #     os.system(cmd)
 
 """测试读命令文件"""
-with open('shells/test.txt', 'r') as f:
-    cmds = f.readlines()
-    for cmd in cmds:
-        print(cmd)
+# with open('shells/test.txt', 'r') as f:
+#     cmds = f.readlines()
+#     for cmd in cmds:
+#         print(cmd)
+
+"""测试permute等"""
+a = th.Tensor([[[1,2,3],[4,5,6]]])
+print(a.shape)
+b = th.Tensor.permute(a, 2, 0, 1)
+print(b.shape)
+print(b)
+c = th.Tensor.view(a, 3, 1, 2)
+print(c.shape)
+print(c)
+print(a)
+print(a.reshape(3, 1, 2))

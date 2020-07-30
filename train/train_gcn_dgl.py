@@ -1,43 +1,45 @@
+import random
+import numpy as np
+import torch as th
 import argparse
 import time
 import torch.nn.functional as F
-
-from nets.gcnii_net import GCNIINet
 from train.early_stopping import EarlyStopping
 from train.metrics import evaluate_acc_loss
-from train.train_gcn import set_seed
+from nets.gcn_dgl_net import GCNDGLNet
 from utils.data_mine import load_data_default
 import torch as th
 import numpy as np
+
+
+def set_seed(seed=9699):
+    random.seed(seed)
+    np.random.seed(seed)
+    th.manual_seed(seed)
+    th.cuda.manual_seed(seed)
+    # th.backends.cudnn.deterministic = True
+    # th.backends.cudnn.benchmark = False
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='cora')
     parser.add_argument('--num_hidden', type=int, default=64)
-    parser.add_argument('--num_layers', type=int, default=64)
-    parser.add_argument('--dropout', type=float, default=0.6)
-    parser.add_argument('--alpha', type=float, default=0.1)
-    parser.add_argument('--lamda', type=float, default=0.5)
-    parser.add_argument('--variant', action='store_true', default=False)
+    parser.add_argument('--num_layers', type=int, default=3)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=1e-2)
-    parser.add_argument('--weight_decay1', type=float, default=0)
-    parser.add_argument('--weight_decay2', type=float, default=0)
-    parser.add_argument('--num_epochs', type=int, default=400)
-    parser.add_argument('--patience', type=int, default=40)
+    parser.add_argument('--weight_decay', type=float, default=0)
+    parser.add_argument('--num_epochs', type=int, default=500)
+    parser.add_argument('--patience', type=int, default=50)
     args = parser.parse_args()
 
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
-    model = GCNIINet(num_feats, num_classes, args.num_hidden, args.num_layers,
-                     dropout=args.dropout, alpha=args.alpha, lamda=args.lamda)
+    model = GCNDGLNet(num_feats, num_classes, args.num_hidden, args.num_layers)
 
     # set_seed(args.seed)
 
-    optimizer = th.optim.Adam([
-        {'params': model.params1, 'weight_decay': args.weight_decay1},
-        {'params': model.params2, 'weight_decay': args.weight_decay2}],
-        lr=args.learn_rate)
+    optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
     early_stopping = EarlyStopping(args.patience, file_name='tmp')
 
     device = th.device("cuda:0" if th.cuda.is_available() else "cpu")
@@ -67,7 +69,7 @@ if __name__ == '__main__':
         val_loss, val_acc = evaluate_acc_loss(model, graph, features, labels, val_mask)
         print("Epoch {:05d} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Time(s) {:.4f}".
               format(epoch, train_loss, train_acc, val_loss, val_acc, np.mean(dur)))
-        early_stopping(val_acc, model)
+        early_stopping(-val_loss, model)
         if early_stopping.is_stop:
             print("Early stopping")
             model.load_state_dict(early_stopping.load_checkpoint())

@@ -16,7 +16,7 @@ class GATNet(nn.Module):
                                         activation,batch_norm, residual, dropout))
         self.layers.append(
             GATLayer(num_hidden * num_heads, num_classes, 1, 'mean',
-                     None, batch_norm, residual, dropout))
+                     None, batch_norm, residual, 0))
 
     def forward(self, graph, features):
         h = features

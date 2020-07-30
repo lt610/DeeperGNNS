@@ -15,7 +15,7 @@ class MLPNet(nn.Module):
             self.layers.append(
                 MLPLayer(num_hidden, num_hidden, bias, activation, batch_norm, residual, dropout))
         self.layers.append(
-            MLPLayer(num_hidden, num_classes, bias, None, batch_norm, residual, dropout))
+            MLPLayer(num_hidden, num_classes, bias, None, batch_norm, residual, 0))
 
     def forward(self, graph, features):
         h = features

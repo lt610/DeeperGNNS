@@ -1,4 +1,5 @@
 from layers.sgc_layer import SGCLayer
+from layers.mlp_layer import MLPLayer
 import torch.nn as nn
 from dgl.nn.pytorch import SGConv
 
