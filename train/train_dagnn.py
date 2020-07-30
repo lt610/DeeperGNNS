@@ -27,7 +27,7 @@ if __name__ == '__main__':
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
     model = DAGNNNet(num_feats, num_classes, args.num_hidden, args.num_layers, dropout=args.dropout)
 
-    # set_seed(args.seed)
+    set_seed(args.seed)
 
     optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
     early_stopping = EarlyStopping(args.patience, file_name='tmp')
@@ -70,3 +70,8 @@ if __name__ == '__main__':
     print("Train Loss {:.4f} | Train Acc {:.4f}".format(train_loss, train_acc))
     print("Val Loss {:.4f} | Val Acc {:.4f}".format(val_loss, val_acc))
     print("Test Loss {:.4f} | Test Acc {:.4f}".format(test_loss, test_acc))
+
+    with open('../result/train_result/DAGNN.txt', 'a') as f:
+        results = '{}: Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Test Loss {:.4f} | ' \
+                  'Test Acc {:.4f}\n'.format(args.dataset, train_loss, train_acc, val_loss, val_acc, test_loss, test_acc)
+        f.write(results)

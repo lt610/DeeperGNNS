@@ -29,8 +29,8 @@ if __name__ == '__main__':
     parser.add_argument('--batch_norm', action='store_true', default=False)
     parser.add_argument('--pair_norm', action='store_true', default=False)
     parser.add_argument('--residual', action='store_true', default=False)
-    parser.add_argument('--dropout', type=float, default=0)
-    parser.add_argument('--dropedge', type=float, default=0)
+    parser.add_argument('--dropout', type=float, default=0.5)
+    parser.add_argument('--dropedge', type=float, default=0.0005)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=1e-2)
@@ -87,3 +87,7 @@ if __name__ == '__main__':
     print("Val Loss {:.4f} | Val Acc {:.4f}".format(val_loss, val_acc))
     print("Test Loss {:.4f} | Test Acc {:.4f}".format(test_loss, test_acc))
 
+    with open('../result/train_result/GCN.txt', 'a') as f:
+        results = '{}: Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Test Loss {:.4f} | ' \
+                  'Test Acc {:.4f}\n'.format(args.dataset, train_loss, train_acc, val_loss, val_acc, test_loss, test_acc)
+        f.write(results)

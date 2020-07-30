@@ -1,0 +1,15 @@
+cora: Train Loss 0.5428 | Train Acc 0.9214 | Val Loss 0.8516 | Val Acc 0.7833 | Test Loss 0.8796 | Test Acc 0.7980
+citeseer: Train Loss 0.9145 | Train Acc 0.9083 | Val Loss 1.2931 | Val Acc 0.7220 | Test Loss 1.2746 | Test Acc 0.7280
+pubmed: Train Loss 0.2037 | Train Acc 0.9667 | Val Loss 0.4993 | Val Acc 0.8120 | Test Loss 0.5411 | Test Acc 0.8030
+cora: Train Loss 0.5685 | Train Acc 0.9143 | Val Loss 0.8680 | Val Acc 0.8067 | Test Loss 0.9102 | Test Acc 0.7970
+citeseer: Train Loss 0.8065 | Train Acc 0.9167 | Val Loss 1.2204 | Val Acc 0.7260 | Test Loss 1.2048 | Test Acc 0.7390
+pubmed: Train Loss 0.1516 | Train Acc 0.9667 | Val Loss 0.4967 | Val Acc 0.8160 | Test Loss 0.5531 | Test Acc 0.7970
+cora: Train Loss 0.5359 | Train Acc 0.9143 | Val Loss 0.8167 | Val Acc 0.8000 | Test Loss 0.8494 | Test Acc 0.8030
+citeseer: Train Loss 0.8598 | Train Acc 0.9250 | Val Loss 1.2734 | Val Acc 0.7200 | Test Loss 1.2561 | Test Acc 0.7370
+pubmed: Train Loss 0.1645 | Train Acc 0.9667 | Val Loss 0.4848 | Val Acc 0.8140 | Test Loss 0.5463 | Test Acc 0.8070
+cora: Train Loss 0.5551 | Train Acc 0.9286 | Val Loss 0.8623 | Val Acc 0.7967 | Test Loss 0.8916 | Test Acc 0.8030
+cora: Train Loss 0.5736 | Train Acc 0.9214 | Val Loss 0.8643 | Val Acc 0.8000 | Test Loss 0.8963 | Test Acc 0.8060
+cora: Train Loss 0.2061 | Train Acc 1.0000 | Val Loss 0.6111 | Val Acc 0.8333 | Test Loss 0.6129 | Test Acc 0.8440
+cora: Train Loss 0.6072 | Train Acc 0.9143 | Val Loss 0.8857 | Val Acc 0.8000 | Test Loss 0.9122 | Test Acc 0.8110
+cora: Train Loss 0.4853 | Train Acc 0.9286 | Val Loss 0.7921 | Val Acc 0.8200 | Test Loss 0.8174 | Test Acc 0.8110
+citeseer: Train Loss 0.2040 | Train Acc 1.0000 | Val Loss 0.9166 | Val Acc 0.7280 | Test Loss 0.8931 | Test Acc 0.7210
