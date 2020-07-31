@@ -1,5 +1,5 @@
-# gnns
-## models
+# DeepGnns
+## Models
 
 | Model | Paper |
 | --- | --- |
@@ -15,7 +15,7 @@
 3. Deep Graph Library
 4. Numpy
 
-## results
+## Results
 
 | Method | Cora | Citeseer | Pubmed |
 | --- | --- | --- | --- |
