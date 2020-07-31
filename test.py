@@ -52,4 +52,4 @@ import os
 # print(a)
 # print(a.reshape(3, 1, 2))
 
-print('train_acc:{:.4f}'.format(12.145345))
+print('modified')
