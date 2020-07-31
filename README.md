@@ -1,5 +1,5 @@
 # gnns
-## modals
+## models
 
 | Model | Paper |
 | --- | --- |
