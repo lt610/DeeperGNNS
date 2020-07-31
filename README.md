@@ -1,5 +1,6 @@
 # gnns
-## modal
+## modals
+
 | Model | Paper |
 | --- | --- |
 | GCNII, GCNII\* | Simple and Deep Graph Convolutional Networks |
@@ -7,7 +8,15 @@
 | CGCN | Continuous Graph Neural Networks |
 | CMUGCN | Contrastive Multi-View Representation Learning on Graphs |
 | GCN-BBDE, GCN-BBGDC | Bayesian Graph Neural Networks with Adaptive Connection Sampling |
-## result
+## Dependencies
+
+1. PyTorch
+2. NetworkX
+3. Deep Graph Library
+4. Numpy
+
+## results
+
 | Method | Cora | Citeseer | Pubmed |
 | --- | --- | --- | --- |
 | GCN | 81.2 | 69.1 | 77.3 |
