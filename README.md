@@ -1,4 +1,4 @@
-# DeepGnns
+# DeepGNNs
 ## Models
 
 | Model | Paper |
