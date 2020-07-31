@@ -1,1 +1,9 @@
-python train_gcnii.py --dataset citeseer --num_hidden 256 --num_layers 32 --dropout 0 --alpha 0.1 --lamda 0.6 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 1000 --patience 100
+python train_gcnii.py --dataset cora --num_hidden 64 --num_layers 64 --dropout 0.1 --alpha 0.1 --lamda 0.5 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
+python train_gcnii.py --dataset citeseer --num_hidden 256 --num_layers 32 --dropout 0.7 --alpha 0.1 --lamda 0.6 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
+python train_gcnii.py --dataset pubmed --num_hidden 256 --num_layers 16 --dropout 0.5 --alpha 0.1 --lamda 0.4 --weight_decay1 0.0005 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
+python train_gcnii.py --dataset cora --num_hidden 64 --num_layers 64 --dropout 0.1 --alpha 0.1 --lamda 0.5 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
+python train_gcnii.py --dataset citeseer --num_hidden 256 --num_layers 32 --dropout 0.7 --alpha 0.1 --lamda 0.6 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
+python train_gcnii.py --dataset pubmed --num_hidden 256 --num_layers 16 --dropout 0.5 --alpha 0.1 --lamda 0.4 --weight_decay1 0.0005 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
+python train_gcnii.py --dataset cora --num_hidden 64 --num_layers 64 --dropout 0.1 --alpha 0.1 --lamda 0.5 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
+python train_gcnii.py --dataset citeseer --num_hidden 256 --num_layers 32 --dropout 0.7 --alpha 0.1 --lamda 0.6 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
+python train_gcnii.py --dataset pubmed --num_hidden 256 --num_layers 16 --dropout 0.5 --alpha 0.1 --lamda 0.4 --weight_decay1 0.0005 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant

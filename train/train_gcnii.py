@@ -24,8 +24,8 @@ if __name__ == '__main__':
     parser.add_argument('--learn_rate', type=float, default=1e-2)
     parser.add_argument('--weight_decay1', type=float, default=0.01)
     parser.add_argument('--weight_decay2', type=float, default=0.0005)
-    parser.add_argument('--num_epochs', type=int, default=1000)
-    parser.add_argument('--patience', type=int, default=100)
+    parser.add_argument('--num_epochs', type=int, default=400)
+    parser.add_argument('--patience', type=int, default=40)
     args = parser.parse_args()
 
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)

@@ -15,7 +15,7 @@ class GCNNet(nn.Module):
             self.layers.append(GCNLayer(num_hidden, num_hidden, bias, activation, graph_norm, batch_norm,
                                         pair_norm, residual, dropout, dropedge))
         self.layers.append(GCNLayer(num_hidden, num_classes, bias, None, graph_norm, batch_norm,
-                                    pair_norm, residual, dropout, 0))
+                                    pair_norm, residual, 0, dropedge))
 
     def forward(self, graph, features):
         h = features

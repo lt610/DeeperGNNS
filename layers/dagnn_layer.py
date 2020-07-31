@@ -13,9 +13,10 @@ class DAGNNLayer(nn.Module):
         self.s = Parameter(th.FloatTensor(num_classes, 1))
         self.num_layers = num_layers
         self.graph_norm = graph_norm
+        self.reset_parameters()
 
     def reset_parameters(self):
-        gain = cal_gain(F.relu)
+        gain = cal_gain(F.sigmoid)
         nn.init.xavier_uniform_(self.s, gain=gain)
 
     def forward(self, graph, features):
@@ -38,9 +39,8 @@ class DAGNNLayer(nn.Module):
             if self.graph_norm:
                 h = h * norm
             results.append(h)
-
         H = th.stack(results, dim=1)
-        S = F.relu(th.matmul(H, self.s))
+        S = F.sigmoid(th.matmul(H, self.s))
         S = S.permute(0, 2, 1)
-        H = th.bmm(S, H).squeeze(1)
+        H = th.matmul(S, H).squeeze()
         return H
