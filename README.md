@@ -2,9 +2,9 @@
 ## Results
 | Method | Cora | Citeseer | Pubmed | arxiv |
 | --- | --- | --- | --- | --- |
-| SGC | 80.8(6) | - | - | - |
-| VSGC(alpha=1) | 81.6(47) | - | - | - |
-| VSGC(alpha=0.5) | 82.0(50) | - | - | - |
+| SGC | 80.8(K=6) | - | - | - |
+| VSGC(alpha=1) | 81.6(K=47) | - | - | - |
+| VSGC(alpha=0.5) | 82.0(k=50) | - | - | - |
 ## Trends
 ![image](https://github.com/lt610/DeepGNNS/blob/master/result/images/sgc.png)
 # DeepGNNs
