@@ -6,11 +6,12 @@ import dgl
 
 
 class VSGCLayer(nn.Module):
-    def __init__(self, in_dim, out_dim, bias=False, k=1, graph_norm=True):
+    def __init__(self, in_dim, out_dim, bias=False, k=1, graph_norm=True, alpha=1):
         super(VSGCLayer, self).__init__()
         self.linear = nn.Linear(in_dim, out_dim, bias)
         self.k = k
         self.graph_norm = graph_norm
+        self.alpha = alpha
         self.reset_parameters()
 
     def reset_parameters(self):
@@ -30,6 +31,7 @@ class VSGCLayer(nn.Module):
             norm = norm.to(features.device).unsqueeze(1)
         dgl.remove_self_loop(g)
         h = self.linear(features)
+        h_pre = h
         ri = h * norm * norm
         for _ in range(self.k):
             if self.graph_norm:
@@ -47,7 +49,8 @@ class VSGCLayer(nn.Module):
             """对称归一化的邻接矩阵，聚合前后都有一次norm"""
             if self.graph_norm:
                 h = h * norm
-            h = h + ri
+            h = self.alpha * h + self.alpha * ri + (1 - self.alpha) * h_pre
+            h_pre = h
         # """创建一个局部副本变量，这样如果有修改操作不会造成交叉影响"""
         # g = graph.local_var()
         # if self.graph_norm:

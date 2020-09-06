@@ -25,17 +25,18 @@ def extract_test_accs(filename):
     return results
 
 
-def draw_test_layer(title, sgc_test, vsgc_test):
+def draw_test_layer(title, sgc_test, vsgc1_test, vsgc05_test):
     x = np.arange(2, 51)
     plt.title(title)
     plt.xlabel('Number of Layers')
-    plt.ylabel('Accuracy')
+    plt.ylabel('Test Accuracy')
     plt.xticks(x)
     plt.xlim(1.5, 50.5)
-    marker = 'o'
+    marker = ''
     ms = 4
     plt.plot(x, sgc_test, color='green', linestyle='-', marker=marker, ms=ms, label='sgc')
-    plt.plot(x, vsgc_test, color='orange', linestyle='-', marker=marker, ms=ms, label='vsgc')
+    plt.plot(x, vsgc1_test, color='orange', linestyle='-', marker=marker, ms=ms, label='vsgc(alpha=1)')
+    plt.plot(x, vsgc05_test, color='blueviolet', linestyle='-', marker=marker, ms=ms, label='vsgc(alpha=0.5)')
     plt.legend()
     plt.show()
 
@@ -68,16 +69,21 @@ if __name__ == '__main__':
        0.742 , 0.7325, 0.728 , 0.714 , 0.706 , 0.696 , 0.6855, 0.673 ,
        0.6585, 0.643 , 0.632 , 0.62  , 0.5995, 0.585 , 0.5655, 0.547 ,
        0.528 ]
-    vsgc = [0.7465, 0.775 , 0.776 , 0.7835, 0.783 , 0.786 , 0.788 , 0.793 ,
+    vsgc1 = [0.7465, 0.775 , 0.776 , 0.7835, 0.783 , 0.786 , 0.788 , 0.793 ,
        0.792 , 0.794 , 0.798 , 0.799 , 0.798 , 0.799 , 0.8005, 0.8015,
        0.8065, 0.8055, 0.807 , 0.8085, 0.809 , 0.8115, 0.811 , 0.812 ,
        0.811 , 0.8115, 0.811 , 0.8105, 0.812 , 0.8115, 0.812 , 0.813 ,
        0.813 , 0.814 , 0.8135, 0.8145, 0.8145, 0.8135, 0.814 , 0.8155,
        0.8145, 0.813 , 0.814 , 0.8145, 0.8155, 0.816 , 0.8155, 0.8145,
        0.815 ]
-    draw_test_layer('cora', sgc, vsgc)
+    vsgc05 = [0.7475, 0.7815, 0.786 , 0.79  , 0.7895, 0.7955, 0.791 , 0.797 ,
+       0.7995, 0.8005, 0.798 , 0.799 , 0.803 , 0.807 , 0.807 , 0.81  ,
+       0.8085, 0.811 , 0.813 , 0.8145, 0.816 , 0.815 , 0.816 , 0.817 ,
+       0.818 , 0.816 , 0.8135, 0.814 , 0.815 , 0.8135, 0.8135, 0.814 ,
+       0.8145, 0.814 , 0.814 , 0.815 , 0.8155, 0.8155, 0.816 , 0.8145,
+       0.8145, 0.816 , 0.8155, 0.8165, 0.816 , 0.8155, 0.817 , 0.8165,
+       0.82  ]
+    draw_test_layer('cora', sgc, vsgc1, vsgc05)
 
-    # sgc = extract_test_accs('../result/train_result/SGC.txt')
     # vsgc = extract_test_accs('../result/train_result/VSGC.txt')
-    # print(sgc)
     # print(vsgc)

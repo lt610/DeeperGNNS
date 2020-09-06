@@ -12,7 +12,8 @@ import numpy as np
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='cora')
-    parser.add_argument('--num_layers', type=int, default=50)
+    parser.add_argument('--num_layers', type=int, default=64)
+    parser.add_argument('--alpha', type=float, default=0.5)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=1e-2)
@@ -22,7 +23,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
-    model = VSGCNet(num_feats, num_classes, args.num_layers)
+    model = VSGCNet(num_feats, num_classes, args.num_layers, args.alpha)
 
     # set_seed(args.seed)
 
