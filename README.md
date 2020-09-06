@@ -1,3 +1,12 @@
+# Variational Perspectives on Graph Convolutional Networks
+## results
+| Method | Cora | Citeseer | Pubmed |
+| --- | --- | --- | --- |
+| SGC | 80.8(4) | - | - |
+| VSGC | 81.6(45) | - | - |
+| VSGC(0.5) |  | - | - |
+## trends
+
 # DeepGNNs
 ## Models
 
