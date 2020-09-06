@@ -25,7 +25,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='cora')
     parser.add_argument('--num_hidden', type=int, default=64)
-    parser.add_argument('--num_layers', type=int, default=2)
+    parser.add_argument('--num_layers', type=int, default=30)
     parser.add_argument('--batch_norm', action='store_true', default=False)
     parser.add_argument('--pair_norm', action='store_true', default=False)
     parser.add_argument('--residual', action='store_true', default=False)
@@ -35,8 +35,8 @@ if __name__ == '__main__':
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=1e-2)
     parser.add_argument('--weight_decay', type=float, default=0)
-    parser.add_argument('--num_epochs', type=int, default=500)
-    parser.add_argument('--patience', type=int, default=50)
+    parser.add_argument('--num_epochs', type=int, default=400)
+    parser.add_argument('--patience', type=int, default=40)
     args = parser.parse_args()
 
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
@@ -88,6 +88,6 @@ if __name__ == '__main__':
     print("Test Loss {:.4f} | Test Acc {:.4f}".format(test_loss, test_acc))
 
     with open('../result/train_result/GCN.txt', 'a') as f:
-        results = '{}: Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Test Loss {:.4f} | ' \
+        results = '{} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Test Loss {:.4f} | ' \
                   'Test Acc {:.4f}\n'.format(args.dataset, train_loss, train_acc, val_loss, val_acc, test_loss, test_acc)
         f.write(results)

@@ -1,9 +1,98 @@
-python train_gcnii.py --dataset cora --num_hidden 64 --num_layers 64 --dropout 0.1 --alpha 0.1 --lamda 0.5 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
-python train_gcnii.py --dataset citeseer --num_hidden 256 --num_layers 32 --dropout 0.7 --alpha 0.1 --lamda 0.6 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
-python train_gcnii.py --dataset pubmed --num_hidden 256 --num_layers 16 --dropout 0.5 --alpha 0.1 --lamda 0.4 --weight_decay1 0.0005 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
-python train_gcnii.py --dataset cora --num_hidden 64 --num_layers 64 --dropout 0.1 --alpha 0.1 --lamda 0.5 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
-python train_gcnii.py --dataset citeseer --num_hidden 256 --num_layers 32 --dropout 0.7 --alpha 0.1 --lamda 0.6 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
-python train_gcnii.py --dataset pubmed --num_hidden 256 --num_layers 16 --dropout 0.5 --alpha 0.1 --lamda 0.4 --weight_decay1 0.0005 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
-python train_gcnii.py --dataset cora --num_hidden 64 --num_layers 64 --dropout 0.1 --alpha 0.1 --lamda 0.5 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
-python train_gcnii.py --dataset citeseer --num_hidden 256 --num_layers 32 --dropout 0.7 --alpha 0.1 --lamda 0.6 --weight_decay1 0.01 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
-python train_gcnii.py --dataset pubmed --num_hidden 256 --num_layers 16 --dropout 0.5 --alpha 0.1 --lamda 0.4 --weight_decay1 0.0005 --weight_decay2 0.0005 --num_epochs 1000 --patience 100 --variant
+python train_sgc.py --dataset cora --num_layers 2
+python train_sgc.py --dataset cora --num_layers 3
+python train_sgc.py --dataset cora --num_layers 4
+python train_sgc.py --dataset cora --num_layers 5
+python train_sgc.py --dataset cora --num_layers 6
+python train_sgc.py --dataset cora --num_layers 7
+python train_sgc.py --dataset cora --num_layers 8
+python train_sgc.py --dataset cora --num_layers 9
+python train_sgc.py --dataset cora --num_layers 10
+python train_sgc.py --dataset cora --num_layers 11
+python train_sgc.py --dataset cora --num_layers 12
+python train_sgc.py --dataset cora --num_layers 13
+python train_sgc.py --dataset cora --num_layers 14
+python train_sgc.py --dataset cora --num_layers 15
+python train_sgc.py --dataset cora --num_layers 16
+python train_sgc.py --dataset cora --num_layers 17
+python train_sgc.py --dataset cora --num_layers 18
+python train_sgc.py --dataset cora --num_layers 19
+python train_sgc.py --dataset cora --num_layers 20
+python train_sgc.py --dataset cora --num_layers 21
+python train_sgc.py --dataset cora --num_layers 22
+python train_sgc.py --dataset cora --num_layers 23
+python train_sgc.py --dataset cora --num_layers 24
+python train_sgc.py --dataset cora --num_layers 25
+python train_sgc.py --dataset cora --num_layers 26
+python train_sgc.py --dataset cora --num_layers 27
+python train_sgc.py --dataset cora --num_layers 28
+python train_sgc.py --dataset cora --num_layers 29
+python train_sgc.py --dataset cora --num_layers 30
+python train_sgc.py --dataset cora --num_layers 31
+python train_sgc.py --dataset cora --num_layers 32
+python train_sgc.py --dataset cora --num_layers 33
+python train_sgc.py --dataset cora --num_layers 34
+python train_sgc.py --dataset cora --num_layers 35
+python train_sgc.py --dataset cora --num_layers 36
+python train_sgc.py --dataset cora --num_layers 37
+python train_sgc.py --dataset cora --num_layers 38
+python train_sgc.py --dataset cora --num_layers 39
+python train_sgc.py --dataset cora --num_layers 40
+python train_sgc.py --dataset cora --num_layers 41
+python train_sgc.py --dataset cora --num_layers 42
+python train_sgc.py --dataset cora --num_layers 43
+python train_sgc.py --dataset cora --num_layers 44
+python train_sgc.py --dataset cora --num_layers 45
+python train_sgc.py --dataset cora --num_layers 46
+python train_sgc.py --dataset cora --num_layers 47
+python train_sgc.py --dataset cora --num_layers 48
+python train_sgc.py --dataset cora --num_layers 49
+python train_sgc.py --dataset cora --num_layers 50
+python train_vsgc.py --dataset cora --num_layers 2
+python train_vsgc.py --dataset cora --num_layers 3
+python train_vsgc.py --dataset cora --num_layers 4
+python train_vsgc.py --dataset cora --num_layers 5
+python train_vsgc.py --dataset cora --num_layers 6
+python train_vsgc.py --dataset cora --num_layers 7
+python train_vsgc.py --dataset cora --num_layers 8
+python train_vsgc.py --dataset cora --num_layers 9
+python train_vsgc.py --dataset cora --num_layers 10
+python train_vsgc.py --dataset cora --num_layers 11
+python train_vsgc.py --dataset cora --num_layers 12
+python train_vsgc.py --dataset cora --num_layers 13
+python train_vsgc.py --dataset cora --num_layers 14
+python train_vsgc.py --dataset cora --num_layers 15
+python train_vsgc.py --dataset cora --num_layers 16
+python train_vsgc.py --dataset cora --num_layers 17
+python train_vsgc.py --dataset cora --num_layers 18
+python train_vsgc.py --dataset cora --num_layers 19
+python train_vsgc.py --dataset cora --num_layers 20
+python train_vsgc.py --dataset cora --num_layers 21
+python train_vsgc.py --dataset cora --num_layers 22
+python train_vsgc.py --dataset cora --num_layers 23
+python train_vsgc.py --dataset cora --num_layers 24
+python train_vsgc.py --dataset cora --num_layers 25
+python train_vsgc.py --dataset cora --num_layers 26
+python train_vsgc.py --dataset cora --num_layers 27
+python train_vsgc.py --dataset cora --num_layers 28
+python train_vsgc.py --dataset cora --num_layers 29
+python train_vsgc.py --dataset cora --num_layers 30
+python train_vsgc.py --dataset cora --num_layers 31
+python train_vsgc.py --dataset cora --num_layers 32
+python train_vsgc.py --dataset cora --num_layers 33
+python train_vsgc.py --dataset cora --num_layers 34
+python train_vsgc.py --dataset cora --num_layers 35
+python train_vsgc.py --dataset cora --num_layers 36
+python train_vsgc.py --dataset cora --num_layers 37
+python train_vsgc.py --dataset cora --num_layers 38
+python train_vsgc.py --dataset cora --num_layers 39
+python train_vsgc.py --dataset cora --num_layers 40
+python train_vsgc.py --dataset cora --num_layers 41
+python train_vsgc.py --dataset cora --num_layers 42
+python train_vsgc.py --dataset cora --num_layers 43
+python train_vsgc.py --dataset cora --num_layers 44
+python train_vsgc.py --dataset cora --num_layers 45
+python train_vsgc.py --dataset cora --num_layers 46
+python train_vsgc.py --dataset cora --num_layers 47
+python train_vsgc.py --dataset cora --num_layers 48
+python train_vsgc.py --dataset cora --num_layers 49
+python train_vsgc.py --dataset cora --num_layers 50

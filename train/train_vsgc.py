@@ -1,8 +1,7 @@
 import argparse
 import time
 import torch.nn.functional as F
-
-from nets.sgc_net import SGCNet
+from nets.vsgc_net import VSGCNet
 from train.early_stopping import EarlyStopping
 from train.metrics import evaluate_acc_loss
 from train.train_gcn import set_seed
@@ -13,8 +12,7 @@ import numpy as np
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='cora')
-    parser.add_argument('--num_layers', type=int, default=3)
-    parser.add_argument('--pair_norm', action='store_true', default=False)
+    parser.add_argument('--num_layers', type=int, default=50)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=1e-2)
@@ -24,7 +22,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
-    model = SGCNet(num_feats, num_classes, args.num_layers, pair_norm=args.pair_norm)
+    model = VSGCNet(num_feats, num_classes, args.num_layers)
 
     # set_seed(args.seed)
 
@@ -70,7 +68,7 @@ if __name__ == '__main__':
     print("Val Loss {:.4f} | Val Acc {:.4f}".format(val_loss, val_acc))
     print("Test Loss {:.4f} | Test Acc {:.4f}".format(test_loss, test_acc))
 
-    with open('../result/train_result/SGC.txt', 'a') as f:
+    with open('../result/train_result/VSGC.txt', 'a') as f:
         results = '{}({}) | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Test Loss {:.4f} ' \
                   '| Test Acc {:.4f}\n'.format(args.dataset, args.num_layers, train_loss, train_acc, val_loss, val_acc,
                                                test_loss, test_acc)
