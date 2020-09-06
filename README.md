@@ -1,10 +1,10 @@
 # Variational Perspectives on Graph Convolutional Networks
 ## Results
-| Method | Cora | Citeseer | Pubmed |
-| --- | --- | --- | --- |
-| SGC | 80.8(6) | - | - |
-| VSGC(alpha=1) | 81.6(47) | - | - |
-| VSGC(alpha=0.5) | 82.0(50) | - | - |
+| Method | Cora | Citeseer | Pubmed | arxiv |
+| --- | --- | --- | --- | --- |
+| SGC | 80.8(6) | - | - | - |
+| VSGC(alpha=1) | 81.6(47) | - | - | - |
+| VSGC(alpha=0.5) | 82.0(50) | - | - | - |
 ## Trends
 ![image](https://github.com/lt610/DeepGNNS/blob/master/result/images/sgc.png)
 # DeepGNNs
