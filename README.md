@@ -2,11 +2,14 @@
 ## Results
 | Method | Cora | Citeseer | Pubmed | arxiv |
 | --- | --- | --- | --- | --- |
-| SGC | 80.8(K=6) | 69.2(47) | 77.0(4) | - |
-| VSGC(alpha=1) | 81.6(K=47) | 70.0(36) | 79.4(45) | - |
-| VSGC(alpha=0.5) | 82.0(k=50) | 69.9(34) | 79.3(40) | - |
+| SGC | 80.8(K=6) | 69.2(47) | 77.0(4) | 67.01(3) |
+| VSGC(alpha=1) | 81.6(K=47) | 70.0(36) | 79.4(45) | 67.09(3) |
+| VSGC(alpha=0.5) | 82.0(k=50) | 69.9(34) | 79.3(40) | 67.13(3) |
 ## Trends
-![image](https://github.com/lt610/DeepGNNS/blob/master/result/images/sgc.png)
+![image](https://github.com/lt610/DeepGNNS/blob/master/result/images/cora.png)
+![image](https://github.com/lt610/DeepGNNS/blob/master/result/images/citeseer.png)
+![image](https://github.com/lt610/DeepGNNS/blob/master/result/images/pubmed.png)
+![image](https://github.com/lt610/DeepGNNS/blob/master/result/images/ogbn-arxiv.png)
 # DeepGNNs
 ## Models
 
