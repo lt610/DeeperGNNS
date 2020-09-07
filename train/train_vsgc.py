@@ -11,9 +11,9 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='cora')
-    parser.add_argument('--num_layers', type=int, default=64)
-    parser.add_argument('--alpha', type=float, default=0.5)
+    parser.add_argument('--dataset', type=str, default='citeseer')
+    parser.add_argument('--num_layers', type=int, default=42)
+    parser.add_argument('--alpha', type=float, default=1)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=1e-2)
