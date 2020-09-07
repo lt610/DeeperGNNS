@@ -3,6 +3,7 @@ import networkx as nx
 import torch as th
 from dgl import DGLGraph
 from dgl.data import citation_graph as citgrh
+from ogb.nodeproppred import DglNodePropPredDataset
 
 
 def split_data(data, train_ratio=0.6, val_ratio=0.2, random_seed=None):
@@ -41,19 +42,36 @@ def load_data(dataset_name):
 
 def load_data_default(dataset_name):
     """处理从dgl下载的数据并返回结果"""
-    data = load_data(dataset_name)
-    features = th.FloatTensor(data.features)
-    labels = th.LongTensor(data.labels)
-    train_mask = th.BoolTensor(data.train_mask)
-    val_mask = th.BoolTensor(data.val_mask)
-    test_mask = th.BoolTensor(data.test_mask)
-    num_feats = data.features.shape[1]
-    num_classes = data.num_labels
-    graph = data.graph
-    # add self loop
-    graph.remove_edges_from(nx.selfloop_edges(graph))
-    graph = DGLGraph(graph)
-    graph.add_edges(graph.nodes(), graph.nodes())
+    if dataset_name in ['cora', 'pubmed', 'citeseer']:
+        data = load_data(dataset_name)
+        features = th.FloatTensor(data.features)
+        labels = th.LongTensor(data.labels)
+        train_mask = th.BoolTensor(data.train_mask)
+        val_mask = th.BoolTensor(data.val_mask)
+        test_mask = th.BoolTensor(data.test_mask)
+        num_feats = data.features.shape[1]
+        num_classes = data.num_labels
+        graph = data.graph
+        # add self loop
+        graph.remove_edges_from(nx.selfloop_edges(graph))
+        graph = DGLGraph(graph)
+        graph.add_edges(graph.nodes(), graph.nodes())
+    else:
+        data = DglNodePropPredDataset(name=dataset_name)
+        splitted_mask = data.get_idx_split()
+        train_mask, val_mask, test_mask = splitted_mask['train'], splitted_mask['valid'],splitted_mask['test']
+        graph, labels = data[0]
+        features = graph.ndata["feat"]
+        num_feats = features.shape[1]
+        num_classes = (labels.max() + 1).item()
+        # add reverse edges
+        srcs, dsts = graph.all_edges()
+        graph.add_edges(dsts, srcs)
+        #add self-loop
+        print('Total edges before adding self-loop {}'.format(graph.number_of_edges()))
+        graph = graph.remove_self_loop().add_self_loop()
+        print('Total edges after adding self-loop {}'.format(graph.number_of_edges()))
+
     return graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes
 
 

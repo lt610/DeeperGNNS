@@ -1,6 +1,8 @@
 import itertools
 import matplotlib.pyplot as plt
 from dgl.data import citation_graph as citegrh
+from ogb.graphproppred import DglGraphPropPredDataset
+from ogb.nodeproppred import DglNodePropPredDataset
 from sklearn.manifold import Isomap
 from dgl import DGLGraph
 import numpy as np
@@ -64,9 +66,22 @@ from utils.result_utils import extract_test_accs
 # [0.746, 0.783, 0.787, 0.79, 0.789, 0.796, 0.791, 0.799, 0.8, 0.8, 0.799, 0.799, 0.803, 0.807, 0.809, 0.81, 0.808, 0.811, 0.813, 0.813, 0.817, 0.816, 0.815, 0.818, 0.819, 0.816, 0.813, 0.815, 0.815, 0.814, 0.813, 0.813, 0.814, 0.814, 0.812, 0.815, 0.816, 0.817, 0.815, 0.814, 0.814, 0.816, 0.814, 0.816, 0.816, 0.816, 0.816, 0.818, 0.818]])
 # r = np.median(c, 0)
 # print(repr(r))
-r = np.array([0.747, 0.75, 0.759, 0.759, 0.759, 0.763, 0.766, 0.768, 0.772, 0.775, 0.776, 0.776, 0.777, 0.78, 0.779, 0.778, 0.782, 0.781, 0.782, 0.785, 0.782, 0.787, 0.783, 0.788, 0.787, 0.789, 0.786, 0.788, 0.788, 0.791, 0.788, 0.792, 0.791, 0.791, 0.791, 0.791, 0.79, 0.791, 0.793, 0.793, 0.792, 0.792, 0.788, 0.793, 0.791, 0.789, 0.791, 0.787])
+# r = np.array([0.631, 0.631, 0.641, 0.636, 0.644, 0.653, 0.656, 0.655, 0.649, 0.652, 0.65, 0.653, 0.654, 0.657, 0.66, 0.667, 0.665, 0.671, 0.671, 0.671, 0.674, 0.679, 0.679, 0.682, 0.68, 0.689, 0.688, 0.688, 0.695, 0.691, 0.694, 0.692, 0.699, 0.698, 0.695, 0.694, 0.698, 0.698, 0.696, 0.693, 0.693, 0.693, 0.697, 0.693, 0.697, 0.691, 0.693, 0.687, 0.694])
 # best = max(r)
 # index = np.where(r == best)
 # print(best)
 # print(index)
-print(len(r))
+
+# dgl_dataset = DglNodePropPredDataset(name="ogbn-arxiv")
+# print(dgl_dataset.num_classes)
+# split_index = dgl_dataset.get_idx_split()
+# print(dgl_dataset[0])
+#
+# print(split_index)
+# if 'cora' in ['cora', 'pubmed', 'citeseer']:
+#     print('sb')
+
+a = th.IntTensor(10, 1)
+print(a.shape)
+a = a.squeeze()
+print(a.shape)

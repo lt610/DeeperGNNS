@@ -1,196 +1,21 @@
-python train_sgc.py --dataset pubmed --num_layers 2
-python train_sgc.py --dataset pubmed --num_layers 3
-python train_sgc.py --dataset pubmed --num_layers 4
-python train_sgc.py --dataset pubmed --num_layers 5
-python train_sgc.py --dataset pubmed --num_layers 6
-python train_sgc.py --dataset pubmed --num_layers 7
-python train_sgc.py --dataset pubmed --num_layers 8
-python train_sgc.py --dataset pubmed --num_layers 9
-python train_sgc.py --dataset pubmed --num_layers 10
-python train_sgc.py --dataset pubmed --num_layers 11
-python train_sgc.py --dataset pubmed --num_layers 12
-python train_sgc.py --dataset pubmed --num_layers 13
-python train_sgc.py --dataset pubmed --num_layers 14
-python train_sgc.py --dataset pubmed --num_layers 15
-python train_sgc.py --dataset pubmed --num_layers 16
-python train_sgc.py --dataset pubmed --num_layers 17
-python train_sgc.py --dataset pubmed --num_layers 18
-python train_sgc.py --dataset pubmed --num_layers 19
-python train_sgc.py --dataset pubmed --num_layers 20
-python train_sgc.py --dataset pubmed --num_layers 21
-python train_sgc.py --dataset pubmed --num_layers 22
-python train_sgc.py --dataset pubmed --num_layers 23
-python train_sgc.py --dataset pubmed --num_layers 24
-python train_sgc.py --dataset pubmed --num_layers 25
-python train_sgc.py --dataset pubmed --num_layers 26
-python train_sgc.py --dataset pubmed --num_layers 27
-python train_sgc.py --dataset pubmed --num_layers 28
-python train_sgc.py --dataset pubmed --num_layers 29
-python train_sgc.py --dataset pubmed --num_layers 30
-python train_sgc.py --dataset pubmed --num_layers 31
-python train_sgc.py --dataset pubmed --num_layers 32
-python train_sgc.py --dataset pubmed --num_layers 33
-python train_sgc.py --dataset pubmed --num_layers 34
-python train_sgc.py --dataset pubmed --num_layers 35
-python train_sgc.py --dataset pubmed --num_layers 36
-python train_sgc.py --dataset pubmed --num_layers 37
-python train_sgc.py --dataset pubmed --num_layers 38
-python train_sgc.py --dataset pubmed --num_layers 39
-python train_sgc.py --dataset pubmed --num_layers 40
-python train_sgc.py --dataset pubmed --num_layers 41
-python train_sgc.py --dataset pubmed --num_layers 42
-python train_sgc.py --dataset pubmed --num_layers 43
-python train_sgc.py --dataset pubmed --num_layers 44
-python train_sgc.py --dataset pubmed --num_layers 45
-python train_sgc.py --dataset pubmed --num_layers 46
-python train_sgc.py --dataset pubmed --num_layers 47
-python train_sgc.py --dataset pubmed --num_layers 48
-python train_sgc.py --dataset pubmed --num_layers 49
-python train_sgc.py --dataset pubmed --num_layers 50
-python train_vsgc.py --dataset pubmed --num_layers 2 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 3 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 4 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 5 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 6 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 7 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 8 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 9 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 10 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 11 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 12 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 13 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 14 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 15 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 16 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 17 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 18 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 19 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 20 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 21 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 22 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 23 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 24 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 25 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 26 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 27 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 28 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 29 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 30 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 31 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 32 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 33 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 34 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 35 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 36 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 37 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 38 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 39 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 40 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 41 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 42 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 43 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 44 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 45 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 46 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 47 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 48 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 49 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 50 --alpha 1
-python train_vsgc.py --dataset pubmed --num_layers 2 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 3 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 4 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 5 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 6 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 7 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 8 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 9 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 10 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 11 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 12 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 13 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 14 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 15 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 16 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 17 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 18 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 19 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 20 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 21 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 22 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 23 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 24 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 25 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 26 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 27 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 28 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 29 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 30 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 31 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 32 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 33 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 34 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 35 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 36 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 37 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 38 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 39 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 40 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 41 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 42 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 43 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 44 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 45 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 46 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 47 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 48 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 49 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 50 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 2 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 3 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 4 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 5 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 6 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 7 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 8 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 9 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 10 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 11 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 12 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 13 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 14 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 15 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 16 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 17 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 18 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 19 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 20 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 21 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 22 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 23 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 24 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 25 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 26 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 27 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 28 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 29 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 30 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 31 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 32 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 33 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 34 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 35 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 36 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 37 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 38 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 39 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 40 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 41 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 42 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 43 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 44 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 45 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 46 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 47 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 48 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 49 --alpha 0.5
-python train_vsgc.py --dataset pubmed --num_layers 50 --alpha 0.5
+python train_sgc.py --dataset ogbn-arxiv --num_layers 2
+python train_sgc.py --dataset ogbn-arxiv --num_layers 3
+python train_sgc.py --dataset ogbn-arxiv --num_layers 4
+python train_sgc.py --dataset ogbn-arxiv --num_layers 5
+python train_sgc.py --dataset ogbn-arxiv --num_layers 6
+python train_sgc.py --dataset ogbn-arxiv --num_layers 7
+python train_sgc.py --dataset ogbn-arxiv --num_layers 8
+python train_vsgc.py --dataset ogbn-arxiv --num_layers 2 --alpha 1
+python train_vsgc.py --dataset ogbn-arxiv --num_layers 3 --alpha 1
+python train_vsgc.py --dataset ogbn-arxiv --num_layers 4 --alpha 1
+python train_vsgc.py --dataset ogbn-arxiv --num_layers 5 --alpha 1
+python train_vsgc.py --dataset ogbn-arxiv --num_layers 6 --alpha 1
+python train_vsgc.py --dataset ogbn-arxiv --num_layers 7 --alpha 1
+python train_vsgc.py --dataset ogbn-arxiv --num_layers 8 --alpha 1
+python train_vsgc.py --dataset ogbn-arxiv --num_layers 2 --alpha 0.5
+python train_vsgc.py --dataset ogbn-arxiv --num_layers 3 --alpha 0.5
+python train_vsgc.py --dataset ogbn-arxiv --num_layers 4 --alpha 0.5
+python train_vsgc.py --dataset ogbn-arxiv --num_layers 5 --alpha 0.5
+python train_vsgc.py --dataset ogbn-arxiv --num_layers 6 --alpha 0.5
+python train_vsgc.py --dataset ogbn-arxiv --num_layers 7 --alpha 0.5
+python train_vsgc.py --dataset ogbn-arxiv --num_layers 8 --alpha 0.5

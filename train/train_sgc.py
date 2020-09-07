@@ -12,8 +12,8 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='citeseer')
-    parser.add_argument('--num_layers', type=int, default=50)
+    parser.add_argument('--dataset', type=str, default='ogbn-arxiv')
+    parser.add_argument('--num_layers', type=int, default=2)
     parser.add_argument('--pair_norm', action='store_true', default=False)
 
     parser.add_argument('--seed', type=int, default=42)
@@ -25,6 +25,8 @@ if __name__ == '__main__':
 
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
     model = SGCNet(num_feats, num_classes, args.num_layers, pair_norm=args.pair_norm)
+
+    labels = labels.squeeze()
 
     # set_seed(args.seed)
 
@@ -48,6 +50,8 @@ if __name__ == '__main__':
         model.train()
         logits = model(graph, features)
         logp = F.log_softmax(logits, 1)
+        # print(logp.shape)
+        # print(labels.shape)
         loss = F.nll_loss(logp[train_mask], labels[train_mask])
         optimizer.zero_grad()
         loss.backward()
