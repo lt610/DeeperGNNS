@@ -10,3 +10,5 @@ ogbn-arxiv(3) | Train Loss 1.1547 | Train Acc 0.6798 | Val Loss 1.2134 | Val Acc
 ogbn-arxiv(4) | Train Loss 1.1377 | Train Acc 0.6839 | Val Loss 1.1969 | Val Acc 0.6812 | Test Loss 1.2581 | Test Acc 0.6707
 ogbn-arxiv(5) | Train Loss 1.1411 | Train Acc 0.6855 | Val Loss 1.2178 | Val Acc 0.6811 | Test Loss 1.2872 | Test Acc 0.6704
 ogbn-arxiv(6) | Train Loss 1.1352 | Train Acc 0.6875 | Val Loss 1.2245 | Val Acc 0.6797 | Test Loss 1.2936 | Test Acc 0.6662
+ogbn-arxiv(7) | Train Loss 1.1223 | Train Acc 0.6912 | Val Loss 1.2086 | Val Acc 0.6827 | Test Loss 1.2797 | Test Acc 0.6698
+ogbn-arxiv(8) | Train Loss 1.1322 | Train Acc 0.6901 | Val Loss 1.2314 | Val Acc 0.6799 | Test Loss 1.3035 | Test Acc 0.6651
