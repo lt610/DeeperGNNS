@@ -81,7 +81,10 @@ from utils.result_utils import extract_test_accs
 # if 'cora' in ['cora', 'pubmed', 'citeseer']:
 #     print('sb')
 
-a = th.IntTensor(10, 1)
+a = th.Tensor([[1, 2], [3, 4]])
+b = th.Tensor([[2], [3]])
 print(a.shape)
-a = a.squeeze()
-print(a.shape)
+print(b.shape)
+print(a * b)
+
+

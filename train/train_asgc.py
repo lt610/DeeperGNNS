@@ -1,22 +1,23 @@
+import random
+import numpy as np
+import torch as th
 import argparse
 import time
 import torch.nn.functional as F
-
-from nets.sgc_net import SGCNet
 from train.early_stopping import EarlyStopping
 from train.metrics import evaluate_acc_loss
-from train.train_gcn import set_seed
-from utils.data_geom import load_data_from_file
-from utils.data_mine import load_data_default, load_data_mine
+from nets.asgc_net import ASGCNet
+from utils.data_mine import load_data_default
 import torch as th
 import numpy as np
+
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='pubmed')
-    parser.add_argument('--num_layers', type=int, default=4)
-    parser.add_argument('--pair_norm', action='store_true', default=False)
-    parser.add_argument('--dropout', type=float, default=0.5)
+    parser.add_argument('--num_hidden', type=int, default=64)
+    parser.add_argument('--num_layers', type=int, default=8)
+    parser.add_argument('--dropout', type=float, default=0)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=1e-2)
@@ -25,12 +26,10 @@ if __name__ == '__main__':
     parser.add_argument('--patience', type=int, default=50)
     args = parser.parse_args()
 
-    # graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_from_file(args.dataset, None, 0.6, 0.2)
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
-    model = SGCNet(num_feats, num_classes, args.num_layers, pair_norm=args.pair_norm, dropout=args.dropout)
-
+    model = ASGCNet(num_feats, num_classes, args.num_hidden, args.num_layers,
+                    dropout=args.dropout)
     labels = labels.squeeze()
-
     # set_seed(args.seed)
 
     optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
@@ -53,8 +52,6 @@ if __name__ == '__main__':
         model.train()
         logits = model(graph, features)
         logp = F.log_softmax(logits, 1)
-        # print(logp.shape)
-        # print(labels.shape)
         loss = F.nll_loss(logp[train_mask], labels[train_mask])
         optimizer.zero_grad()
         loss.backward()
@@ -77,8 +74,7 @@ if __name__ == '__main__':
     print("Val Loss {:.4f} | Val Acc {:.4f}".format(val_loss, val_acc))
     print("Test Loss {:.4f} | Test Acc {:.4f}".format(test_loss, test_acc))
 
-    with open('../result/train_result/SGC.txt', 'a') as f:
-        results = '{}({}) | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Test Loss {:.4f} ' \
-                  '| Test Acc {:.4f}\n'.format(args.dataset, args.num_layers, train_loss, train_acc, val_loss, val_acc,
-                                               test_loss, test_acc)
+    with open('../result/train_result/ASGC.txt', 'a') as f:
+        results = '{} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Test Loss {:.4f} | ' \
+                  'Test Acc {:.4f}\n'.format(args.dataset, train_loss, train_acc, val_loss, val_acc, test_loss, test_acc)
         f.write(results)

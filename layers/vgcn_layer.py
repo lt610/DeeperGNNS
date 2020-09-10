@@ -11,7 +11,7 @@ import torch.nn.functional as F
 class VGCNLayer(nn.Module):
     def __init__(self, in_dim, out_dim, bias=False, graph_norm=True, alpha=1, activation=None, residual=False):
         super(VGCNLayer, self).__init__()
-        self.linear = nn.Linear(in_dim, out_dim, bias)
+        self.linear = nn.Linear(in_dim, out_dim, bias=bias)
         self.graph_norm = graph_norm
         self.alpha = alpha
         self.activation = activation

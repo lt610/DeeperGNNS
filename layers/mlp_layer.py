@@ -6,7 +6,7 @@ class MLPLayer(nn.Module):
     def __init__(self, in_dim, out_dim, bias=False, activation=None,
                  batch_norm=False, residual=False, dropout=0):
         super(MLPLayer, self).__init__()
-        self.linear = nn.Linear(in_dim, out_dim, bias)
+        self.linear = nn.Linear(in_dim, out_dim, bias=bias)
         self.activation = activation
         if batch_norm:
             self.bn = nn.BatchNorm1d(out_dim)
@@ -31,10 +31,10 @@ class MLPLayer(nn.Module):
 
     def forward(self, g, features):
         h_pre = features
-        h = self.linear(features)
+        h = self.dropout(features)
+        h = self.linear(h)
         if self.activation:
             h = self.activation(h)
         if self.residual:
             h = h + self.res_fc(h_pre)
-        h = self.dropout(h)
         return h

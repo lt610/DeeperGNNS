@@ -49,7 +49,8 @@ class SingleHeadGATLayer(nn.Module):
     def forward(self, graph, features):
         g = g.local_var()
         h_pre = features
-        z = self.fc(features)
+        z = self.dropout(features)
+        z = self.fc(z)
         g.ndata['z'] = z
         g.apply_edges(self.edge_attention)
         g.update_all(self.message_func, self.reduce_func)
@@ -60,7 +61,6 @@ class SingleHeadGATLayer(nn.Module):
             h = self.activation(h)
         if self.residual:
             h = h + self.res_fc(h_pre)
-        h = self.dropout(h)
         return h
 
 

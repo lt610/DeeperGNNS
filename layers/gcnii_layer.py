@@ -9,7 +9,7 @@ from layers.gcn_layer import cal_gain, Identity
 class GCNIILayer(nn.Module):
     def __init__(self, in_dim, out_dim, bias=False, activation=None, graph_norm=True, alpha=0, beta=0):
         super(GCNIILayer, self).__init__()
-        self.linear = nn.Linear(in_dim, out_dim, bias)
+        self.linear = nn.Linear(in_dim, out_dim, bias=bias)
         self.activation = activation
         self.graph_norm = graph_norm
         self.alpha = alpha

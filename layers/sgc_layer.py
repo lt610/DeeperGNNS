@@ -5,15 +5,15 @@ from layers.pair_norm import PairNorm
 
 
 class SGCLayer(nn.Module):
-    def __init__(self, in_dim, out_dim, bias=False, k=1, graph_norm=True, pair_norm=False, cashed=False):
+    def __init__(self, in_dim, out_dim, bias=False, k=1, graph_norm=True, pair_norm=False, cashed=False, dropout=0):
         super(SGCLayer, self).__init__()
-        self.linear = nn.Linear(in_dim, out_dim, bias)
+        self.linear = nn.Linear(in_dim, out_dim, bias=bias)
         self.k = k
         self.graph_norm = graph_norm
         self.pair_norm = pair_norm
         self.cashed = cashed
         self.cashed_h = None
-
+        self.dropout = nn.Dropout(dropout)
         if pair_norm:
             self.pn = PairNorm(mode='PN', scale=1)
 
@@ -61,7 +61,7 @@ class SGCLayer(nn.Module):
                     h = self.pn(h)
                 if self.cashed:
                     self.cashed_h = h
-
+        h = self.dropout(h)
         h = self.linear(h)
 
         return h

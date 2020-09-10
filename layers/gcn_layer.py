@@ -30,7 +30,7 @@ class GCNLayer(nn.Module):
     def __init__(self, in_dim, out_dim, bias=False, activation=None, graph_norm=True, batch_norm=False,
                  pair_norm=False, residual=False, dropout=0, dropedge=0):
         super(GCNLayer, self).__init__()
-        self.linear = nn.Linear(in_dim, out_dim, bias)
+        self.linear = nn.Linear(in_dim, out_dim, bias=bias)
         self.activation = activation
         self.graph_norm = graph_norm
         self.batch_norm = batch_norm
@@ -64,11 +64,12 @@ class GCNLayer(nn.Module):
     def forward(self, graph, features):
         h_pre = features
         g = graph.local_var()
+        h = self.dropout(features)
         if self.graph_norm:
             degs = g.in_degrees().float().clamp(min=1)
             norm = th.pow(degs, -0.5)
             norm = norm.to(features.device).unsqueeze(1)
-            h = features * norm
+            h = h * norm
         g.ndata['h'] = h
         w = th.ones(g.number_of_edges(), 1).to(features.device)
         g.edata['w'] = self.dropedge(w)
@@ -86,5 +87,4 @@ class GCNLayer(nn.Module):
             h= self.activation(h)
         if self.residual:
             h = h + self.res_fc(h_pre)
-        h = self.dropout(h)
         return h

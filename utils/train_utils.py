@@ -1,8 +1,8 @@
 
 def generate_shells():
     with open('../shells/tmp.txt', 'a') as f:
-        line = 'python train_vsgc.py --dataset ogbn-arxiv --num_layers {} --alpha 0.5\n'
-        for i in range(2, 9):
+        line = 'python train_vsgc.py --dataset cora --num_layers {}\n'
+        for i in range(2, 51):
             command = line.format(i)
             f.write(command)
 

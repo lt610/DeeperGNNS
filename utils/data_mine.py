@@ -56,12 +56,15 @@ def load_data_default(dataset_name):
         graph.remove_edges_from(nx.selfloop_edges(graph))
         graph = DGLGraph(graph)
         graph.add_edges(graph.nodes(), graph.nodes())
+        print(graph)
     else:
         data = DglNodePropPredDataset(name=dataset_name)
         splitted_mask = data.get_idx_split()
-        train_mask, val_mask, test_mask = splitted_mask['train'], splitted_mask['valid'],splitted_mask['test']
+        train_mask, val_mask, test_mask = th.LongTensor(splitted_mask['train']), th.LongTensor(splitted_mask['valid'])\
+            , th.LongTensor(splitted_mask['test'])
         graph, labels = data[0]
-        features = graph.ndata["feat"]
+        labels = th.LongTensor(labels)
+        features = th.FloatTensor(graph.ndata["feat"])
         num_feats = features.shape[1]
         num_classes = (labels.max() + 1).item()
         # add reverse edges

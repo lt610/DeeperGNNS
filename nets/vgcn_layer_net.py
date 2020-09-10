@@ -5,10 +5,11 @@ import torch.nn.functional as F
 
 
 class VGCNLayerNet(nn.Module):
-    def __init__(self, num_feats, num_classes, num_hidden, num_layers=2, bias=False, graph_norm=True, alpha=1, activation=F.relu, residual=False):
+    def __init__(self, num_feats, num_classes, num_hidden, num_layers=2, bias=False, graph_norm=True, alpha=1,
+                 activation=F.relu, residual=False):
         super(VGCNLayerNet, self).__init__()
-        self.linear1 = nn.Linear(num_feats, num_hidden, bias)
-        self.linear2 = nn.Linear(num_hidden, num_classes, bias)
+        self.linear1 = nn.Linear(num_feats, num_hidden)
+        self.linear2 = nn.Linear(num_hidden, num_classes)
         self.activation = activation
         self.layers = nn.ModuleList()
         self.layers.append(VGCNLayer(num_hidden, num_hidden, bias, graph_norm, alpha, activation, residual))

@@ -6,12 +6,14 @@ import dgl
 
 
 class VSGCLayer(nn.Module):
-    def __init__(self, in_dim, out_dim, bias=False, k=1, graph_norm=True, alpha=1):
+    def __init__(self, in_dim, out_dim, bias=False, k=1, graph_norm=True, alpha=1, dropout=0):
         super(VSGCLayer, self).__init__()
-        self.linear = nn.Linear(in_dim, out_dim, bias)
+        self.linear = nn.Linear(in_dim, out_dim, bias=bias)
         self.k = k
         self.graph_norm = graph_norm
         self.alpha = alpha
+        self.dropout = nn.Dropout(dropout)
+
         self.reset_parameters()
 
     def reset_parameters(self):
@@ -26,7 +28,9 @@ class VSGCLayer(nn.Module):
             norm = th.pow(degs, -0.5)
             norm = norm.to(features.device).unsqueeze(1)
         dgl.remove_self_loop(g)
+        # h = self.dropout(features)
         h = self.linear(features)
+
         h_pre = h
         ri = h * norm * norm
         for _ in range(self.k):

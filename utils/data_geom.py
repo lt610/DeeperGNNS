@@ -19,8 +19,8 @@ def load_data_from_file(dataset_name, splits_file_path=None, train_percentage=No
         features = features.todense()
         G = nx.DiGraph(adj)
     else:
-        graph_adjacency_list_file_path = os.path.join('data/geom_data', dataset_name, 'out1_graph_edges.txt')
-        graph_node_features_and_labels_file_path = os.path.join('data/geom_data', dataset_name,
+        graph_adjacency_list_file_path = os.path.join('../data/geom_data', dataset_name, 'out1_graph_edges.txt')
+        graph_node_features_and_labels_file_path = os.path.join('../data/geom_data', dataset_name,
                                                                 f'out1_node_feature_label.txt')
 
         G = nx.DiGraph()
@@ -79,7 +79,7 @@ def load_data_from_file(dataset_name, splits_file_path=None, train_percentage=No
             embedding_file_path = os.path.join('embedding_method_combinations_in_pairs',
                                                f'outf_nodes_relation_{dataset_name}_graph_{embedding_method_graph}_space_{embedding_method_space}.txt')
         else:
-            embedding_file_path = os.path.join('data/structural_neighborhood',
+            embedding_file_path = os.path.join('../data/structural_neighborhood',
                                            f'outf_nodes_space_relation_{dataset_name}_{embedding_method}.txt')
         space_and_relation_type_to_idx_dict = {}
 
@@ -120,7 +120,7 @@ def load_data_from_file(dataset_name, splits_file_path=None, train_percentage=No
 
         if dataset_name in {'cora', 'citeseer'}:
             """这里是什么意思，给孤立结点添加连边吗"""
-            disconnected_node_file_path = os.path.join('data/unconnected_nodes', f'{dataset_name}_unconnected_nodes.txt')
+            disconnected_node_file_path = os.path.join('../data/unconnected_nodes', f'{dataset_name}_unconnected_nodes.txt')
             with open(disconnected_node_file_path) as disconnected_node_file:
                 disconnected_node_file.readline()
                 disconnected_nodes = []

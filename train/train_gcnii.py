@@ -12,11 +12,11 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='cora')
+    parser.add_argument('--dataset', type=str, default='ogbn-arxiv')
     parser.add_argument('--num_hidden', type=int, default=64)
-    parser.add_argument('--num_layers', type=int, default=2)
+    parser.add_argument('--num_layers', type=int, default=8)
     parser.add_argument('--dropout', type=float, default=0.5)
-    parser.add_argument('--alpha', type=float, default=0.1)
+    parser.add_argument('--alpha', type=float, default=0.5)
     parser.add_argument('--lamda', type=float, default=0.5)
     parser.add_argument('--variant', action='store_true', default=False)
 
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
     model = GCNIINet(num_feats, num_classes, args.num_hidden, args.num_layers,
                      dropout=args.dropout, alpha=args.alpha, lamda=args.lamda)
-
+    labels = labels.squeeze()
     # set_seed(args.seed)
 
     optimizer = th.optim.Adam([
