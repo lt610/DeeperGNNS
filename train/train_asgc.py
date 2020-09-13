@@ -16,7 +16,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='pubmed')
     parser.add_argument('--num_hidden', type=int, default=64)
-    parser.add_argument('--num_layers', type=int, default=8)
+    parser.add_argument('--num_layers', type=int, default=16)
     parser.add_argument('--dropout', type=float, default=0)
 
     parser.add_argument('--seed', type=int, default=42)

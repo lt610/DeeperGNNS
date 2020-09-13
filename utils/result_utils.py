@@ -74,5 +74,6 @@ if __name__ == '__main__':
     # print(vsgc[0:7])
     # print(vsgc[7:14])
 
-    r = extract_test_accs('../result/train_result/AGCN.txt')
-    print(r)
+    r = extract_test_accs('../result/train_result/VSGC.txt')
+    print(r[0:9])
+    print(r[9:18])

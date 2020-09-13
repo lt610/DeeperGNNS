@@ -15,21 +15,21 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='chameleon')
+    parser.add_argument('--dataset', type=str, default='pubmed')
     parser.add_argument('--num_hidden', type=int, default=64)
-    parser.add_argument('--num_layers', type=int, default=12)
+    parser.add_argument('--num_layers', type=int, default=8)
     parser.add_argument('--residual', action='store_true', default=False)
     parser.add_argument('--dropout', type=float, default=0)
 
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--learn_rate', type=float, default=1e-2)
+    parser.add_argument('--learn_rate', type=float, default=0.01)
     parser.add_argument('--weight_decay', type=float, default=0)
     parser.add_argument('--num_epochs', type=int, default=500)
     parser.add_argument('--patience', type=int, default=50)
     args = parser.parse_args()
 
-    graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_from_file(args.dataset, None, 0.6, 0.2)
-    # graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
+    # graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_from_file(args.dataset, None, 0.6, 0.2)
+    graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
     model = AGCNNet(num_feats, num_classes, args.num_hidden, args.num_layers,
                     residual=args.residual, dropout=args.dropout)
     labels = labels.squeeze()

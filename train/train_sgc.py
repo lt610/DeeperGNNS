@@ -14,15 +14,15 @@ import numpy as np
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='pubmed')
-    parser.add_argument('--num_layers', type=int, default=4)
+    parser.add_argument('--num_layers', type=int, default=2)
     parser.add_argument('--pair_norm', action='store_true', default=False)
-    parser.add_argument('--dropout', type=float, default=0.5)
+    parser.add_argument('--dropout', type=float, default=0)
 
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--learn_rate', type=float, default=1e-2)
-    parser.add_argument('--weight_decay', type=float, default=0)
-    parser.add_argument('--num_epochs', type=int, default=500)
-    parser.add_argument('--patience', type=int, default=50)
+    parser.add_argument('--learn_rate', type=float, default=0.2)
+    parser.add_argument('--weight_decay', type=float, default=5e-5)
+    parser.add_argument('--num_epochs', type=int, default=1500)
+    parser.add_argument('--patience', type=int, default=100)
     args = parser.parse_args()
 
     # graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_from_file(args.dataset, None, 0.6, 0.2)
@@ -65,7 +65,7 @@ if __name__ == '__main__':
         val_loss, val_acc = evaluate_acc_loss(model, graph, features, labels, val_mask)
         print("Epoch {:05d} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Time(s) {:.4f}".
               format(epoch, train_loss, train_acc, val_loss, val_acc, np.mean(dur)))
-        early_stopping(-val_loss, model)
+        early_stopping(val_acc, model)
         if early_stopping.is_stop:
             print("Early stopping")
             model.load_state_dict(early_stopping.load_checkpoint())

@@ -72,7 +72,7 @@ if __name__ == '__main__':
     print("Val Loss {:.4f} | Val Acc {:.4f}".format(val_loss, val_acc))
     print("Test Loss {:.4f} | Test Acc {:.4f}".format(test_loss, test_acc))
 
-    with open('../result/train_result/VGCN.txt', 'a') as f:
+    with open('../result/train_result/VGCNBlock.txt', 'a') as f:
         results = '{}({}) | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Test Loss {:.4f} ' \
                   '| Test Acc {:.4f}\n'.format(args.dataset, args.num_blocks, train_loss, train_acc, val_loss, val_acc,
                                                test_loss, test_acc)

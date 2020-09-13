@@ -2,7 +2,7 @@ import numpy as np
 import networkx as nx
 import torch as th
 from dgl import DGLGraph
-from dgl.data import citation_graph as citgrh
+from dgl.data import citation_graph as citgrh, CoraGraphDataset, CiteseerGraphDataset, PubmedGraphDataset
 from ogb.nodeproppred import DglNodePropPredDataset
 
 
@@ -29,53 +29,83 @@ def stratified_sampling_mask(labels, num_classes, train_ratio=0.6, val_ratio=0.2
     return th.BoolTensor(train_mask), th.BoolTensor(val_mask), th.BoolTensor(test_mask)
 
 
-def load_data(dataset_name):
-    data = None
-    if dataset_name == 'cora':
-        data = citgrh.load_cora()
-    elif dataset_name == 'citeseer':
-        data = citgrh.load_citeseer()
-    elif dataset_name == 'pubmed':
-        data = citgrh.load_pubmed()
-    return data
+# def load_data(dataset_name):
+#     data = None
+#     if dataset_name == 'cora':
+#         data = citgrh.load_cora()
+#     elif dataset_name == 'citeseer':
+#         data = citgrh.load_citeseer()
+#     elif dataset_name == 'pubmed':
+#         data = citgrh.load_pubmed()
+#     return data
 
 
 def load_data_default(dataset_name):
-    """处理从dgl下载的数据并返回结果"""
-    if dataset_name in ['cora', 'pubmed', 'citeseer']:
-        data = load_data(dataset_name)
-        features = th.FloatTensor(data.features)
-        labels = th.LongTensor(data.labels)
-        train_mask = th.BoolTensor(data.train_mask)
-        val_mask = th.BoolTensor(data.val_mask)
-        test_mask = th.BoolTensor(data.test_mask)
-        num_feats = data.features.shape[1]
-        num_classes = data.num_labels
-        graph = data.graph
-        # add self loop
-        graph.remove_edges_from(nx.selfloop_edges(graph))
-        graph = DGLGraph(graph)
-        graph.add_edges(graph.nodes(), graph.nodes())
+    if dataset_name in ['cora', 'citeseer', 'pubmed']:
+        if dataset_name == 'cora':
+            dataset = CoraGraphDataset()
+        if dataset_name == 'citeseer':
+            dataset = CiteseerGraphDataset()
+        if dataset_name == 'pubmed':
+            dataset = PubmedGraphDataset()
+        graph = dataset[0]
+        graph = graph.remove_self_loop().add_self_loop()
         print(graph)
+        features = graph.ndata['feat']
+        labels = graph.ndata['label']
+        train_mask = graph.ndata['train_mask']
+        val_mask = graph.ndata['val_mask']
+        test_mask = graph.ndata['test_mask']
+        num_feats = features.shape[1]
+        num_classes = int(labels.max().item() + 1)
     else:
-        data = DglNodePropPredDataset(name=dataset_name)
-        splitted_mask = data.get_idx_split()
-        train_mask, val_mask, test_mask = th.LongTensor(splitted_mask['train']), th.LongTensor(splitted_mask['valid'])\
-            , th.LongTensor(splitted_mask['test'])
-        graph, labels = data[0]
-        labels = th.LongTensor(labels)
-        features = th.FloatTensor(graph.ndata["feat"])
+        dataset = DglNodePropPredDataset(name=dataset_name)
+        splitted_mask = dataset.get_idx_split()
+        train_mask, val_mask, test_mask = splitted_mask['train'], splitted_mask['valid'], splitted_mask['test']
+        graph, labels = dataset[0]
+        features = graph.ndata["feat"]
         num_feats = features.shape[1]
         num_classes = (labels.max() + 1).item()
         # add reverse edges
         srcs, dsts = graph.all_edges()
         graph.add_edges(dsts, srcs)
         #add self-loop
-        print('Total edges before adding self-loop {}'.format(graph.number_of_edges()))
         graph = graph.remove_self_loop().add_self_loop()
-        print('Total edges after adding self-loop {}'.format(graph.number_of_edges()))
 
     return graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes
+# def load_data_default(dataset_name):
+#     """处理从dgl下载的数据并返回结果"""
+#     if dataset_name in ['cora', 'pubmed', 'citeseer']:
+#         data = load_data(dataset_name)
+#         features = th.FloatTensor(data.features)
+#         labels = th.LongTensor(data.labels)
+#         train_mask = th.BoolTensor(data.train_mask)
+#         val_mask = th.BoolTensor(data.val_mask)
+#         test_mask = th.BoolTensor(data.test_mask)
+#         num_feats = data.features.shape[1]
+#         num_classes = data.num_labels
+#         graph = data.graph
+#         # add self loop
+#         graph.remove_edges_from(nx.selfloop_edges(graph))
+#         graph = DGLGraph(graph)
+#         graph.add_edges(graph.nodes(), graph.nodes())
+#     else:
+#         data = DglNodePropPredDataset(name=dataset_name)
+#         splitted_mask = data.get_idx_split()
+#         train_mask, val_mask, test_mask = splitted_mask['train'], splitted_mask['valid'], splitted_mask['test']
+#         graph, labels = data[0]
+#         features = graph.ndata["feat"]
+#         num_feats = features.shape[1]
+#         num_classes = (labels.max() + 1).item()
+#         # add reverse edges
+#         srcs, dsts = graph.all_edges()
+#         graph.add_edges(dsts, srcs)
+#         #add self-loop
+#         print('Total edges before adding self-loop {}'.format(graph.number_of_edges()))
+#         graph = graph.remove_self_loop().add_self_loop()
+#         print('Total edges after adding self-loop {}'.format(graph.number_of_edges()))
+#
+#     return graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes
 
 
 def load_data_mine(dataset_name, train_ratio=0.6, val_ratio=0.2, random_seed=None):

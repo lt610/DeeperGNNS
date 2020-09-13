@@ -10,11 +10,11 @@ class GCNNet(nn.Module):
                  batch_norm=False, pair_norm=False, residual=False, dropout=0, dropedge=0):
         super(GCNNet, self).__init__()
         self.layers = nn.ModuleList()
-        self.inLayer = MLPLayer(num_feats, num_hidden, bias, activation, residual=residual, dropout=dropout)
+        self.inLayer = MLPLayer(num_feats, num_hidden, bias=True, activation=activation, residual=residual, dropout=dropout)
         for _ in range(num_layers):
             self.layers.append(GCNLayer(num_hidden, num_hidden, bias, activation, graph_norm, batch_norm,pair_norm,
                                         residual, dropout, dropedge))
-        self.outLayer = MLPLayer(num_hidden, num_classes, bias, None, residual=residual, dropout=dropout)
+        self.outLayer = MLPLayer(num_hidden, num_classes, bias=True, activation=None, residual=residual, dropout=dropout)
 
     def forward(self, graph, features):
         h = self.inLayer(graph, features)

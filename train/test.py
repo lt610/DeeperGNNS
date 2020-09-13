@@ -10,10 +10,10 @@ import torch as th
 import torch.nn.functional as F
 import dgl.function as fn
 from utils.data_geom import load_data_from_file
-from utils.data_mine import print_graph_info
+from utils.data_mine import print_graph_info, load_data_default
 import os
 from utils.result_utils import extract_test_accs
-
+import dgl
 
 """测试按引用赋值"""
 # x = th.Tensor([1, 2, 3])
@@ -81,10 +81,24 @@ from utils.result_utils import extract_test_accs
 # if 'cora' in ['cora', 'pubmed', 'citeseer']:
 #     print('sb')
 
-a = th.Tensor([[1, 2], [3, 4]])
-b = th.Tensor([[2], [3]])
-print(a.shape)
-print(b.shape)
-print(a * b)
+# dataset = dgl.data.CiteseerGraphDataset()
+# graph = dataset[0]
+# print(type(graph))
+# node_features = graph.ndata['feat']
+# print(type(node_features))
 
+# data = DglNodePropPredDataset(name='ogbn-arxiv')
+# graph, labels = data[0]
+# print(type(labels))
 
+# a = th.Tensor([1, 2, 3, 4])
+# print(a.shape)
+# print(2 * a)
+# print(a + 1)
+
+g, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default('cora')
+degs0 = g.in_degrees().float().clamp(min=1)
+print(degs0[0:9])
+g = g.remove_self_loop()
+degs1 = g.in_degrees().float().clamp(min=1)
+print(degs1[0:9])
