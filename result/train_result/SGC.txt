@@ -22,3 +22,4 @@ pubmed(2) | Train Loss 0.3110 | Train Acc 0.9833 | Val Loss 0.6532 | Val Acc 0.8
 pubmed(2) | Train Loss 0.4698 | Train Acc 0.9667 | Val Loss 0.7457 | Val Acc 0.7720 | Test Loss 0.7520 | Test Acc 0.7670
 pubmed(2) | Train Loss 0.3110 | Train Acc 0.9833 | Val Loss 0.6532 | Val Acc 0.8080 | Test Loss 0.6623 | Test Acc 0.7900
 cora(2) | Train Loss 0.8893 | Train Acc 0.9857 | Val Loss 1.3514 | Val Acc 0.7820 | Test Loss 1.3271 | Test Acc 0.7920
+cora(2) | Train Loss 0.9045 | Train Acc 0.9857 | Val Loss 1.3627 | Val Acc 0.7820 | Test Loss 1.3383 | Test Acc 0.7910

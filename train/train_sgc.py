@@ -38,7 +38,8 @@ if __name__ == '__main__':
     optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
     early_stopping = EarlyStopping(args.patience, file_name='tmp')
 
-    device = th.device("cuda:0" if th.cuda.is_available() else "cpu")
+    # device = th.device("cuda:0" if th.cuda.is_available() else "cpu")
+    device = th.device("cpu")
     graph = graph.to(device)
     features = features.to(device)
     labels = labels.to(device)
