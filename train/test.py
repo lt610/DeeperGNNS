@@ -1,7 +1,5 @@
 import itertools
 import matplotlib.pyplot as plt
-from ogb.graphproppred import DglGraphPropPredDataset
-from ogb.nodeproppred import DglNodePropPredDataset
 from sklearn.manifold import Isomap
 from dgl import DGLGraph
 import numpy as np
