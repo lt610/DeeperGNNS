@@ -1,6 +1,5 @@
 import itertools
 import matplotlib.pyplot as plt
-from dgl.data import citation_graph as citegrh
 from ogb.graphproppred import DglGraphPropPredDataset
 from ogb.nodeproppred import DglNodePropPredDataset
 from sklearn.manifold import Isomap
