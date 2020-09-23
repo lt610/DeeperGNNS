@@ -25,6 +25,14 @@ def extract_test_accs(filename):
     return results
 
 
+def extract_result(filename):
+    result = None
+    with open(filename, 'r') as f:
+        r = f.read()
+    result = eval(r)
+    return result
+
+
 def draw_test_layer(title, sgc_test, vsgc1_test, vsgc05_test):
     x = np.arange(2, 51)
     plt.title(title)
@@ -74,6 +82,11 @@ if __name__ == '__main__':
     # print(vsgc[0:7])
     # print(vsgc[7:14])
 
-    r = extract_test_accs('../result/train_result/VSGC.txt')
-    print(r[0:9])
-    print(r[9:18])
+    result = extract_result('../result/train_result/SGC.txt')
+    val_accs = []
+    test_accs = []
+    for r in result:
+        val_accs.append(r['val_acc'])
+        test_accs.append(r['test_acc'])
+    print(val_accs)
+    print(test_accs)

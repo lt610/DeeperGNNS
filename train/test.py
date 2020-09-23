@@ -1,7 +1,6 @@
 import sys
 sys.path.append('../')
-import sys
-sys.path.append('../')
+import ast
 import itertools
 import matplotlib.pyplot as plt
 from sklearn.manifold import Isomap
@@ -97,9 +96,9 @@ import dgl
 # print(2 * a)
 # print(a + 1)
 
-g, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default('cora')
-degs0 = g.in_degrees().float().clamp(min=1)
-print(degs0[0:9])
-g = g.remove_self_loop()
-degs1 = g.in_degrees().float().clamp(min=1)
-print(degs1[0:9])
+# g, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default('cora')
+# degs0 = g.in_degrees().float().clamp(min=1)
+# print(degs0[0:9])
+# g = g.remove_self_loop()
+# degs1 = g.in_degrees().float().clamp(min=1)
+# print(degs1[0:9])
