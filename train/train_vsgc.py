@@ -13,10 +13,11 @@ from utils.data_mine import load_data_default, load_data_mine
 import torch as th
 import numpy as np
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='cora')
-    parser.add_argument('--num_layers', type=int, default=56)
+    parser.add_argument('--dataset', type=str, default='citeseer')
+    parser.add_argument('--num_layers', type=int, default=2)
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=1)
     parser.add_argument('--dropout', type=float, default=0)
@@ -38,7 +39,7 @@ if __name__ == '__main__':
     # set_seed(args.seed)
 
     optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
-    early_stopping = EarlyStopping(args.patience, file_name='tmp')
+    early_stopping = EarlyStopping(args.patience, file_name='{}_{}'.format(args.filename, args.dataset))
     # early_stopping = EarlyStoppingBoth()
 
     device = th.device("cuda:{}".format(args.cuda) if th.cuda.is_available() else "cpu")
