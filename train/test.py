@@ -1,5 +1,6 @@
 import sys
 sys.path.append('../')
+import csv
 import ast
 import itertools
 import matplotlib.pyplot as plt
@@ -102,3 +103,25 @@ import dgl
 # g = g.remove_self_loop()
 # degs1 = g.in_degrees().float().clamp(min=1)
 # print(degs1[0:9])
+
+# with open('../shells/tmp.txt', 'r') as f:
+#     s = f.readlines()
+#     print(len(s))
+
+# with open('../shells/fuck.txt', 'w') as f:
+#     for _ in range(3):
+#         for _ in range(2):
+#             f.write('fuck\n')
+
+# a = {'a':1, 'b':2, 'c':3}
+
+# with open('../shells/test.csv', 'a') as f:
+#     fdn = list(a.keys())
+#     writer = csv.DictWriter(f, fieldnames=fdn)
+#     writer.writerow(a)
+
+# with open('../shells/test.csv', 'r') as f:
+#     reader = csv.DictReader(f)
+#     print(reader.line_num)
+#     for i in reader:
+#         print(i)

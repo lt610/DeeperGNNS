@@ -82,11 +82,18 @@ if __name__ == '__main__':
     # print(vsgc[0:7])
     # print(vsgc[7:14])
 
-    result = extract_result('../result/train_result/SGC.txt')
+    result = extract_result('../result/train_result/VSGC_search_cora.txt')
+    print(len(result))
+    layers = []
     val_accs = []
     test_accs = []
     for r in result:
+        layers.append(r['num_layers'])
         val_accs.append(r['val_acc'])
         test_accs.append(r['test_acc'])
-    print(val_accs)
-    print(test_accs)
+    i1 = val_accs.index(max(val_accs))
+    i2 = test_accs.index(max(test_accs))
+    print(result[i1])
+    print(result[i2])
+    # i = np.where(np.array(layers)==64)
+    # print(np.array(result)[i])
