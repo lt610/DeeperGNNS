@@ -13,9 +13,27 @@ def generate_sgc_search_shells():
         for _ in range(3):
             params = itertools.product(dataset, num_layers, dropout, learn_rate, weight_decay, filename)
             for p in params:
-                command = 'python train_vsgc.py --dataset {} --num_layers {} --dropout {} ' \
+                command = 'python train_sgc.py --dataset {} --num_layers {} --dropout {} ' \
                           '--learn_rate {} --weight_decay {} --filename {} --cuda 1\n'.format(p[0], p[1], p[2],
                                                                                               p[3], p[4], p[5])
+                f.write(command)
+
+
+def generate_sgc_result_shells():
+    with open('../shells/tmp.sh', 'w') as f:
+        f.write('#! /bin/bash\n')
+        params = []
+        #params.append({'dataset': 'cora', 'num_layers': 8, 'pair_norm': False, 'dropout': 0.5, 'seed': 42, 'learn_rate': 0.5, 'weight_decay': 5e-06, 'num_epochs': 1500, 'patience': 100, 'cuda': 1, 'filename': 'SGC_search', 'train_loss': 0.32053500413894653, 'train_acc': 0.95, 'val_loss': 0.7618987560272217, 'val_acc': 0.816, 'test_loss': 0.7118297219276428, 'test_acc': 0.814})
+        #params.append({'dataset': 'citeseer', 'num_layers': 4, 'pair_norm': False, 'dropout': 0.5, 'seed': 42, 'learn_rate': 0.5, 'weight_decay': 5e-05, 'num_epochs': 1500, 'patience': 100, 'cuda': 1, 'filename': 'SGC_search', 'train_loss': 0.9016949534416199, 'train_acc': 0.9333333333333333, 'val_loss': 1.3170959949493408, 'val_acc': 0.748, 'test_loss': 1.2929919958114624, 'test_acc': 0.708})
+        params.append({'dataset': 'pubmed', 'num_layers': 8, 'pair_norm': False, 'dropout': 0.5, 'seed': 42, 'learn_rate': 0.5, 'weight_decay': 5e-06, 'num_epochs': 1500, 'patience': 100, 'cuda': 1, 'filename': 'SGC_search', 'train_loss': 0.228401318192482, 'train_acc': 0.9666666666666667, 'val_loss': 0.5473153591156006, 'val_acc': 0.832, 'test_loss': 0.5717806816101074, 'test_acc': 0.791})
+        for ps in params:
+            for _ in range(100):
+                command = 'python train_sgc.py --dataset {} --num_layers {} --dropout {} ' \
+                          '--learn_rate {} --weight_decay {} --filename SGC --cuda 0\n'.format(ps['dataset'],
+                            ps['num_layers'], ps['dropout'], ps['learn_rate'], ps['weight_decay'])
+                f.write(command)
+
+
 def generate_vsgc_search_shells():
     dataset = ['ogbn-arxiv']
     num_layers = [2, 4, 8, 16, 24]
@@ -71,4 +89,4 @@ def generate_vsgc_result_shells():
                 f.write(command)
 
 if __name__ == '__main__':
-    generate_vsgc_search_shells()
+    generate_sgc_result_shells()

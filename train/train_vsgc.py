@@ -16,15 +16,15 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='pubmed')
+    parser.add_argument('--dataset', type=str, default='citeseer')
     parser.add_argument('--num_layers', type=int, default=16)
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=1)
     parser.add_argument('--dropout', type=float, default=0.5)
 
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--learn_rate', type=float, default=0.5)
-    parser.add_argument('--weight_decay', type=float, default=5e-4)
+    parser.add_argument('--learn_rate', type=float, default=0.3)
+    parser.add_argument('--weight_decay', type=float, default=0.001)
     parser.add_argument('--num_epochs', type=int, default=1500)
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
@@ -71,7 +71,7 @@ if __name__ == '__main__':
         val_loss, val_acc = evaluate_acc_loss(model, graph, features, labels, val_mask)
         print("Epoch {:05d} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Time(s) {:.4f}".
               format(epoch, train_loss, train_acc, val_loss, val_acc, np.mean(dur)))
-        early_stopping(val_acc, model)
+        early_stopping(-val_loss, model)
         # early_stopping(val_acc, val_loss, model)
         if early_stopping.is_stop:
             print("Early stopping")

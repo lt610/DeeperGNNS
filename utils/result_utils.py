@@ -125,7 +125,7 @@ if __name__ == '__main__':
     # print(vsgc[0:7])
     # print(vsgc[7:14])
 
-    # result = extract_result(''../result/train_result/VSGC_search_cora.txt'')
+    # result = extract_result('../result/train_result/VSGC_search_ogbn-arxiv.txt')
     # print(len(result))
     # layers = []
     # val_accs = []
@@ -138,7 +138,8 @@ if __name__ == '__main__':
     # i2 = test_accs.index(max(test_accs))
     # print(result[i1])
     # print(result[i2])
-    # i = np.where(np.array(layers)==64)
-    # print(np.array(result)[i])
-    extract_final_result('../result/train_result/VSGC_pubmed.txt')
+
+    extract_search_result('../result/train_result/SGC_search_ogbn-arxiv.txt')
+
+    # extract_final_result('../result/train_result/SGC_pubmed.txt')
 

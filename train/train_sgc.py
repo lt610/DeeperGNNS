@@ -72,7 +72,7 @@ if __name__ == '__main__':
         val_loss, val_acc = evaluate_acc_loss(model, graph, features, labels, val_mask)
         print("Epoch {:05d} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Time(s) {:.4f}".
               format(epoch, train_loss, train_acc, val_loss, val_acc, np.mean(dur)))
-        early_stopping(val_acc, model)
+        early_stopping(-val_loss, model)
         if early_stopping.is_stop:
             print("Early stopping")
             model.load_state_dict(early_stopping.load_checkpoint())
