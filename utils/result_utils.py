@@ -32,6 +32,49 @@ def extract_result(filename):
     result = eval(r)
     return result
 
+def extract_search_result(filename):
+    result = extract_result(filename)
+    length = len(result)
+    gap = int(length/3)
+    layers = []
+    val_accs = []
+    test_accs = []
+    for r in result:
+        layers.append(r['num_layers'])
+        val_accs.append(r['val_acc'])
+        test_accs.append(r['test_acc'])
+    result2 = np.array(result)
+    result2.resize([3, gap])
+
+    print('val_acc_max')
+    val_accs2 = np.array(val_accs)
+    val_accs2.resize([3, gap])
+    # print(val_accs2.shape)
+    val_accs2_mean = np.mean(val_accs2, 0)
+    # print(val_accs2_mean.shape)
+    idx1 = np.where(val_accs2_mean == np.max(val_accs2_mean))
+    print(result2[..., idx1[0][0]])
+
+    print('test_acc_max')
+    test_accs2 = np.array(test_accs)
+    test_accs2.resize([3, gap])
+    test_accs2_mean = np.mean(test_accs2, 0)
+    idx2 = np.where(test_accs2_mean == np.max(test_accs2_mean))
+    print(result2[..., idx2[0][0]])
+
+def extract_final_result(filename):
+    result = extract_result(filename)
+    print(len(result))
+    val_accs = []
+    test_accs = []
+    for r in result:
+        val_accs.append(r['val_acc'])
+        test_accs.append(r['test_acc'])
+    test_accs2 = np.array(test_accs)
+    mean = np.mean(test_accs2)
+    std = np.std(test_accs2)
+    print('mean:{}'.format(mean))
+    print('std:{}'.format(std))
 
 def draw_test_layer(title, sgc_test, vsgc1_test, vsgc05_test):
     x = np.arange(2, 51)
@@ -82,18 +125,20 @@ if __name__ == '__main__':
     # print(vsgc[0:7])
     # print(vsgc[7:14])
 
-    result = extract_result('../result/train_result/VSGC_search_cora.txt')
-    print(len(result))
-    layers = []
-    val_accs = []
-    test_accs = []
-    for r in result:
-        layers.append(r['num_layers'])
-        val_accs.append(r['val_acc'])
-        test_accs.append(r['test_acc'])
-    i1 = val_accs.index(max(val_accs))
-    i2 = test_accs.index(max(test_accs))
-    print(result[i1])
-    print(result[i2])
+    # result = extract_result(''../result/train_result/VSGC_search_cora.txt'')
+    # print(len(result))
+    # layers = []
+    # val_accs = []
+    # test_accs = []
+    # for r in result:
+    #     layers.append(r['num_layers'])
+    #     val_accs.append(r['val_acc'])
+    #     test_accs.append(r['test_acc'])
+    # i1 = val_accs.index(max(val_accs))
+    # i2 = test_accs.index(max(test_accs))
+    # print(result[i1])
+    # print(result[i2])
     # i = np.where(np.array(layers)==64)
     # print(np.array(result)[i])
+    extract_final_result('../result/train_result/VSGC_pubmed.txt')
+

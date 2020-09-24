@@ -16,18 +16,18 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='citeseer')
-    parser.add_argument('--num_layers', type=int, default=2)
+    parser.add_argument('--dataset', type=str, default='pubmed')
+    parser.add_argument('--num_layers', type=int, default=16)
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=1)
-    parser.add_argument('--dropout', type=float, default=0)
+    parser.add_argument('--dropout', type=float, default=0.5)
 
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--cuda', type=int, default=0)
-    parser.add_argument('--learn_rate', type=float, default=0.01)
-    parser.add_argument('--weight_decay', type=float, default=0)
+    parser.add_argument('--learn_rate', type=float, default=0.5)
+    parser.add_argument('--weight_decay', type=float, default=5e-4)
     parser.add_argument('--num_epochs', type=int, default=1500)
     parser.add_argument('--patience', type=int, default=100)
+    parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='VSGC')
     args = parser.parse_args()
 
@@ -39,10 +39,12 @@ if __name__ == '__main__':
     # set_seed(args.seed)
 
     optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
+
     early_stopping = EarlyStopping(args.patience, file_name='{}_{}'.format(args.filename, args.dataset))
     # early_stopping = EarlyStoppingBoth()
 
     device = th.device("cuda:{}".format(args.cuda) if th.cuda.is_available() else "cpu")
+
     graph = graph.to(device)
     features = features.to(device)
     labels = labels.to(device)

@@ -125,3 +125,12 @@ import dgl
 #     print(reader.line_num)
 #     for i in reader:
 #         print(i)
+
+
+a = np.array([1, 2, 3, 4, 5, 6])
+print(a)
+b = a.reshape([2, 3])
+print(a)
+print(b)
+c = a.reshape([3, 2])
+print(c)
