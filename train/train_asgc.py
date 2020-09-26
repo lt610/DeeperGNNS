@@ -27,7 +27,7 @@ if __name__ == '__main__':
     parser.add_argument('--num_epochs', type=int, default=1500)
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
-    parser.add_argument('--filename', type=str, default='VSGC')
+    parser.add_argument('--filename', type=str, default='VASGC')
 
     args = parser.parse_args()
 
