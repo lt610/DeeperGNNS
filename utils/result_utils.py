@@ -35,7 +35,9 @@ def extract_result(filename):
 def extract_search_result(filename):
     result = extract_result(filename)
     length = len(result)
+    print(length)
     gap = int(length/3)
+    print(gap)
     layers = []
     val_accs = []
     test_accs = []
@@ -139,7 +141,7 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    extract_search_result('../result/train_result/SGC_search_ogbn-arxiv.txt')
+    # extract_search_result('../result/train_result/VSGC_AB_search_pubmed.txt')
 
-    # extract_final_result('../result/train_result/SGC_pubmed.txt')
+    extract_final_result('../result/train_result/VSGC_AB_pubmed.txt')
 
