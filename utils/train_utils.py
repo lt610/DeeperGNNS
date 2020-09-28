@@ -22,11 +22,12 @@ def generate_vmix_search_shells():
 
 def generate_asgc_search_shells():
     dataset = ['cora', 'citeseer', 'pubmed']
-    num_layers = [2, 4, 8, 12, 16]
+    # num_layers = [2, 4, 8, 12, 16]
+    num_layers = [24, 32, 40, 48]
     dropout = [0, 0.5, 0.8]
     learn_rate = [0.5, 0.3, 0.1, 0.01]
     weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
-    filename = ['ASGC_search']
+    filename = ['ASGC_search2']
     with open('../shells/{}.sh'.format(filename[0]), 'w') as f:
         f.write('#! /bin/bash\n')
         for _ in range(3):
@@ -37,6 +38,23 @@ def generate_asgc_search_shells():
                                                                                               p[3], p[4], p[5])
                 f.write(command)
 
+
+def generate_agcn_search_shells():
+    dataset = ['cora', 'citeseer', 'pubmed']
+    num_layers = [2, 4, 8, 12, 16]
+    dropout = [0, 0.5, 0.8]
+    learn_rate = [0.5, 0.3, 0.1, 0.01]
+    weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
+    filename = ['AGCN_search']
+    with open('../shells/{}.sh'.format(filename[0]), 'w') as f:
+        f.write('#! /bin/bash\n')
+        for _ in range(3):
+            params = itertools.product(dataset, num_layers, dropout, learn_rate, weight_decay, filename)
+            for p in params:
+                command = 'python train_agcn.py --dataset {} --num_layers {} --dropout {} ' \
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 0\n'.format(p[0], p[1], p[2],
+                                                                                              p[3], p[4], p[5])
+                f.write(command)
 
 def generate_sgc_search_shells():
     dataset = ['pubmed']
@@ -116,4 +134,4 @@ def generate_vsgc_result_shells():
 
 
 if __name__ == '__main__':
-    generate_vmix_search_shells()
+    generate_agcn_search_shells()

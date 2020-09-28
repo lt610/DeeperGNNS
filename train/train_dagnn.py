@@ -17,11 +17,11 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default='cora')
     parser.add_argument('--num_layers', type=int, default=10)
     parser.add_argument('--num_hidden', type=int, default=64)
-    parser.add_argument('--dropout', type=float, default=0.6)
+    parser.add_argument('--dropout', type=float, default=0.8)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=1e-2)
-    parser.add_argument('--weight_decay', type=float, default=0.0005)
+    parser.add_argument('--weight_decay', type=float, default=0.005)
     parser.add_argument('--num_epochs', type=int, default=1000)
     parser.add_argument('--patience', type=int, default=100)
     args = parser.parse_args()

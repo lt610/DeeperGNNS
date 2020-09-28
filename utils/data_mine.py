@@ -49,6 +49,7 @@ def load_data_default(dataset_name):
         if dataset_name == 'pubmed':
             dataset = PubmedGraphDataset()
         graph = dataset[0]
+        print(graph)
         graph = graph.remove_self_loop().add_self_loop()
         print(graph)
         features = graph.ndata['feat']

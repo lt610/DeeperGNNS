@@ -38,11 +38,9 @@ def extract_search_result(filename):
     print(length)
     gap = int(length/3)
     print(gap)
-    layers = []
     val_accs = []
     test_accs = []
     for r in result:
-        layers.append(r['num_layers'])
         val_accs.append(r['val_acc'])
         test_accs.append(r['test_acc'])
     result2 = np.array(result)
@@ -141,7 +139,7 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    # extract_search_result('../result/train_result/VSGC_AB_search_pubmed.txt')
+    extract_search_result('../result/train_result/ASGC_search2_pubmed.txt')
 
-    extract_final_result('../result/train_result/VSGC_AB_pubmed.txt')
+    # extract_final_result('../result/train_result/VSGC_AB_pubmed.txt')
 
