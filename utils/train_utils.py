@@ -41,11 +41,12 @@ def generate_asgc_search_shells():
 
 def generate_agcn_search_shells():
     dataset = ['cora', 'citeseer', 'pubmed']
-    num_layers = [2, 4, 8, 12, 16]
+    # num_layers = [2, 4, 8, 12, 16]
+    num_layers = [24, 32, 40, 48]
     dropout = [0, 0.5, 0.8]
     learn_rate = [0.5, 0.3, 0.1, 0.01]
     weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
-    filename = ['AGCN_search']
+    filename = ['AGCN_search2']
     with open('../shells/{}.sh'.format(filename[0]), 'w') as f:
         f.write('#! /bin/bash\n')
         for _ in range(3):
@@ -118,12 +119,16 @@ def generate_vsgc_search_shells():
 
 
 def generate_vsgc_result_shells():
-    with open('../shells/tmp.sh', 'w') as f:
+    with open('../shells/VSGC_result.sh', 'w') as f:
         f.write('#! /bin/bash\n')
         params = []
-        params.append({'dataset': 'cora', 'num_layers': 32, 'alpha': 0.8, 'lambd': 0.6, 'dropout': 0.5, 'seed': 42, 'learn_rate': 0.1, 'weight_decay': 5e-05, 'num_epochs': 1500, 'patience': 100, 'cuda': 0, 'filename': 'VSGC_search', 'train_loss': 0.1379988193511963, 'train_acc': 0.9928571428571429, 'val_loss': 0.6923893690109253, 'val_acc': 0.806, 'test_loss': 0.634097695350647, 'test_acc': 0.814})
-        params.append({'dataset': 'citeseer', 'num_layers': 16, 'alpha': 1.0, 'lambd': 1.4, 'dropout': 0.5, 'seed': 42, 'learn_rate': 0.3, 'weight_decay': 0.0005, 'num_epochs': 1500, 'patience': 100, 'cuda': 0, 'filename': 'VSGC_search', 'train_loss': 0.5406072735786438, 'train_acc': 0.9083333333333333, 'val_loss': 1.074610710144043, 'val_acc': 0.748, 'test_loss': 1.0375072956085205, 'test_acc': 0.736})
-        params.append({'dataset': 'pubmed', 'num_layers': 40, 'alpha': 1.0, 'lambd': 0.8, 'dropout': 0.8, 'seed': 42, 'learn_rate': 0.5, 'weight_decay': 0.0005, 'num_epochs': 1500, 'patience': 100, 'cuda': 0, 'filename': 'VSGC_search', 'train_loss': 0.22446662187576294, 'train_acc': 0.95, 'val_loss': 0.5114421844482422, 'val_acc': 0.832, 'test_loss': 0.5330830812454224, 'test_acc': 0.802})
+        # params.append({'dataset': 'cora', 'num_layers': 32, 'alpha': 0.8, 'lambd': 0.6, 'dropout': 0.5, 'seed': 42, 'learn_rate': 0.1, 'weight_decay': 5e-05, 'num_epochs': 1500, 'patience': 100, 'cuda': 0, 'filename': 'VSGC_search', 'train_loss': 0.1379988193511963, 'train_acc': 0.9928571428571429, 'val_loss': 0.6923893690109253, 'val_acc': 0.806, 'test_loss': 0.634097695350647, 'test_acc': 0.814})
+        # params.append({'dataset': 'citeseer', 'num_layers': 16, 'alpha': 1.0, 'lambd': 1.4, 'dropout': 0.5, 'seed': 42, 'learn_rate': 0.3, 'weight_decay': 0.0005, 'num_epochs': 1500, 'patience': 100, 'cuda': 0, 'filename': 'VSGC_search', 'train_loss': 0.5406072735786438, 'train_acc': 0.9083333333333333, 'val_loss': 1.074610710144043, 'val_acc': 0.748, 'test_loss': 1.0375072956085205, 'test_acc': 0.736})
+        # params.append({'dataset': 'pubmed', 'num_layers': 40, 'alpha': 1.0, 'lambd': 0.8, 'dropout': 0.8, 'seed': 42, 'learn_rate': 0.5, 'weight_decay': 0.0005, 'num_epochs': 1500, 'patience': 100, 'cuda': 0, 'filename': 'VSGC_search', 'train_loss': 0.22446662187576294, 'train_acc': 0.95, 'val_loss': 0.5114421844482422, 'val_acc': 0.832, 'test_loss': 0.5330830812454224, 'test_acc': 0.802})
+        #params.append({'dataset': 'cora', 'num_layers': 24, 'alpha': 1.0, 'lambd': 1.0, 'dropout': 0.8, 'seed': 42, 'learn_rate': 0.1, 'weight_decay': 0.0005, 'num_epochs': 1500, 'patience': 100, 'cuda': 0, 'filename': 'VSGC_search', 'train_loss': 0.4818480908870697, 'train_acc': 0.9428571428571428, 'val_loss': 0.8494647145271301, 'val_acc': 0.806, 'test_loss': 0.8107437491416931, 'test_acc': 0.83})
+        #params.append({'dataset': 'citeseer', 'num_layers': 16, 'alpha': 1.0, 'lambd': 1.0, 'dropout': 0.5, 'seed': 42, 'learn_rate': 0.3, 'weight_decay': 0.0005, 'num_epochs': 1500, 'patience': 100, 'cuda': 1, 'filename': 'VSGC_search', 'train_loss': 0.53924161195755, 'train_acc': 0.9333333333333333, 'val_loss': 1.074293851852417, 'val_acc': 0.752, 'test_loss': 1.0391258001327515, 'test_acc': 0.737})
+        params.append({'dataset': 'pubmed', 'num_layers': 32, 'alpha': 1.0, 'lambd': 1.0, 'dropout': 0.8, 'seed': 42, 'learn_rate': 0.5, 'weight_decay': 5e-05, 'num_epochs': 1500, 'patience': 100, 'cuda': 2, 'filename': 'VSGC_search', 'train_loss': 0.08078866451978683, 'train_acc': 0.9833333333333333, 'val_loss': 0.5012359023094177, 'val_acc': 0.818, 'test_loss': 0.5565839409828186, 'test_acc': 0.81})
+
         for ps in params:
             for _ in range(100):
                 command = 'python train_vsgc.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
@@ -134,4 +139,4 @@ def generate_vsgc_result_shells():
 
 
 if __name__ == '__main__':
-    generate_agcn_search_shells()
+    generate_vsgc_result_shells()
