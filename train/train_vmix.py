@@ -29,8 +29,8 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='cora')
     parser.add_argument('--num_hidden', type=int, default=64)
-    parser.add_argument('--num_gcn', type=int, default=2)
-    parser.add_argument('--num_vsgc', type=int, default=4)
+    parser.add_argument('--num_inLayer', type=int, default=2)
+    parser.add_argument('--num_vsgc', type=int, default=16)
     parser.add_argument('--batch_norm', action='store_true', default=False)
     parser.add_argument('--pair_norm', action='store_true', default=False)
     parser.add_argument('--residual', action='store_true', default=False)
@@ -38,7 +38,7 @@ if __name__ == '__main__':
     parser.add_argument('--dropedge', type=float, default=0)
 
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--learn_rate', type=float, default=1e-2)
+    parser.add_argument('--learn_rate', type=float, default=0.01)
     parser.add_argument('--weight_decay', type=float, default=0)
     parser.add_argument('--num_epochs', type=int, default=1500)
     parser.add_argument('--patience', type=int, default=100)
@@ -47,7 +47,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
-    model = VMixNet(num_feats, num_classes, args.num_hidden, args.num_gcn, args.num_vsgc, batch_norm=args.batch_norm,
+    model = VMixNet(num_feats, num_classes, args.num_hidden, args.num_inLayer, args.num_vsgc, batch_norm=args.batch_norm,
                     pair_norm=args.pair_norm, residual=args.residual, dropout=args.dropout, dropedge=args.dropedge)
     labels = labels.squeeze()
     # set_seed(args.seed)

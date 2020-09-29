@@ -36,7 +36,8 @@ def extract_search_result(filename):
     result = extract_result(filename)
     length = len(result)
     print(length)
-    gap = int(length/3)
+    times = 10
+    gap = int(length/times)
     print(gap)
     val_accs = []
     test_accs = []
@@ -44,22 +45,24 @@ def extract_search_result(filename):
         val_accs.append(r['val_acc'])
         test_accs.append(r['test_acc'])
     result2 = np.array(result)
-    result2.resize([3, gap])
+    result2.resize([times, gap])
+
+    val_accs2 = np.array(val_accs)
+    val_accs2.resize([times, gap])
+
+    test_accs2 = np.array(test_accs)
+    test_accs2.resize([times, gap])
 
     print('val_acc_max')
-    val_accs2 = np.array(val_accs)
-    val_accs2.resize([3, gap])
-    # print(val_accs2.shape)
     val_accs2_mean = np.mean(val_accs2, 0)
-    # print(val_accs2_mean.shape)
     idx1 = np.where(val_accs2_mean == np.max(val_accs2_mean))
+    print('mean_test:{}'.format(np.mean(test_accs2[..., idx1[0][0]])))
     print(result2[..., idx1[0][0]])
 
     print('test_acc_max')
-    test_accs2 = np.array(test_accs)
-    test_accs2.resize([3, gap])
     test_accs2_mean = np.mean(test_accs2, 0)
     idx2 = np.where(test_accs2_mean == np.max(test_accs2_mean))
+    print('mean_test:{}'.format(np.mean(test_accs2[..., idx2[0][0]])))
     print(result2[..., idx2[0][0]])
 
 def extract_final_result(filename):
@@ -141,5 +144,5 @@ if __name__ == '__main__':
 
     extract_search_result('../result/train_result/VSGC_search_pubmed.txt')
 
-    # extract_final_result('../result/train_result/VSGC_pubmed.txt')
+    # extract_final_result('../result/train_result/ASGC_pubmed.txt')
 
