@@ -25,7 +25,7 @@ def set_seed(seed=9699):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='cora')
+    parser.add_argument('--dataset', type=str, default='chameleon')
     parser.add_argument('--num_hidden', type=int, default=64)
     parser.add_argument('--num_layers', type=int, default=3)
     parser.add_argument('--batch_norm', action='store_true', default=False)

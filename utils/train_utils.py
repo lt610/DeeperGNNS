@@ -108,7 +108,7 @@ def generate_sgc_result_shells():
 
 
 def generate_vsgc_search_shells():
-    dataset = ['cora']
+    dataset = ['chameleon']
     num_layers = [2, 4, 8, 16, 24, 32, 40, 48]
     alpha = [1]
     lambd = [1]
@@ -132,9 +132,9 @@ def generate_vsgc_search_shells():
     # learn_rate = [0.5]
     # weight_decay = [5e-4]
     filename = ['VSGC_search']
-    with open('../shells/{}.sh'.format(filename[0]), 'w') as f:
+    with open('../shells/{}_{}.sh'.format(filename[0], dataset), 'w') as f:
         f.write('#! /bin/bash\n')
-        for _ in range(10):
+        for _ in range(5):
             params = itertools.product(dataset, num_layers, alpha, lambd, dropout, learn_rate, weight_decay, filename)
             for p in params:
                 command = 'python train_vsgc.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
@@ -161,4 +161,4 @@ def generate_vsgc_result_shells():
 
 
 if __name__ == '__main__':
-    generate_vmix_search_shells()
+    generate_vsgc_search_shells()

@@ -5,6 +5,8 @@ from dgl import DGLGraph
 from dgl.data import citation_graph as citgrh, CoraGraphDataset, CiteseerGraphDataset, PubmedGraphDataset
 from ogb.nodeproppred import DglNodePropPredDataset
 
+from utils.data_geom import load_data_from_file
+
 
 def split_data(data, train_ratio=0.6, val_ratio=0.2, random_seed=None):
     if random_seed:
@@ -49,7 +51,6 @@ def load_data_default(dataset_name):
         if dataset_name == 'pubmed':
             dataset = PubmedGraphDataset()
         graph = dataset[0]
-        print(graph)
         graph = graph.remove_self_loop().add_self_loop()
         print(graph)
         features = graph.ndata['feat']
@@ -59,6 +60,9 @@ def load_data_default(dataset_name):
         test_mask = graph.ndata['test_mask']
         num_feats = features.shape[1]
         num_classes = int(labels.max().item() + 1)
+    elif dataset_name in ['chameleon', 'cornell', 'texas', 'wisconsin']:
+        graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_from_file(dataset_name, None, 0.6, 0.2)
+        print(graph)
     else:
         dataset = DglNodePropPredDataset(name=dataset_name)
         splitted_mask = dataset.get_idx_split()

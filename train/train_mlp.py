@@ -13,7 +13,7 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='citeseer')
+    parser.add_argument('--dataset', type=str, default='wisconsin')
     parser.add_argument('--num_hidden', type=int, default=64)
     parser.add_argument('--num_layers', type=int, default=2)
     parser.add_argument('--batch_norm', action='store_true', default=False)
