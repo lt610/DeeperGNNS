@@ -108,14 +108,14 @@ def generate_sgc_result_shells():
 
 
 def generate_vsgc_search_shells():
-    dataset = ['chameleon']
+    dataset = ['cornell', 'texas', 'wisconsin']
     num_layers = [2, 4, 8, 16, 24, 32, 40, 48]
     alpha = [1]
     lambd = [1]
     dropout = [0, 0.5, 0.8]
     learn_rate = [0.5, 0.3, 0.1, 0.01]
     weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
-    filename = ['VSGC_search']
+    filename = ['Full_VSGC_search']
     # dataset = ['ogbn-arxiv']
     # num_layers = [2, 4, 8, 16, 24]
     # alpha = [1]
@@ -131,8 +131,8 @@ def generate_vsgc_search_shells():
     # dropout = [0.8]
     # learn_rate = [0.5]
     # weight_decay = [5e-4]
-    filename = ['VSGC_search']
-    with open('../shells/{}_{}.sh'.format(filename[0], dataset), 'w') as f:
+    # filename = ['VSGC_search']
+    with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
         f.write('#! /bin/bash\n')
         for _ in range(5):
             params = itertools.product(dataset, num_layers, alpha, lambd, dropout, learn_rate, weight_decay, filename)
