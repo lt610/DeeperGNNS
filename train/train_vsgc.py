@@ -29,10 +29,13 @@ if __name__ == '__main__':
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='VSGC')
+    parser.add_argument('--split', type=str, default='semi')
     args = parser.parse_args()
 
-    # graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_from_file(args.dataset, None, 0.6, 0.2)
-    graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
+    if args.split != 'semi':
+        graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_from_file(args.dataset, splits_file_path=args.split)
+    else:
+        graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
     model = VSGCNet(num_feats, num_classes, args.num_layers, alpha=args.alpha, lambd=args.lambd, dropout=args.dropout)
     labels = labels.squeeze()
 

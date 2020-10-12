@@ -1,4 +1,8 @@
 import sys
+
+from dgl.data import CoraGraphDataset, CiteseerGraphDataset, CoauthorCSDataset
+from dgl.data.utils import split_dataset
+
 sys.path.append('../')
 import csv
 import ast
@@ -127,10 +131,18 @@ import dgl
 #         print(i)
 
 
-a = np.array([1, 2, 3, 4, 5, 6])
-print(a)
-b = a.reshape([2, 3])
-print(a)
-print(b)
-c = a.reshape([3, 2])
-print(c)
+# a = np.array([1, 2, 3, 4, 5, 6])
+# print(a)
+# b = a.reshape([2, 3])
+# print(a)
+# print(b)
+# c = a.reshape([3, 2])
+# print(c)
+
+# dataset = CoauthorCSDataset()
+# print(dataset[0])
+
+
+load_data_from_file('cora', '../data/splits/chameleon_split_0.6_0.2_0.npz')
+
+
