@@ -3,20 +3,37 @@ import itertools
 
 def generate_vmix_search_shells():
     dataset = ['pubmed']
-    num_inLayer = [2]
+    num_inLayer = [1, 2, 3]
     num_vsgc = [2, 4, 6, 8, 12, 16, 24, 32, 40, 48]
     dropout = [0, 0.5, 0.8]
     learn_rate = [0.5, 0.3, 0.1, 0.01]
     weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
-    filename = ['MLP_VSGC_search']
-    with open('../shells/{}.sh'.format(filename[0]), 'w') as f:
+    filename = ['GCN_VSGC_search']
+    with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
         f.write('#! /bin/bash\n')
-        for _ in range(10):
+        for _ in range(5):
             params = itertools.product(dataset, num_inLayer, num_vsgc, dropout, learn_rate, weight_decay, filename)
             for p in params:
                 command = 'python train_vmix.py --dataset {} --num_inLayer {}  --num_vsgc {} --dropout {} ' \
                           '--learn_rate {} --weight_decay {} --filename {} --cuda 2\n'.format(p[0], p[1], p[2],
                                                                                               p[3], p[4], p[5], p[6])
+                f.write(command)
+
+
+def generate_vmix_result_shells():
+    with open('../shells/GCN_VSGC_result.sh', 'w') as f:
+        f.write('#! /bin/bash\n')
+        params = []
+
+        params.append({'dataset': 'cora', 'num_hidden': 64, 'num_gcn': 1, 'num_vsgc': 4, 'batch_norm': False, 'pair_norm': False, 'residual': False, 'dropout': 0.8, 'dropedge': 0, 'seed': 42, 'learn_rate': 0.01, 'weight_decay': 0.0005, 'num_epochs': 1500, 'patience': 100, 'cuda': 1, 'filename': 'VMIX_search', 'train_loss': 0.10004086047410965, 'train_acc': 0.9928571428571429, 'val_loss': 0.6417561173439026, 'val_acc': 0.804, 'test_loss': 0.5769951939582825, 'test_acc': 0.835})
+        params.append({'dataset': 'citeseer', 'num_hidden': 64, 'num_gcn': 1, 'num_vsgc': 12, 'batch_norm': False, 'pair_norm': False, 'residual': False, 'dropout': 0.0, 'dropedge': 0, 'seed': 42, 'learn_rate': 0.5, 'weight_decay': 0.01, 'num_epochs': 1500, 'patience': 100, 'cuda': 2, 'filename': 'VMIX_search', 'train_loss': 0.8454991579055786, 'train_acc': 0.8833333333333333, 'val_loss': 1.2498258352279663, 'val_acc': 0.708, 'test_loss': 1.2216248512268066, 'test_acc': 0.703})
+        params.append({'dataset': 'pubmed', 'num_hidden': 64, 'num_gcn': 1, 'num_vsgc': 6, 'batch_norm': False, 'pair_norm': False, 'residual': False, 'dropout': 0.5, 'dropedge': 0, 'seed': 42, 'learn_rate': 0.3, 'weight_decay': 0.0005, 'num_epochs': 1500, 'patience': 100, 'cuda': 3, 'filename': 'VMIX_search', 'train_loss': 0.1729842871427536, 'train_acc': 0.9833333333333333, 'val_loss': 0.5529578924179077, 'val_acc': 0.816, 'test_loss': 0.5784546732902527, 'test_acc': 0.796})
+
+        for ps in params:
+            for _ in range(100):
+                command = 'python train_vmix.py --dataset {} --num_inLayer {}  --num_vsgc {} --dropout {} ' \
+                          '--learn_rate {} --weight_decay {} --filename GCN_VSGC_result --cuda 0\n'.format(ps['dataset'],
+                            ps['num_inLayer'], ps['num_vsgc'], ps['dropout'], ps['learn_rate'], ps['weight_decay'])
                 f.write(command)
 
 
@@ -182,4 +199,4 @@ def generate_vsgc_result_shells():
 
 
 if __name__ == '__main__':
-    generate_vsgc_search_full_shells()
+    generate_vmix_search_shells()
