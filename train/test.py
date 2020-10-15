@@ -143,6 +143,13 @@ import dgl
 # print(dataset[0])
 
 
-load_data_from_file('cora', '../data/splits/chameleon_split_0.6_0.2_0.npz')
+dataset = ['cora', 'citeseer', 'pubmed', 'chameleon', 'cornell', 'texas', 'wisconsin']
+
+with open('../shells/MLP_result_{}.txt'.format('_'.join(dataset)), 'w') as f:
+    for d in dataset:
+        for i in range(10):
+            split = '../data/splits/{}_split_0.6_0.2_{}.npz'.format(d, i)
+            command = 'python train_mlp.py --dataset {} --split {}\n'.format(d, split)
+            f.write(command)
 
 

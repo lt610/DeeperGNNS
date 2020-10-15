@@ -9,7 +9,7 @@ import torch.nn.functional as F
 
 
 class VGCNBlock(nn.Module):
-    def __init__(self, in_dim, out_dim, bias=False, k=1, graph_norm=True, alpha=1, activation=None, residual=False):
+    def __init__(self, in_dim, out_dim, bias=False, k=1, graph_norm=True, alpha=1, lambd=1, activation=None, residual=False, dropout=0):
         super(VGCNBlock, self).__init__()
         self.linear = nn.Linear(in_dim, out_dim, bias=bias)
         self.k = k
@@ -24,6 +24,7 @@ class VGCNBlock(nn.Module):
                 self.res_fc = Identity()
         else:
             self.register_buffer('res_fc', None)
+        self.dropout = nn.Dropout(dropout)
         self.reset_parameters()
 
     def reset_parameters(self):
@@ -44,7 +45,8 @@ class VGCNBlock(nn.Module):
             norm = norm.to(features.device).unsqueeze(1)
         dgl.remove_self_loop(g)
         h_last = features
-        h = self.linear(features)
+        h = self.dropout(features)
+        h = self.linear(h)
         h_pre = h
         ri = h * norm * norm
         for _ in range(self.k):

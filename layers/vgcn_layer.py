@@ -62,12 +62,12 @@ class VGCNLayer(nn.Module):
         h = g.ndata.pop('h')
         h = h * norm
         h = self.alpha * h + self.alpha * ri + (1 - self.alpha) * h_pre
-        h_pre = h
-
         # h = self.linear(h)
 
         if self.activation is not None:
             h = self.activation(h)
+
+        # h = self.alpha * h + self.alpha * ri + (1 - self.alpha) * h_pre
         if self.residual:
             h = h + self.res_fc(h_pre)
         return h

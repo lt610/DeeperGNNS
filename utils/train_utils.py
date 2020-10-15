@@ -181,6 +181,7 @@ def generate_vsgc_search_full_shells():
                                                                                      p[5], p[6], p[7], split)
                 f.write(command)
 
+
 def generate_vsgc_result_shells():
     with open('../shells/VSGC_result.sh', 'w') as f:
         f.write('#! /bin/bash\n')
@@ -198,5 +199,26 @@ def generate_vsgc_result_shells():
                 f.write(command)
 
 
+def generate_vblockgcn_search_shells():
+    dataset = ['cora']
+    k = [1, 2, 4, 6, 8]
+    num_blocks = [2, 3, 4, 6]
+    alpha = [1]
+    lambd = [1]
+    dropout = [0, 0.5, 0.8]
+    learn_rate = [0.5, 0.3, 0.1, 0.01]
+    weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
+    filename = ['VBlockGCN_search']
+    with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
+        f.write('#! /bin/bash\n')
+        for _ in range(5):
+            params = itertools.product(dataset, k, num_blocks, alpha, lambd, dropout, learn_rate, weight_decay, filename)
+            for p in params:
+                command = 'python train_block_vgcn.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 1\n'.format(p[0], p[1], p[2], p[3], p[4],
+                                                                                     p[5], p[6], p[7], p[8])
+                f.write(command)
+
+
 if __name__ == '__main__':
-    generate_vmix_search_shells()
+    generate_vblockgcn_search_shells()
