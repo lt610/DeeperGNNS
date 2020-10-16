@@ -200,7 +200,7 @@ def generate_vsgc_result_shells():
 
 
 def generate_vblockgcn_search_shells():
-    dataset = ['cora']
+    dataset = ['pubmed']
     k = [1, 2, 4, 6, 8]
     num_blocks = [2, 3, 4, 6]
     alpha = [1]
@@ -215,7 +215,7 @@ def generate_vblockgcn_search_shells():
             params = itertools.product(dataset, k, num_blocks, alpha, lambd, dropout, learn_rate, weight_decay, filename)
             for p in params:
                 command = 'python train_block_vgcn.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
-                          '--learn_rate {} --weight_decay {} --filename {} --cuda 1\n'.format(p[0], p[1], p[2], p[3], p[4],
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 3\n'.format(p[0], p[1], p[2], p[3], p[4],
                                                                                      p[5], p[6], p[7], p[8])
                 f.write(command)
 

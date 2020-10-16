@@ -20,7 +20,7 @@ if __name__ == '__main__':
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=1)
     parser.add_argument('--residual', action='store_true', default=False)
-    parser.add_argument('--dropout', type=int, default=0)
+    parser.add_argument('--dropout', type=float, default=0)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=1e-2)
