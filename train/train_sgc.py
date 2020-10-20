@@ -16,7 +16,7 @@ import numpy as np
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='cora')
-    parser.add_argument('--num_layers', type=int, default=2)
+    parser.add_argument('--num_layers', type=int, default=42)
     parser.add_argument('--pair_norm', action='store_true', default=False)
     parser.add_argument('--dropout', type=float, default=0)
 
@@ -29,8 +29,8 @@ if __name__ == '__main__':
     parser.add_argument('--filename', type=str, default='SGC')
     args = parser.parse_args()
 
-    graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_from_file(args.dataset)
-    # graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
+    # graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_from_file(args.dataset)
+    graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
     model = SGCNet(num_feats, num_classes, args.num_layers, pair_norm=args.pair_norm, dropout=args.dropout)
 
     labels = labels.squeeze()

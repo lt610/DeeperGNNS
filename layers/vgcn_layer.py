@@ -46,11 +46,12 @@ class VGCNLayer(nn.Module):
         norm_1 = th.pow(degs, -1)
         norm_1 = norm_1.to(features.device).unsqueeze(1)
 
-        dgl.remove_self_loop(g)
         h_pre = features
 
         h = self.dropout(features)
         h = self.linear(h)
+
+        # h_pre = h
 
         # print(h.shape)
         # print(norm.shape)

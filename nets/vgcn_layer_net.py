@@ -23,3 +23,21 @@ class VGCNLayerNet(nn.Module):
             h = layer(graph, h, initial_features)
         h = self.outLayer(graph, h)
         return h
+
+# class VGCNLayerNet(nn.Module):
+#     def __init__(self, num_feats, num_classes, num_hidden, num_layers=2, bias=False, alpha=1,
+#                  activation=F.relu, residual=False, dropout=0):
+#         super(VGCNLayerNet, self).__init__()
+#         self.inLayer = MLPLayer(num_feats, num_classes, bias=False, activation=activation, dropout=dropout)
+#
+#         self.layers = nn.ModuleList()
+#         for i in range(0, num_layers-1):
+#             self.layers.append(VGCNLayer(num_classes, num_classes, bias, alpha, activation, residual, dropout))
+#         self.layers.append(VGCNLayer(num_classes, num_classes, bias, alpha, None, residual, dropout))
+#
+#     def forward(self, graph, features):
+#         initial_features = self.inLayer(graph, features)
+#         h = initial_features
+#         for i, layer in enumerate(self.layers):
+#             h = layer(graph, h, initial_features)
+#         return h

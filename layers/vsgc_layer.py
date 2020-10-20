@@ -52,7 +52,6 @@ class VSGCLayer(nn.Module):
         return h
 
 
-
     # def forward(self, graph, features):
     #     g = graph.local_var()
     #
@@ -63,7 +62,7 @@ class VSGCLayer(nn.Module):
     #     norm05 = th.pow(degs + 1.0, 0.5)
     #     norm05 = norm05.to(features.device).unsqueeze(1)
     #     norm_05 = th.pow(degs + 1.0, -0.5)
-    #     norm_05 = norm_05.to(features).unsqueeze(1)
+    #     norm_05 = norm_05.to(features.device).unsqueeze(1)
     #
     #     h = self.dropout(features)
     #     h = self.linear(h)
