@@ -8,6 +8,7 @@ class MLPLayer(nn.Module):
         super(MLPLayer, self).__init__()
         self.linear = nn.Linear(in_dim, out_dim, bias=bias)
         self.activation = activation
+        self.batch_norm = batch_norm
         if batch_norm:
             self.bn = nn.BatchNorm1d(out_dim)
         self.residual = residual
@@ -33,6 +34,8 @@ class MLPLayer(nn.Module):
         h_pre = features
         h = self.dropout(features)
         h = self.linear(h)
+        if self.batch_norm:
+            h = self.bn(h)
         if self.activation:
             h = self.activation(h)
         if self.residual:

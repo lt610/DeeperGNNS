@@ -3,7 +3,7 @@ sys.path.append('../')
 import argparse
 import time
 import torch.nn.functional as F
-from nets.vsgc_net import VSGCNet
+from nets.vsgc_net_pre import VSGCNetPre
 from train.early_stopping import EarlyStopping
 from train.early_stopping_both import EarlyStoppingBoth
 from train.metrics import evaluate_acc_loss
@@ -17,19 +17,15 @@ import numpy as np
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='cora')
-    parser.add_argument('--num_hidden', type=int, default=64)
-    parser.add_argument('--num_k', type=int, default=8)
-    parser.add_argument('--num_layers', type=int, default=2)
+    parser.add_argument('--num_layers', type=int, default=24)
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=1)
-    parser.add_argument('--batch_norm', action='store_true', default=False)
-    parser.add_argument('--residual', action='store_true', default=False)
     parser.add_argument('--dropout', type=float, default=0)
 
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--learn_rate', type=float, default=0.01)
+    parser.add_argument('--learn_rate', type=float, default=0.1)
     parser.add_argument('--weight_decay', type=float, default=0)
-    parser.add_argument('--num_epochs', type=int, default=1500)
+    parser.add_argument('--num_epochs', type=int, default=100)
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='VSGC')
@@ -40,8 +36,7 @@ if __name__ == '__main__':
         graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_from_file(args.dataset, splits_file_path=args.split)
     else:
         graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
-    model = VSGCNet(num_feats, args.num_hidden, num_classes, args.num_k, args.num_layers, alpha=args.alpha, lambd=args.lambd,
-                    batch_norm=args.batch_norm, residual=args.residual, dropout=args.dropout)
+    model = VSGCNetPre(num_feats, num_classes, args.num_layers, alpha=args.alpha, lambd=args.lambd, dropout=args.dropout)
     labels = labels.squeeze()
 
     # set_seed(args.seed)

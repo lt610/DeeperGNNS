@@ -123,7 +123,7 @@ def generate_sgc_result_shells():
                             ps['num_layers'], ps['dropout'], ps['learn_rate'], ps['weight_decay'])
                 f.write(command)
 
-
+# 需要修改一下
 def generate_vsgc_search_shells():
     dataset = ['cornell', 'texas', 'wisconsin']
     num_layers = [2, 4, 8, 16, 24, 32, 40, 48]
@@ -154,11 +154,31 @@ def generate_vsgc_search_shells():
         for _ in range(5):
             params = itertools.product(dataset, num_layers, alpha, lambd, dropout, learn_rate, weight_decay, filename)
             for p in params:
-                command = 'python train_vsgc.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
+                command = 'python train_vsgc_pre.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
                           '--learn_rate {} --weight_decay {} --filename {} --cuda 1\n'.format(p[0], p[1], p[2], p[3], p[4],
                                                                                      p[5], p[6], p[7])
                 f.write(command)
 
+
+def generate_vsgc_search_shells_2():
+    dataset = ['pubmed']
+    num_k = [2, 4, 8, 16, 24, 32, 40, 48, 56, 64]
+    num_layers = [1, 2, 3, 4]
+    alpha = [1]
+    lambd = [1]
+    dropout = [0, 0.5, 0.6, 0.7, 0.8]
+    learn_rate = [0.5, 0.3, 0.1, 0.01]
+    weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
+    filename = ['VSGC_search']
+    with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
+        f.write('#! /bin/bash\n')
+        for _ in range(5):
+            params = itertools.product(dataset, num_k, num_layers, alpha, lambd, dropout, learn_rate, weight_decay, filename)
+            for p in params:
+                command = 'python train_vsgc.py --dataset {} --num_k {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 0\n'.format(p[0], p[1], p[2], p[3], p[4],
+                                                                                     p[5], p[6], p[7], p[8])
+                f.write(command)
 
 def generate_vsgc_search_full_shells():
     # dataset = ['chameleon']
@@ -176,7 +196,7 @@ def generate_vsgc_search_full_shells():
             params = itertools.product(dataset, num_layers, alpha, lambd, dropout, learn_rate, weight_decay, filename)
             for p in params:
                 split = '../data/splits/{}_split_0.6_0.2_{}.npz'.format(p[0], i)
-                command = 'python train_vsgc.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
+                command = 'python train_vsgc_pre.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
                           '--learn_rate {} --weight_decay {} --filename {} --cuda 1 --split {}\n'.format(p[0], p[1], p[2], p[3], p[4],
                                                                                      p[5], p[6], p[7], split)
                 f.write(command)
@@ -192,7 +212,7 @@ def generate_vsgc_result_shells():
 
         for ps in params:
             for _ in range(100):
-                command = 'python train_vsgc.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
+                command = 'python train_vsgc_pre.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
                           '--learn_rate {} --weight_decay {} --filename VSGC --cuda 3\n'.format(ps['dataset'],
                             ps['num_layers'], ps['alpha'], ps['lambd'], ps['dropout'], ps['learn_rate'],
                                                                                                 ps['weight_decay'])
@@ -221,4 +241,4 @@ def generate_vblockgcn_search_shells():
 
 
 if __name__ == '__main__':
-    generate_vmix_result_shells()
+    generate_vsgc_search_shells_2()

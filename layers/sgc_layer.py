@@ -59,8 +59,9 @@ class SGCLayer(nn.Module):
 
                 if self.pair_norm:
                     h = self.pn(h)
-                if self.cashed:
-                    self.cashed_h = h
+
+            if self.cashed:
+                self.cashed_h = h
         h = self.dropout(h)
         h = self.linear(h)
 
