@@ -29,8 +29,8 @@ if __name__ == '__main__':
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='VSGC_Pre')
-    # parser.add_argument('--split', type=str, default='semi')
-    parser.add_argument('--split', type=str, default='../data/splits/texas_split_0.6_0.2_0.npz')
+    parser.add_argument('--split', type=str, default='semi')
+    # parser.add_argument('--split', type=str, default='../data/splits/texas_split_0.6_0.2_0.npz')
     args = parser.parse_args()
 
     if args.split != 'semi':

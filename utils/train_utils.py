@@ -195,7 +195,7 @@ def generate_vsgc_pre_result_shells():
         for ps in params:
             for _ in range(100):
                 command = 'python train_vsgc_pre.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
-                          '--learn_rate {} --weight_decay {} --filename VSGC_Pre --cuda 3\n'.format(ps['dataset'],
+                          '--learn_rate {} --weight_decay {} --filename VSGC_Pre --cuda 2\n'.format(ps['dataset'],
                             ps['num_layers'], ps['alpha'], ps['lambd'], ps['dropout'], ps['learn_rate'],
                                                                                                 ps['weight_decay'])
                 f.write(command)
@@ -259,4 +259,4 @@ def generate_vblockgcn_result_shells():
 
 
 if __name__ == '__main__':
-    generate_vsgc_pre_search_full_shells()
+    generate_vsgc_pre_result_shells()
