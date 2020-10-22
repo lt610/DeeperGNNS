@@ -16,7 +16,7 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='wisconsin')
+    parser.add_argument('--dataset', type=str, default='texas')
     parser.add_argument('--num_hidden', type=int, default=64)
     parser.add_argument('--num_layers', type=int, default=2)
     parser.add_argument('--batch_norm', action='store_true', default=False)
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='MLP')
-    parser.add_argument('--split', type=str, default='../data/splits/wisconsin_split_0.6_0.2_0.npz')
+    parser.add_argument('--split', type=str, default='../data/splits/texas_split_0.6_0.2_0.npz')
     # parser.add_argument('--split', type=str, default='semi')
     args = parser.parse_args()
 

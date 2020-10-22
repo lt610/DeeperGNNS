@@ -33,11 +33,10 @@ def extract_result(filename):
     return result
 
 
-def extract_search_result(filename):
+def extract_search_result(filename, times=5):
     result = extract_result(filename)
     length = len(result)
     print(length)
-    times = 3
     gap = int(length/times)
     print(gap)
     val_accs = []
@@ -143,7 +142,7 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    # extract_search_result('../result/train_result/GCN_VSGC_citeseer.txt')
+    extract_search_result('../result/train_result/VSGC_search_full_wisconsin.txt')
 
-    extract_final_result('../result/train_result/GCN_VSGC_result_pubmed.txt')
+    # extract_final_result('../result/train_result/VBlockGCN_result_pubmed.txt')
 
