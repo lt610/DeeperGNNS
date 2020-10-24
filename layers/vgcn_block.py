@@ -9,8 +9,9 @@ import torch.nn.functional as F
 
 
 class VGCNBlock(nn.Module):
-    def __init__(self, in_dim, out_dim, bias=False, k=1, graph_norm=True, alpha=1, lambd=1, activation=None, residual=False, dropout=0):
+    def __init__(self, in_dim, out_dim, bias=True, k=1, graph_norm=True, alpha=1, lambd=1, activation=None, residual=False, dropout=0):
         super(VGCNBlock, self).__init__()
+
         self.linear = nn.Linear(in_dim, out_dim, bias=bias)
         self.k = k
         self.graph_norm = graph_norm
