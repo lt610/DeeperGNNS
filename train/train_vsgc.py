@@ -16,10 +16,10 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='cora')
+    parser.add_argument('--dataset', type=str, default='citeseer')
     parser.add_argument('--num_hidden', type=int, default=64)
     parser.add_argument('--num_k', type=int, default=8)
-    parser.add_argument('--num_layers', type=int, default=2)
+    parser.add_argument('--num_layers', type=int, default=1)
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=1)
     parser.add_argument('--batch_norm', action='store_true', default=False)
@@ -34,6 +34,7 @@ if __name__ == '__main__':
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='VSGC')
     parser.add_argument('--split', type=str, default='semi')
+    # parser.add_argument('--split', type=str, default='../data/splits/cornell_split_0.6_0.2_0.npz')
     args = parser.parse_args()
 
     if args.split != 'semi':
