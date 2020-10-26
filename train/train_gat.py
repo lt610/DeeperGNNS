@@ -3,7 +3,7 @@ sys.path.append('../')
 import argparse
 import time
 import torch.nn.functional as F
-from nets.vgcn_block_net import VGCNBlockNet
+from nets.gat_net import GATNet
 from train.early_stopping import EarlyStopping
 from train.metrics import evaluate_acc_loss
 from train.train_gcn import set_seed
@@ -15,12 +15,9 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser()
     parser.add_argument('--dataset', type=str, default='cora')
     parser.add_argument('--num_hidden', type=int, default=64)
-    parser.add_argument('--k', type=int, default=8)
-    parser.add_argument('--num_blocks', type=int, default=2)
-    parser.add_argument('--alpha', type=float, default=1)
-    parser.add_argument('--lambd', type=float, default=1)
-    parser.add_argument('--residual', action='store_true', default=False)
-    parser.add_argument('--dropout', type=float, default=0.8)
+    parser.add_argument('--num_layers', type=int, default=3)
+    parser.add_argument('--num_heads', type=int, default=1)
+    parser.add_argument('--dropout', type=float, default=0)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=0.01)
@@ -28,19 +25,17 @@ if __name__ == '__main__':
     parser.add_argument('--num_epochs', type=int, default=1500)
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
-    parser.add_argument('--filename', type=str, default='VBlockGCN')
+    parser.add_argument('--filename', type=str, default='GAT')
     args = parser.parse_args()
 
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
-    model = VGCNBlockNet(num_feats, num_classes, args.num_hidden, args.k, args.num_blocks,
-                         alpha=args.alpha, lambd=args.lambd,
-                         residual=args.residual, dropout=args.dropout)
+    model = GATNet(num_feats, num_classes, args.num_hidden, args.num_layers, args.num_heads,dropout=args.dropout)
 
     # set_seed(args.seed)
 
     optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
+
     early_stopping = EarlyStopping(args.patience, file_name='{}_{}'.format(args.filename, args.dataset))
-    # early_stopping = EarlyStoppingBoth()
 
     device = th.device("cuda:{}".format(args.cuda) if th.cuda.is_available() else "cpu")
     graph = graph.to(device)

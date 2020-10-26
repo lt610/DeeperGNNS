@@ -16,21 +16,21 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='cora')
-    parser.add_argument('--num_layers', type=int, default=24)
+    parser.add_argument('--dataset', type=str, default='wisconsin')
+    parser.add_argument('--num_layers', type=int, default=2)
     parser.add_argument('--alpha', type=float, default=1)
-    parser.add_argument('--lambd', type=float, default=1)
-    parser.add_argument('--dropout', type=float, default=0.8)
+    parser.add_argument('--lambd', type=float, default=-0.05)
+    parser.add_argument('--dropout', type=float, default=0.5)
 
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--learn_rate', type=float, default=0.1)
-    parser.add_argument('--weight_decay', type=float, default=0.0005)
+    parser.add_argument('--learn_rate', type=float, default=0.3)
+    parser.add_argument('--weight_decay', type=float, default=5e-6)
     parser.add_argument('--num_epochs', type=int, default=1500)
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='VSGC_Pre')
-    parser.add_argument('--split', type=str, default='semi')
-    # parser.add_argument('--split', type=str, default='../data/splits/texas_split_0.6_0.2_2.npz')
+    # parser.add_argument('--split', type=str, default='semi')
+    parser.add_argument('--split', type=str, default='../data/splits/wisconsin_split_0.6_0.2_9.npz')
     args = parser.parse_args()
 
     if args.split != 'semi':

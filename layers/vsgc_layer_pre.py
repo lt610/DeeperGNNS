@@ -14,7 +14,7 @@ class VSGCLayerPre(nn.Module):
         self.lambd = lambd
         self.dropout = nn.Dropout(dropout)
 
-        self.exact_solution = True
+        self.exact_solution = False
         self.cache_es = None
 
         self.reset_parameters()

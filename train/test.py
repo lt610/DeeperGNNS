@@ -151,7 +151,11 @@ import dgl
 #             split = '../data/splits/{}_split_0.6_0.2_{}.npz'.format(d, i)
 #             command = 'python train_mlp.py --dataset {} --split {}\n'.format(d, split)
 #             f.write(command)
-a = th.Tensor([[1, 0], [0, 0]])
-print(th.inverse(a))
+
+# a = th.Tensor([[1, 0], [0, 0]])
+# print(th.inverse(a))
+
+g = dgl.graph((th.tensor([1, 0, 0]), th.tensor([1, 1, 0])))
+print(g.edges()[0].shape[0])
 
 

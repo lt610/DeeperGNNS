@@ -1,4 +1,5 @@
 from layers.vgcn_block import VGCNBlock
+from layers.vgcn_block_attention import VGCNBlockAttention
 import torch.nn as nn
 import torch.nn.functional as F
 
@@ -8,10 +9,15 @@ class VGCNBlockNet(nn.Module):
                  activation=F.relu, residual=False, dropout=0):
         super(VGCNBlockNet, self).__init__()
         self.blocks = nn.ModuleList()
-        self.blocks.append(VGCNBlock(num_feats, num_hidden, bias, k, graph_norm, alpha, lambd, activation, residual, dropout))
+        # self.blocks.append(VGCNBlock(num_feats, num_hidden, bias, k, graph_norm, alpha, lambd, activation, residual, dropout))
+        # for i in range(0, num_blocks - 2):
+        #     self.blocks.append(VGCNBlock(num_hidden, num_hidden, bias, k, graph_norm, alpha, lambd, activation, residual, dropout))
+        # self.blocks.append(VGCNBlock(num_hidden, num_classes, bias, k, graph_norm, alpha, lambd, None, residual, dropout))
+
+        self.blocks.append(VGCNBlockAttention(num_feats, num_hidden, bias, k, graph_norm, alpha, lambd, activation, residual, dropout, attention=False))
         for i in range(0, num_blocks - 2):
-            self.blocks.append(VGCNBlock(num_hidden, num_hidden, bias, k, graph_norm, alpha, lambd, activation, residual, dropout))
-        self.blocks.append(VGCNBlock(num_hidden, num_classes, bias, k, graph_norm, alpha, lambd, None, residual, dropout))
+            self.blocks.append(VGCNBlockAttention(num_hidden, num_hidden, bias, k, graph_norm, alpha, lambd, activation, residual, dropout))
+        self.blocks.append(VGCNBlockAttention(num_hidden, num_classes, bias, k, graph_norm, alpha, lambd, None, residual, dropout))
 
     def forward(self, graph, features):
         h = features

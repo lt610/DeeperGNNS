@@ -1,16 +1,17 @@
 import torch as th
 from torch import nn
 import dgl.function as fn
-
+from dgl.nn.pytorch import edge_softmax
 from layers.gcn_layer import cal_gain, Identity
 from layers.pair_norm import PairNorm
 import dgl
 import torch.nn.functional as F
 
 
-class VGCNBlock(nn.Module):
-    def __init__(self, in_dim, out_dim, bias=True, k=1, graph_norm=True, alpha=1, lambd=1, activation=None, residual=False, dropout=0):
-        super(VGCNBlock, self).__init__()
+class VGCNBlockAttention(nn.Module):
+    def __init__(self, in_dim, out_dim, bias=True, k=1, graph_norm=True, alpha=1, lambd=1, activation=None,
+                 residual=False, dropout=0, attention=True):
+        super(VGCNBlockAttention, self).__init__()
 
         self.linear = nn.Linear(in_dim, out_dim, bias=bias)
         self.k = k
@@ -26,21 +27,8 @@ class VGCNBlock(nn.Module):
         else:
             self.register_buffer('res_fc', None)
         self.dropout = nn.Dropout(dropout)
+        self.attention = attention
         self.reset_parameters()
-
-
-    # def edge_attention(self, edges):
-    #     z2 = th.norm(edges.src['z'] - edges.dst['z'], p=1)
-    #     return {'e': z2}
-    #
-    # def message_func(self, edges):
-    #     return {'z': edges.src['z'], 'e': edges.data['e']}
-    #
-    # def reduce_func(self, nodes):
-    #     alpha = F.softmax(nodes.mailbox['e'], dim=1)
-    #     h = th.sum(alpha * nodes.mailbox['z'], dim=1)
-    #     return {'h': h}
-
 
     def reset_parameters(self):
         gain = cal_gain(self.activation)
@@ -59,22 +47,46 @@ class VGCNBlock(nn.Module):
             norm = th.pow(degs, -0.5)
             norm = norm.to(features.device).unsqueeze(1)
 
+        if self.attention:
+            g.ndata['h'] = features
+            g.apply_edges(fn.u_sub_v('h', 'h', 'l1'))
+            l1 = g.edata.pop('l1')
+            l1 = th.norm(l1, p=1, dim=1)
+            g.edata['att'] = edge_softmax(g, l1)
+        else:
+            g.edata['att'] = th.ones(g.number_of_edges(), 1).to(features.device)
+
         h_last = features
         h = self.dropout(features)
         h = self.linear(h)
         h_pre = h
         ri = h * norm * norm
+
         for _ in range(self.k):
+
             if self.graph_norm:
                 h = h * norm
+
             g.ndata['h'] = h
-            g.update_all(fn.copy_u('h', 'm'),
-                         fn.sum('m', 'h'))
+
+            # if self.attention:
+            #     g.apply_edges(fn.u_sub_v('h', 'h', 'l1'))
+            #     l1 = g.edata.pop('l1')
+            #     l1 = th.norm(l1, p=1, dim=1)
+            #     g.edata['att'] = edge_softmax(g, l1)
+            # else:
+            #     g.edata['att'] = th.ones(g.number_of_edges(), 1).to(features.device)
+
+            g.update_all(fn.u_mul_e('h', 'att', 'm'), fn.sum('m', 'h'))
+
             h = g.ndata.pop('h')
+
             if self.graph_norm:
                 h = h * norm
+
             h = self.alpha * h + self.alpha * ri + (1 - self.alpha) * h_pre
             h_pre = h
+
         if self.activation is not None:
             h = self.activation(h)
         if self.residual:

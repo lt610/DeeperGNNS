@@ -47,7 +47,7 @@ class SingleHeadGATLayer(nn.Module):
         return {'h': h}
 
     def forward(self, graph, features):
-        g = g.local_var()
+        g = graph.local_var()
         h_pre = features
         z = self.dropout(features)
         z = self.fc(z)
