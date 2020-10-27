@@ -142,7 +142,7 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    extract_search_result('../result/train_result/VSGC_Pre_search_full_texas.txt', 5)
+    extract_search_result('../result/train_result/VBlockGCN_search_citeseer.txt', 5)
 
     # extract_final_result('../result/train_result/VSGC_Pre_result_cora.txt')
 
