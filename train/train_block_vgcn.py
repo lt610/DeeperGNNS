@@ -30,6 +30,8 @@ if __name__ == '__main__':
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='VBlockGCN')
+    parser.add_argument('--id', type=int, default=0)
+
     args = parser.parse_args()
 
     print("attention:{}".format(args.attention))

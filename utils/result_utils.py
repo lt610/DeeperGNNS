@@ -65,6 +65,13 @@ def extract_search_result(filename, times=5):
     print('mean_test:{}'.format(np.mean(test_accs2[..., idx2[0][0]])))
     print(result2[..., idx2[0][0]])
 
+    # print('test_acc_max')
+    # test_accs2_mean = np.mean(test_accs2, 0)
+    # idx2 = np.where(test_accs2_mean == np.max(test_accs2_mean))
+    # print('mean_test:{}'.format(np.mean(test_accs2[..., idx2[0][0]])))
+    # print(result2[..., idx2[0][0]])
+
+
 def extract_final_result(filename):
     result = extract_result(filename)
     print(len(result))
@@ -78,6 +85,38 @@ def extract_final_result(filename):
     std = np.std(test_accs2)
     print('mean:{}'.format(mean))
     print('std:{}'.format(std))
+
+
+def check_missing_cmd(sh_file, out_file):
+    shs = []
+    with open(sh_file, 'r') as f:
+        shs = f.readlines()
+        shs.pop(0)
+    n = len(shs)
+    ids = {}
+    for i in range(n):
+        ids[i] = 0
+    result = extract_result(out_file)
+    for r in result:
+        ids[r['id']] = 1
+    with open("../shells/missing_{}".format(sh_file.split('/')[-1]), 'w') as f:
+        for i in range(n):
+            if ids[i] == 0:
+                print('missing:{}'.format(shs[i]))
+                f.write('{}'.format(shs[i]))
+
+
+def insert_missing_out(src_file, des_file):
+    result1 = extract_result(src_file)
+    result2 = list(extract_result(des_file))
+
+    for r in result1:
+        id = r['id']
+        result2.insert(id, r)
+    with open("../result/train_result/repair_{}".format(des_file.split('/')[-1]), "w") as f:
+        for r in result2:
+            f.write('{}, '.format(r))
+
 
 def draw_test_layer(title, sgc_test, vsgc1_test, vsgc05_test):
     x = np.arange(2, 51)
@@ -142,7 +181,12 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    extract_search_result('../result/train_result/VBlockGCN_search_citeseer.txt', 5)
+    extract_search_result('../result/train_result/repair_VBlockGCN_ATT_search_cora.txt', 1)
 
-    # extract_final_result('../result/train_result/VSGC_Pre_result_cora.txt')
+    # extract_final_result('../result/train_result/VSGC_Pre_nsl_result_cora.txt')
+
+    # check_missing_cmd("../shells/VBlockGCN_ATT_search_cora.sh", "../result/train_result/VBlockGCN_ATT_search_cora.txt")
+
+    # insert_missing_out('../result/train_result/VBlockGCN_ATT_search_cora.txt',
+    #                    '../result/train_result/des_result/VBlockGCN_ATT_search_cora.txt')
 

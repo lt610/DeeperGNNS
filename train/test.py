@@ -1,3 +1,4 @@
+import argparse
 import sys
 
 from dgl.data import CoraGraphDataset, CiteseerGraphDataset, CoauthorCSDataset
@@ -155,7 +156,11 @@ import dgl
 # a = th.Tensor([[1, 0], [0, 0]])
 # print(th.inverse(a))
 
-g = dgl.graph((th.tensor([1, 0, 0]), th.tensor([1, 1, 0])))
-print(g.edges()[0].shape[0])
+# with open("../shells/VBlockGCN_nsl_search_cora.sh", "r") as f:
+#     l = f.readlines()
+#     print(len(l))
+
+a = "../shells/missing/missing_{}".split('/')[-1]
+print(a)
 
 
