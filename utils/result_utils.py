@@ -65,16 +65,18 @@ def extract_search_result(filename, times=5):
     print('mean_test:{}'.format(np.mean(test_accs2[..., idx2[0][0]])))
     print(result2[..., idx2[0][0]])
 
-    # print('test_acc_max')
-    # test_accs2_mean = np.mean(test_accs2, 0)
-    # idx2 = np.where(test_accs2_mean == np.max(test_accs2_mean))
-    # print('mean_test:{}'.format(np.mean(test_accs2[..., idx2[0][0]])))
-    # print(result2[..., idx2[0][0]])
+    print('test_acc_second')
+    test_accs2_mean = np.mean(test_accs2, 0)
+    idx2 = np.where(test_accs2_mean == np.max(test_accs2_mean))
+    test_accs2_mean[idx2] = 0
+    idx2 = np.where(test_accs2_mean == np.max(test_accs2_mean))
+    print('mean_test:{}'.format(np.mean(test_accs2[..., idx2[0][0]])))
+    print(result2[..., idx2[0][0]])
 
 
 def extract_final_result(filename):
     result = extract_result(filename)
-    print(len(result))
+    print('{}条数据'.format(len(result)))
     val_accs = []
     test_accs = []
     for r in result:
@@ -99,11 +101,14 @@ def check_missing_cmd(sh_file, out_file):
     result = extract_result(out_file)
     for r in result:
         ids[r['id']] = 1
+    count = 0
     with open("../shells/missing_{}".format(sh_file.split('/')[-1]), 'w') as f:
         for i in range(n):
             if ids[i] == 0:
+                count += 1
                 print('missing:{}'.format(shs[i]))
                 f.write('{}'.format(shs[i]))
+    print("一共缺失了{}条数据".format(count))
 
 
 def insert_missing_out(src_file, des_file):
@@ -181,12 +186,18 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    extract_search_result('../result/train_result/repair_VBlockGCN_ATT_search_cora.txt', 1)
+    # extract_search_result('../result/train_result/des_result/VBlockGCN_nsl_search_citeseer.txt', 5)
 
-    # extract_final_result('../result/train_result/VSGC_Pre_nsl_result_cora.txt')
+    # extract_search_result('../result/train_result/repair_VBlockGCN_nsl_search_citeseer.txt', 5)
 
-    # check_missing_cmd("../shells/VBlockGCN_ATT_search_cora.sh", "../result/train_result/VBlockGCN_ATT_search_cora.txt")
+    extract_final_result('../result/train_result/final_result/VBlockGCN_att_result_pubmed.txt')
 
-    # insert_missing_out('../result/train_result/VBlockGCN_ATT_search_cora.txt',
-    #                    '../result/train_result/des_result/VBlockGCN_ATT_search_cora.txt')
+    # check_missing_cmd("../shells/10.192.9.122/VBlockGCN_nsl_att_search_pubmed.sh",
+    #     #                   "../result/train_result/des_result/VBlockGCN_nsl_att_search_pubmed.txt")
+
+    # check_missing_cmd("../shells/aws/VBlockGCN_nsl_search_citeseer.sh",
+    #                   "../result/train_result/des_result/VBlockGCN_nsl_search_citeseer.txt")
+
+    # insert_missing_out('../result/train_result/VBlockGCN_nsl_search_citeseer.txt',
+    #                    '../result/train_result/des_result/VBlockGCN_nsl_search_citeseer.txt')
 
