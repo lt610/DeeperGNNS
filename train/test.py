@@ -160,7 +160,8 @@ import dgl
 #     l = f.readlines()
 #     print(len(l))
 
-a = "../shells/missing/missing_{}".split('/')[-1]
-print(a)
+a = th.Tensor([0.2393, 0.1668, 0.1246, 0.3383, 0.2066, 0.1483, 0.3383, 0.5780, 0.2766,
+        0.2274])
+print(th.pow(a, -1))
 
 

@@ -51,7 +51,7 @@ class VGCNBlock(nn.Module):
             g.ndata['h'] = features
             g.apply_edges(fn.u_sub_v('h', 'h', 'l1'))
             l1 = g.edata.pop('l1')
-            l1 = th.norm(l1, p=1, dim=1)
+            l1 = -th.norm(l1, p=1, dim=1)
             g.edata['att'] = edge_softmax(g, l1)
         else:
             g.edata['att'] = th.ones(g.number_of_edges(), 1).to(features.device)
@@ -64,8 +64,9 @@ class VGCNBlock(nn.Module):
 
         for _ in range(self.k):
 
-            if self.graph_norm:
-                h = h * norm
+            if self.attention is False:
+                if self.graph_norm:
+                    h = h * norm
 
             g.ndata['h'] = h
 
@@ -73,8 +74,9 @@ class VGCNBlock(nn.Module):
 
             h = g.ndata.pop('h')
 
-            if self.graph_norm:
-                h = h * norm
+            if self.attention is False:
+                if self.graph_norm:
+                    h = h * norm
 
             h = self.alpha * h + self.alpha * ri + (1 - self.alpha) * h_pre
             h_pre = h

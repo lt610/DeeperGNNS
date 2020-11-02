@@ -148,10 +148,10 @@ def generate_vsgc_pre_search_shells():
     print("{}条命令".format(id))
 
 def generate_vsgc_pre_search_full_shells():
-    # dataset = ['chameleon']
+    # dataset = ['cornell', 'texas', 'wisconsin']
     # dataset = ['cora']
     # num_layers = [2, 4, 8, 16, 24, 32, 40, 48]
-    dataset = ['cornell', 'texas', 'wisconsin']
+    dataset = ['wisconsin']
     num_layers = [2, 4, 6, 8]
     alpha = [1]
     lambd = [-0.1, -0.05, -0.01, -0.001, 0, 0.001, 0.01, 0.05, 0.1]
@@ -167,8 +167,8 @@ def generate_vsgc_pre_search_full_shells():
             for p in params:
                 split = '../data/splits/{}_split_0.6_0.2_{}.npz'.format(p[0], i)
                 command = 'python train_vsgc_pre.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
-                          '--learn_rate {} --weight_decay {} --filename {} --cuda 0 --split {}\n'.format(p[0], p[1], p[2], p[3], p[4],
-                                                                 p[5], p[6], p[7], split)
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 2 --split {} --id {}\n'.format(p[0], p[1], p[2], p[3], p[4],
+                                                                 p[5], p[6], p[7], split, id)
                 id += 1
                 f.write(command)
     print("{}条命令".format(id))
@@ -231,16 +231,16 @@ def generate_vsgc_result_shells():
                 f.write(command)
 
 def generate_vblockgcn_search_shells():
-    dataset = ['pubmed']
-    k = [1, 2, 4, 6, 8]
-    num_blocks = [2, 3, 4, 6]
+    dataset = ['citeseer']
+    k = [2, 4, 6, 8, 10, 12]
+    num_blocks = [2, 3, 4]
     alpha = [1]
     lambd = [1]
     dropout = [0, 0.5, 0.8]
     learn_rate = [0.5, 0.3, 0.1, 0.01]
     weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
     attention = [True]
-    filename = ['VBlockGCN_att_search']
+    filename = ['VBlockGCN_nsl_att_search']
     id = 0
     with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
         f.write('#! /bin/bash\n')
@@ -248,13 +248,13 @@ def generate_vblockgcn_search_shells():
             params = itertools.product(dataset, k, num_blocks, alpha, lambd, dropout, learn_rate, weight_decay, filename, attention)
             for p in params:
                 if p[9] == False:
-                    command = 'python train_block_vgcn.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
-                              '--learn_rate {} --weight_decay {} --filename {} --cuda 1 --id {}\n'.format(p[0], p[1], p[2], p[3], p[4],
+                    command = 'python train_block_vgcn_tmp.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
+                              '--learn_rate {} --weight_decay {} --filename {} --cuda 2 --id {}\n'.format(p[0], p[1], p[2], p[3], p[4],
                                                                                          p[5], p[6], p[7], p[8], id)
                     id += 1
                 else:
-                    command = 'python train_block_vgcn.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
-                              '--learn_rate {} --weight_decay {} --filename {} --cuda 2 --attention --id {}\n'.format(p[0], p[1], p[2],
+                    command = 'python train_block_vgcn_tmp.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
+                              '--learn_rate {} --weight_decay {} --filename {} --cuda 1 --attention --id {}\n'.format(p[0], p[1], p[2],
                                                                                                   p[3], p[4],
                                                                                                   p[5], p[6], p[7],
                                                                                                   p[8], id)
@@ -280,4 +280,4 @@ def generate_vblockgcn_result_shells():
 
 
 if __name__ == '__main__':
-    generate_vsgc_pre_search_shells()
+    generate_vblockgcn_search_shells()
