@@ -186,17 +186,22 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    extract_search_result('../result/train_result/des_result/VBlockGCN_search_pubmed.txt', 5)
+    filename = "VBlockGCN_nsl_att_search_pubmed"
 
-    # extract_search_result('../result/train_result/repair_VSGC_Pre_nsl_search_citeseer.txt', 5)
+    # extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 5)
+
+    extract_search_result('../result/train_result/repair_{}.txt'.format(filename), 5)
 
     # extract_final_result('../result/train_result/final_result/VBlockGCN_nsl_att_result_pubmed.txt')
 
-    # check_missing_cmd("../shells/10.192.9.122/VBlockGCN_att_search_cora.sh",
-    #                   "../result/train_result/des_result/VBlockGCN_att_search_cora.txt")
+    # check_missing_cmd("../shells/10.192.9.122/{}.sh".format(filename),
+    #                   "../result/train_result/des_result/{}.txt".format(filename))
 
-    # check_missing_cmd("../shells/aws/VBlockGCN_nsl_search_citeseer.sh",
-    #                   "../result/train_result/des_result/VBlockGCN_nsl_search_citeseer.txt")
+    # check_missing_cmd("../shells/aws/VBlockGCN_search_pubmed.sh",
+    #                   "../result/train_result/des_result/VBlockGCN_search_pubmed.txt")
 
-    # insert_missing_out('../result/train_result/VSGC_Pre_nsl_search_citeseer.txt',
-    #                    '../result/train_result/des_result/VSGC_Pre_nsl_search_citeseer.txt')
+    # insert_missing_out('../result/train_result/{}.txt'.format(filename),
+    #                    '../result/train_result/des_result/{}.txt'.format(filename))
+
+    # r = extract_result("../result/train_result/{}.txt".format(filename))
+    # print(len(r))
