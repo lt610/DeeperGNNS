@@ -1,8 +1,6 @@
 import sys
-
-from utils.data_geom import load_data_from_file
-
 sys.path.append('../')
+from utils.data_geom import load_data_from_file
 import argparse
 import time
 import torch.nn.functional as F
