@@ -278,6 +278,29 @@ def generate_vblockgcn_result_shells():
                             ps['alpha'], ps['lambd'], ps['dropout'], ps['learn_rate'],ps['weight_decay'], filename)
                 f.write(command)
 
+def generate_mlp_search_full_shells():
+    # dataset = ['cornell', 'texas', 'wisconsin']
+    # dataset = ['cora']
+    # num_layers = [2, 4, 8, 16, 24, 32, 40, 48]
+    dataset = ['cornell', 'texas', 'wisconsin']
+    num_layers = [2]
+    dropout = [0, 0.5, 0.8]
+    learn_rate = [0.5, 0.3, 0.1, 0.01]
+    weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
+    filename = ['MLP_search_full']
+    id = 0
+    with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
+        f.write('#! /bin/bash\n')
+        for i in range(10):
+            params = itertools.product(dataset, num_layers, dropout, learn_rate, weight_decay, filename)
+            for p in params:
+                split = '../data/splits/{}_split_0.6_0.2_{}.npz'.format(p[0], i)
+                command = 'python train_mlp.py --dataset {} --num_layers {} --dropout {} ' \
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 2 --split {} --id {}\n'.format(p[0], p[1], p[2], p[3], p[4],
+                                                                 p[5], split, id)
+                id += 1
+                f.write(command)
+    print("{}条命令".format(id))
 
 if __name__ == '__main__':
-    generate_vblockgcn_search_shells()
+    generate_mlp_search_full_shells()

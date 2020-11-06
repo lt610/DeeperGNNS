@@ -31,6 +31,7 @@ if __name__ == '__main__':
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='MLP')
     parser.add_argument('--split', type=str, default='../data/splits/texas_split_0.6_0.2_1.npz')
+    parser.add_argument('--id', type=int, default=0)
     # parser.add_argument('--split', type=str, default='semi')
     args = parser.parse_args()
 
@@ -47,9 +48,11 @@ if __name__ == '__main__':
     # set_seed(args.seed)
 
     optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
-    early_stopping = EarlyStopping(args.patience, file_name='tmp')
 
-    device = th.device("cuda:0" if th.cuda.is_available() else "cpu")
+    early_stopping = EarlyStopping(args.patience, file_name='{}_{}'.format(args.filename, args.dataset))
+
+    device = th.device("cuda:{}".format(args.cuda) if th.cuda.is_available() else "cpu")
+
     graph = graph.to(device)
     features = features.to(device)
     labels = labels.to(device)
@@ -79,8 +82,9 @@ if __name__ == '__main__':
         early_stopping(-val_loss, model)
         if early_stopping.is_stop:
             print("Early stopping")
-            model.load_state_dict(early_stopping.load_checkpoint())
             break
+    model.load_state_dict(early_stopping.load_checkpoint())
+
     train_loss, train_acc = evaluate_acc_loss(model, graph, features, labels, train_mask)
     val_loss, val_acc = evaluate_acc_loss(model, graph, features, labels, val_mask)
     test_loss, test_acc = evaluate_acc_loss(model, graph, features, labels, test_mask)
