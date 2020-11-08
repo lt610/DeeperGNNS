@@ -13,10 +13,10 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='cora')
+    parser.add_argument('--dataset', type=str, default='pubmed')
     parser.add_argument('--num_hidden', type=int, default=64)
-    parser.add_argument('--k', type=int, default=3)
-    parser.add_argument('--num_blocks', type=int, default=4)
+    parser.add_argument('--k', type=int, default=4)
+    parser.add_argument('--num_blocks', type=int, default=2)
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=1)
     parser.add_argument('--residual', action='store_true', default=False)

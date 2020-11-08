@@ -4,7 +4,7 @@ import torch.nn.functional as F
 
 
 class VGCNBlockNet(nn.Module):
-    def __init__(self, num_feats, num_classes, num_hidden, k, num_blocks=2, bias=True, graph_norm=True, alpha=1, lambd=1,
+    def __init__(self, num_feats, num_classes, num_hidden, k, num_blocks=2, bias=False, graph_norm=True, alpha=1, lambd=1,
                  activation=None, residual=False, dropout=0, attention=False):
         super(VGCNBlockNet, self).__init__()
         self.blocks = nn.ModuleList()

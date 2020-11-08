@@ -241,7 +241,7 @@ def generate_vblockgcn_search_shells():
     learn_rate = [0.5, 0.3, 0.1, 0.01]
     weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
     attention = [True]
-    filename = ['VBlockGCN_nsl_att_l1_search']
+    filename = ['VBlockGCN_nsl_att_l2_search']
     id = 0
     with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
         f.write('#! /bin/bash\n')
@@ -255,7 +255,7 @@ def generate_vblockgcn_search_shells():
                     id += 1
                 else:
                     command = 'python train_block_vgcn_tmp.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
-                              '--learn_rate {} --weight_decay {} --filename {} --cuda 1 --attention --id {}\n'.format(p[0], p[1], p[2],
+                              '--learn_rate {} --weight_decay {} --filename {} --cuda 0 --attention --id {}\n'.format(p[0], p[1], p[2],
                                                                                                   p[3], p[4],
                                                                                                   p[5], p[6], p[7],
                                                                                                   p[8], id)
@@ -304,4 +304,4 @@ def generate_mlp_search_full_shells():
     print("{}条命令".format(id))
 
 if __name__ == '__main__':
-    generate_vblockgcn_result_shells()
+    generate_vblockgcn_search_shells()
