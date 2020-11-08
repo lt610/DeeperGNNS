@@ -51,7 +51,10 @@ class VGCNBlock(nn.Module):
             g.ndata['h'] = features
             g.apply_edges(fn.u_sub_v('h', 'h', 'l1'))
             l1 = g.edata.pop('l1')
-            l1 = -th.norm(l1, p=1, dim=1)
+            # l1 = -th.norm(l1, p=1, dim=1)
+            # g.edata['att'] = edge_softmax(g, l1)
+            l1 = th.norm(l1, p=1, dim=1)
+            l1 = 1 / l1
             g.edata['att'] = edge_softmax(g, l1)
         else:
             g.edata['att'] = th.ones(g.number_of_edges(), 1).to(features.device)
@@ -59,6 +62,7 @@ class VGCNBlock(nn.Module):
         h_last = features
         h = self.dropout(features)
         h = self.linear(h)
+
         h_pre = h
         ri = h * norm * norm
 
@@ -85,4 +89,5 @@ class VGCNBlock(nn.Module):
             h = self.activation(h)
         if self.residual:
             h = h + self.res_fc(h_last)
+
         return h

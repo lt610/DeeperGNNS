@@ -166,6 +166,3 @@ import dgl
 
 # a = th.Tensor([1, 2, 3])
 # print(a**2)
-
-a = th.empty([3, 4])
-print(a)

@@ -186,13 +186,13 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    filename = "VSGC_Pre_search_full_cornell"
+    filename = "VBlockGCN_nsl_search_pubmed"
 
-    extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 10)
+    extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 5)
 
-    # extract_search_result('../result/train_result/repair_{}.txt'.format(filename), 10)
+    # extract_search_result('../result/train_result/repair_{}.txt'.format(filename), 5)
 
-    # extract_final_result('../result/train_result/final_result/VBlockGCN_nsl_att_result_pubmed.txt')
+    # extract_final_result('../result/train_result/final_result/VBlockGCN_F_result_pubmed.txt')
 
     # check_missing_cmd("../shells/10.192.9.122/{}.sh".format(filename),
     #                   "../result/train_result/des_result/{}.txt".format(filename))
