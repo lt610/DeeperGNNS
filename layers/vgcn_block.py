@@ -53,8 +53,8 @@ class VGCNBlock(nn.Module):
             l1 = g.edata.pop('l1')
             l1 = - th.norm(l1, p=1, dim=1)
             g.edata['att'] = edge_softmax(g, l1)
-            # l1 = 1 / th.norm(l1, p=2, dim=1)
-            # g.edata['att'] = l1
+            # l1 = 1 / (th.norm(l1, p=1, dim=1) + 1e-7)
+            # g.edata['att'] = edge_softmax(g, l1)
         else:
             g.edata['att'] = th.ones(g.number_of_edges(), 1).to(features.device)
 

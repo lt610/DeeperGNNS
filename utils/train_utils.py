@@ -231,21 +231,21 @@ def generate_vsgc_result_shells():
                 f.write(command)
 
 def generate_vblockgcn_search_shells():
-    dataset = ['cora']
+    dataset = ['pubmed']
     k = [2, 4, 6, 8, 10, 12]
-    num_blocks = [2, 3, 4]
+    # num_blocks = [2, 3, 4]
+    num_blocks = [2, 3]
     alpha = [1]
     lambd = [1]
-    # dropout = [0, 0.5, 0.8]
-    dropout = [0]
+    dropout = [0, 0.5, 0.8]
     learn_rate = [0.5, 0.3, 0.1, 0.01]
     weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
     attention = [True]
-    filename = ['VBlockGCN_nsl_att_l2_search']
+    filename = ['VBlockGCN_nsl_att_l1_search']
     id = 0
     with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
         f.write('#! /bin/bash\n')
-        for _ in range(5):
+        for _ in range(3):
             params = itertools.product(dataset, k, num_blocks, alpha, lambd, dropout, learn_rate, weight_decay, filename, attention)
             for p in params:
                 if p[9] == False:
@@ -255,7 +255,7 @@ def generate_vblockgcn_search_shells():
                     id += 1
                 else:
                     command = 'python train_block_vgcn_tmp.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
-                              '--learn_rate {} --weight_decay {} --filename {} --cuda 0 --attention --id {}\n'.format(p[0], p[1], p[2],
+                              '--learn_rate {} --weight_decay {} --filename {} --cuda 2 --attention --id {}\n'.format(p[0], p[1], p[2],
                                                                                                   p[3], p[4],
                                                                                                   p[5], p[6], p[7],
                                                                                                   p[8], id)

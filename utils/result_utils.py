@@ -186,9 +186,9 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    filename = "VBlockGCN_nsl_search_pubmed"
+    filename = "VBlockGCN_att_search_cora"
 
-    extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 5)
+    # extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 5)
 
     # extract_search_result('../result/train_result/repair_{}.txt'.format(filename), 5)
 
