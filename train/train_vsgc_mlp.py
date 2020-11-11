@@ -3,25 +3,25 @@ sys.path.append('../')
 import argparse
 import time
 import torch.nn.functional as F
-from nets.vgcn_block_net_tmp import VGCNBlockNet
+from nets.vsgc_mlp_net import VSGCMLPNet
 from train.early_stopping import EarlyStopping
+from train.early_stopping_both import EarlyStoppingBoth
 from train.metrics import evaluate_acc_loss
 from train.train_gcn import set_seed
+from utils.data_geom import load_data_from_file
 from utils.data_mine import load_data_default, load_data_mine
 import torch as th
 import numpy as np
 
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='cora')
+    parser.add_argument('--dataset', type=str, default='cornell')
+    parser.add_argument('--num_layers', type=int, default=2)
     parser.add_argument('--num_hidden', type=int, default=64)
-    parser.add_argument('--k', type=int, default=4)
-    parser.add_argument('--num_blocks', type=int, default=2)
     parser.add_argument('--alpha', type=float, default=1)
-    parser.add_argument('--lambd', type=float, default=1)
-    parser.add_argument('--residual', action='store_true', default=False)
+    parser.add_argument('--lambd', type=float, default=-0.05)
     parser.add_argument('--dropout', type=float, default=0)
-    parser.add_argument('--attention', action='store_true', default=False)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=0.01)
@@ -29,26 +29,27 @@ if __name__ == '__main__':
     parser.add_argument('--num_epochs', type=int, default=1500)
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
-    parser.add_argument('--filename', type=str, default='VBlockGCN')
+    parser.add_argument('--filename', type=str, default='VSGC_MLP')
+    parser.add_argument('--split', type=str, default='semi')
+    # parser.add_argument('--split', type=str, default='../data/splits/cornell_split_0.6_0.2_0.npz')
     parser.add_argument('--id', type=int, default=0)
     args = parser.parse_args()
 
-    print("attention:{}".format(args.attention))
-
-    graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
-    model = VGCNBlockNet(num_feats, num_classes, args.num_hidden, args.k, args.num_blocks,
-                         alpha=args.alpha, lambd=args.lambd,
-                         residual=args.residual, dropout=args.dropout, attention=args.attention)
+    if args.split != 'semi':
+        graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_from_file(args.dataset, splits_file_path=args.split)
+    else:
+        graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
+    model = VSGCMLPNet(num_feats, args.num_hidden, num_classes, args.num_layers, alpha=args.alpha, lambd=args.lambd, dropout=args.dropout)
+    labels = labels.squeeze()
 
     # set_seed(args.seed)
 
     optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
+
     early_stopping = EarlyStopping(args.patience, file_name='{}_{}'.format(args.filename, args.dataset))
     # early_stopping = EarlyStoppingBoth()
 
     device = th.device("cuda:{}".format(args.cuda) if th.cuda.is_available() else "cpu")
-
-    graph = graph.remove_self_loop()
 
     graph = graph.to(device)
     features = features.to(device)
@@ -77,10 +78,11 @@ if __name__ == '__main__':
         print("Epoch {:05d} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Time(s) {:.4f}".
               format(epoch, train_loss, train_acc, val_loss, val_acc, np.mean(dur)))
         early_stopping(-val_loss, model)
+        # early_stopping(val_acc, val_loss, model)
         if early_stopping.is_stop:
             print("Early stopping")
-            model.load_state_dict(early_stopping.load_checkpoint())
             break
+    model.load_state_dict(early_stopping.load_checkpoint())
     train_loss, train_acc = evaluate_acc_loss(model, graph, features, labels, train_mask)
     val_loss, val_acc = evaluate_acc_loss(model, graph, features, labels, val_mask)
     test_loss, test_acc = evaluate_acc_loss(model, graph, features, labels, test_mask)

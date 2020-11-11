@@ -19,7 +19,7 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default='wisconsin')
     parser.add_argument('--num_layers', type=int, default=2)
     parser.add_argument('--alpha', type=float, default=1)
-    parser.add_argument('--lambd', type=float, default=-0.05)
+    parser.add_argument('--lambd', type=float, default=-0.001)
     parser.add_argument('--dropout', type=float, default=0.5)
 
     parser.add_argument('--seed', type=int, default=42)
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='VSGC_Pre')
     parser.add_argument('--split', type=str, default='semi')
-    # parser.add_argument('--split', type=str, default='../data/splits/wisconsin_split_0.6_0.2_9.npz')
+    # parser.add_argument('--split', type=str, default='../data/splits/wisconsin_split_0.6_0.2_0.npz')
     parser.add_argument('--id', type=int, default=0)
     args = parser.parse_args()
 

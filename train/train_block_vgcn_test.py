@@ -3,7 +3,7 @@ sys.path.append('../')
 import argparse
 import time
 import torch.nn.functional as F
-from nets.vgcn_block_net_tmp import VGCNBlockNet
+from nets.vgcn_block_net_test import VGCNBlockNet
 from train.early_stopping import EarlyStopping
 from train.metrics import evaluate_acc_loss
 from train.train_gcn import set_seed
@@ -22,6 +22,7 @@ if __name__ == '__main__':
     parser.add_argument('--residual', action='store_true', default=False)
     parser.add_argument('--dropout', type=float, default=0)
     parser.add_argument('--attention', action='store_true', default=False)
+    parser.add_argument('--droprate', type=float, default=0)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=0.01)
@@ -33,12 +34,10 @@ if __name__ == '__main__':
     parser.add_argument('--id', type=int, default=0)
     args = parser.parse_args()
 
-    print("attention:{}".format(args.attention))
-
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
     model = VGCNBlockNet(num_feats, num_classes, args.num_hidden, args.k, args.num_blocks,
                          alpha=args.alpha, lambd=args.lambd,
-                         residual=args.residual, dropout=args.dropout, attention=args.attention)
+                         residual=args.residual, dropout=args.dropout, attention=args.attention, droprate=args.droprate)
 
     # set_seed(args.seed)
 

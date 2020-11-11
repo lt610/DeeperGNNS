@@ -154,11 +154,11 @@ def generate_vsgc_pre_search_full_shells():
     dataset = ['wisconsin']
     num_layers = [2, 4, 6, 8]
     alpha = [1]
-    lambd = [-0.1, -0.05, -0.01, -0.001, 0, 0.001, 0.01, 0.05, 0.1]
+    lambd = [-0.05, -0.01, -0.001, 0, 0.001, 0.01, 0.05, 0.1]
     dropout = [0, 0.5, 0.8]
     learn_rate = [0.5, 0.3, 0.1, 0.01]
     weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
-    filename = ['VSGC_Pre_search_full']
+    filename = ['VSGC_mlp_search_full']
     id = 0
     with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
         f.write('#! /bin/bash\n')
@@ -166,8 +166,8 @@ def generate_vsgc_pre_search_full_shells():
             params = itertools.product(dataset, num_layers, alpha, lambd, dropout, learn_rate, weight_decay, filename)
             for p in params:
                 split = '../data/splits/{}_split_0.6_0.2_{}.npz'.format(p[0], i)
-                command = 'python train_vsgc_pre.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
-                          '--learn_rate {} --weight_decay {} --filename {} --cuda 2 --split {} --id {}\n'.format(p[0], p[1], p[2], p[3], p[4],
+                command = 'python train_vsgc_mlp.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 0 --split {} --id {}\n'.format(p[0], p[1], p[2], p[3], p[4],
                                                                  p[5], p[6], p[7], split, id)
                 id += 1
                 f.write(command)
@@ -264,13 +264,13 @@ def generate_vblockgcn_search_shells():
         print("{}条命令".format(id))
 
 def generate_vblockgcn_result_shells():
-    filename = 'VBlockGCN_nsl_att_result'
+    filename = 'VBlockGCN_nsl_att_l2_result1'
     with open('../shells/{}.sh'.format(filename), 'w') as f:
         f.write('#! /bin/bash\n')
         params = []
-        params.append({'dataset': 'cora', 'num_hidden': 64, 'k': 4, 'num_blocks': 2, 'alpha': 1.0, 'lambd': 1.0, 'residual': False, 'dropout': 0.8, 'attention': True, 'seed': 42, 'learn_rate': 0.01, 'weight_decay': 0.001, 'num_epochs': 1500, 'patience': 100, 'cuda': 0, 'filename': 'VBlockGCN_nsl_att_search', 'id': 284, 'train_loss': 0.19289906322956085, 'train_acc': 0.9714285714285714, 'val_loss': 0.6229188442230225, 'val_acc': 0.798, 'test_loss': 0.577835202217102, 'test_acc': 0.827})
-        params.append({'dataset': 'citeseer', 'num_hidden': 64, 'k': 10, 'num_blocks': 2, 'alpha': 1.0, 'lambd': 1.0, 'residual': False, 'dropout': 0.5, 'attention': True, 'seed': 42, 'learn_rate': 0.01, 'weight_decay': 0.01, 'num_epochs': 1500, 'patience': 100, 'cuda': 1, 'filename': 'VBlockGCN_nsl_att_search', 'id': 2203, 'train_loss': 0.9902288913726807, 'train_acc': 0.8666666666666667, 'val_loss': 1.2891196012496948, 'val_acc': 0.72, 'test_loss': 1.2846444845199585, 'test_acc': 0.739})
-        params.append({'dataset': 'pubmed', 'num_hidden': 64, 'k': 6, 'num_blocks': 2, 'alpha': 1.0, 'lambd': 1.0, 'residual': False, 'dropout': 0.5, 'attention': True, 'seed': 42, 'learn_rate': 0.3, 'weight_decay': 0.001, 'num_epochs': 1500, 'patience': 100, 'cuda': 2, 'filename': 'VBlockGCN_nsl_att_search', 'id': 4352, 'train_loss': 0.15525469183921814, 'train_acc': 0.9833333333333333, 'val_loss': 0.49483782052993774, 'val_acc': 0.806, 'test_loss': 0.5370917320251465, 'test_acc': 0.811})
+        params.append({'dataset': 'cora', 'num_hidden': 64, 'k': 2, 'num_blocks': 2, 'alpha': 1.0, 'lambd': 1.0, 'residual': False, 'dropout': 0.8, 'attention': True, 'seed': 42, 'learn_rate': 0.1, 'weight_decay': 5e-05, 'num_epochs': 1500, 'patience': 100, 'cuda': 0, 'filename': 'VBlockGCN_nsl_att_l2_search', 'id': 64, 'train_loss': 0.14899542927742004, 'train_acc': 0.9714285714285714, 'val_loss': 0.6154892444610596, 'val_acc': 0.812, 'test_loss': 0.5575413703918457, 'test_acc': 0.832})
+        #params.append({'dataset': 'citeseer', 'num_hidden': 64, 'k': 8, 'num_blocks': 2, 'alpha': 1.0, 'lambd': 1.0, 'residual': False, 'dropout': 0.8, 'attention': True, 'seed': 42, 'learn_rate': 0.1, 'weight_decay': 0.001, 'num_epochs': 1500, 'patience': 100, 'cuda': 1, 'filename': 'VBlockGCN_nsl_att_l2_search', 'id': 494, 'train_loss': 0.34571632742881775, 'train_acc': 0.9166666666666666, 'val_loss': 0.9043983817100525, 'val_acc': 0.736, 'test_loss': 0.9335302114486694, 'test_acc': 0.724})
+        #params.append({'dataset': 'pubmed', 'num_hidden': 64, 'k': 8, 'num_blocks': 2, 'alpha': 1.0, 'lambd': 1.0, 'residual': False, 'dropout': 0.8, 'attention': True, 'seed': 42, 'learn_rate': 0.1, 'weight_decay': 0.001, 'num_epochs': 1500, 'patience': 100, 'cuda': 2, 'filename': 'VBlockGCN_nsl_att_l2_search', 'id': 494, 'train_loss': 0.15329453349113464, 'train_acc': 0.9666666666666667, 'val_loss': 0.509773313999176, 'val_acc': 0.81, 'test_loss': 0.5485361218452454, 'test_acc': 0.813})
 
         for ps in params:
             for _ in range(100):
@@ -303,5 +303,32 @@ def generate_mlp_search_full_shells():
                 f.write(command)
     print("{}条命令".format(id))
 
+
+def generate_vblockgcn_dropedge_shells():
+    dataset = ['cora']
+    k = [4]
+    # num_blocks = [2, 3, 4]
+    num_blocks = [2]
+    alpha = [1]
+    lambd = [1]
+    dropout = [0]
+    learn_rate = [0.01]
+    weight_decay = [0]
+    droprate = [0, 0.01, 0.05, 0.1, 0.3, 0.5]
+    filename = ['VBlockGCN_drop_unimportant']
+    id = 0
+    with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
+        for _ in range(10):
+            params = itertools.product(dataset, k, num_blocks, alpha, lambd, dropout, learn_rate, weight_decay, filename, droprate)
+            for p in params:
+                command = 'python train_block_vgcn_test.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 0 --droprate {} --id {}\n'.format(p[0], p[1], p[2],
+                                                                                              p[3], p[4],
+                                                                                              p[5], p[6], p[7],
+                                                                                              p[8], p[9], id)
+                id += 1
+                f.write(command)
+        print("{}条命令".format(id))
+
 if __name__ == '__main__':
-    generate_vblockgcn_search_shells()
+    generate_vsgc_pre_search_full_shells()

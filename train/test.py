@@ -166,3 +166,52 @@ import dgl
 
 # a = th.Tensor([1, 2, 3])
 # print(a**2)
+
+
+# graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default("cora")
+# # print(th.max(features[:, 254]))
+
+def max(a):
+    max=a[0]
+    for i in range(len(a)):
+        if a[i]>max:
+            max=a[i]
+    return max
+
+def mediansort(a,n,m,k,p):
+    b=[]
+    b.append(a[0])
+    for i in range(1,n):
+        if a[i]<a[0]:
+            b.insert(0,a[i])
+        else:
+            b.append(a[i])
+    kk=b.index(a[0])+1
+    print(b)
+    if kk==k:
+        if m % 2:
+            return a[0]
+        else:
+            if kk==1:
+                mm=p
+            else:
+                mm=max(b[:kk-1])
+            return (a[0]+mm)/2
+    else:
+        if kk<k:
+            if kk==k-1:
+                if m%2==0:
+                    p=a[0]
+            return mediansort(b[kk:],n-kk,m,k-kk,p)
+        else:
+            return mediansort(b[:kk-1],kk-1,m,k,p)
+
+
+if __name__ == '__main__':
+    n = int(input())
+    a=[]
+    for i in range(n):
+        a.append(int(input()))
+    k = n//2+1
+    median=mediansort(a,n,n,k,k)
+    print(median)

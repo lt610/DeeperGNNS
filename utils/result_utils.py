@@ -88,6 +88,19 @@ def extract_final_result(filename):
     print('mean:{}'.format(mean))
     print('std:{}'.format(std))
 
+def extract_multi_result(filename, times):
+    result = extract_result(filename)
+    length = len(result)
+    print(length)
+    gap = int(length / times)
+    test_accs = []
+    for r in result:
+        test_accs.append(r['test_acc'])
+
+    test_accs2 = np.array(test_accs)
+    test_accs2.resize([times, gap])
+    test_accs2_mean = np.mean(test_accs2, 0)
+    print(test_accs2_mean)
 
 def check_missing_cmd(sh_file, out_file):
     shs = []
@@ -186,13 +199,15 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    filename = "VBlockGCN_att_search_cora"
+    # filename = "VBlockGCN_nsl_att_l2_search_pubmed"
 
-    # extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 5)
+    # extract_multi_result('../result/train_result/VBlockGCN_drop_important_cora.txt', 10)
+
+    # extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 3)
 
     # extract_search_result('../result/train_result/repair_{}.txt'.format(filename), 5)
 
-    # extract_final_result('../result/train_result/final_result/VBlockGCN_F_result_pubmed.txt')
+    extract_final_result('../result/train_result/final_result/VBlockGCN_nsl_att_l2_result3_pubmed.txt')
 
     # check_missing_cmd("../shells/10.192.9.122/{}.sh".format(filename),
     #                   "../result/train_result/des_result/{}.txt".format(filename))
