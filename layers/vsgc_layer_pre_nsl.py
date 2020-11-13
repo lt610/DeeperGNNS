@@ -28,7 +28,7 @@ class VSGCLayerPre(nn.Module):
     def forward(self, graph, features):
         g = graph.local_var()
 
-        degs = g.in_degrees().float().clamp(min=1)
+        degs = g.in_degrees().float()
         norm_lambd_1 = th.pow(self.lambd * degs + 1.0, -1)
         norm_lambd_1 = norm_lambd_1.to(features.device).unsqueeze(1)
 

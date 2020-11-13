@@ -16,8 +16,8 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='cornell')
-    parser.add_argument('--num_layers', type=int, default=2)
+    parser.add_argument('--dataset', type=str, default='wisconsin')
+    parser.add_argument('--num_layers', type=int, default=8)
     parser.add_argument('--num_hidden', type=int, default=64)
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=-0.05)
@@ -31,7 +31,7 @@ if __name__ == '__main__':
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='VSGC_MLP')
     parser.add_argument('--split', type=str, default='semi')
-    # parser.add_argument('--split', type=str, default='../data/splits/cornell_split_0.6_0.2_0.npz')
+    # parser.add_argument('--split', type=str, default='../data/splits/wisconsin_split_0.6_0.2_0.npz')
     parser.add_argument('--id', type=int, default=0)
     args = parser.parse_args()
 

@@ -139,7 +139,7 @@ def generate_vsgc_pre_search_shells():
         for _ in range(5):
             params = itertools.product(dataset, num_layers, alpha, lambd, dropout, learn_rate, weight_decay, filename)
             for p in params:
-                command = 'python train_vsgc_pre_tmp.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
+                command = 'python train_vsgc_pre_nsl.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
                           '--learn_rate {} --weight_decay {} --filename {} --cuda 1 --id {}\n'.format(p[0], p[1], p[2], p[3], p[4],
                                                                                      p[5], p[6], p[7], id)
                 id += 1
@@ -249,12 +249,12 @@ def generate_vblockgcn_search_shells():
             params = itertools.product(dataset, k, num_blocks, alpha, lambd, dropout, learn_rate, weight_decay, filename, attention)
             for p in params:
                 if p[9] == False:
-                    command = 'python train_block_vgcn_tmp.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
+                    command = 'python train_block_vgcn_nsl.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
                               '--learn_rate {} --weight_decay {} --filename {} --cuda 2 --id {}\n'.format(p[0], p[1], p[2], p[3], p[4],
                                                                                          p[5], p[6], p[7], p[8], id)
                     id += 1
                 else:
-                    command = 'python train_block_vgcn_tmp.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
+                    command = 'python train_block_vgcn_nsl.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
                               '--learn_rate {} --weight_decay {} --filename {} --cuda 2 --attention --id {}\n'.format(p[0], p[1], p[2],
                                                                                                   p[3], p[4],
                                                                                                   p[5], p[6], p[7],
@@ -274,7 +274,7 @@ def generate_vblockgcn_result_shells():
 
         for ps in params:
             for _ in range(100):
-                command = 'python train_block_vgcn_tmp.py --dataset {} --num_hidden {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
+                command = 'python train_block_vgcn_nsl.py --dataset {} --num_hidden {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
                           '--learn_rate {} --weight_decay {} --filename {} --cuda 0 --attention\n'.format(ps['dataset'], ps['num_hidden'], ps['k'], ps['num_blocks'],
                             ps['alpha'], ps['lambd'], ps['dropout'], ps['learn_rate'],ps['weight_decay'], filename)
                 f.write(command)
@@ -321,7 +321,7 @@ def generate_vblockgcn_dropedge_shells():
         for _ in range(10):
             params = itertools.product(dataset, k, num_blocks, alpha, lambd, dropout, learn_rate, weight_decay, filename, droprate)
             for p in params:
-                command = 'python train_block_vgcn_test.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
+                command = 'python train_block_vgcn_drop.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
                           '--learn_rate {} --weight_decay {} --filename {} --cuda 0 --droprate {} --id {}\n'.format(p[0], p[1], p[2],
                                                                                               p[3], p[4],
                                                                                               p[5], p[6], p[7],

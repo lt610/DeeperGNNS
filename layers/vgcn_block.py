@@ -43,7 +43,7 @@ class VGCNBlock(nn.Module):
     def forward(self, graph, features):
         g = graph.local_var()
         if self.graph_norm:
-            degs = g.in_degrees().float().clamp(min=1)
+            degs = g.in_degrees().float()
             norm = th.pow(degs, -0.5)
             norm = norm.to(features.device).unsqueeze(1)
 
@@ -61,14 +61,8 @@ class VGCNBlock(nn.Module):
         h_last = features
         h = self.dropout(features)
         h = self.linear(h)
-        # if self.activation is not None:
-        #     h = self.activation(h)
 
         h_pre = h
-        # if self.attention:
-        #     ri = h
-        # else:
-        #     ri = h * norm * norm
 
         ri = h * norm * norm
 
@@ -76,9 +70,6 @@ class VGCNBlock(nn.Module):
             if self.attention is False:
                 if self.graph_norm:
                     h = h * norm
-
-            # if self.graph_norm:
-            #     h = h * norm
 
             g.ndata['h'] = h
 
@@ -89,9 +80,6 @@ class VGCNBlock(nn.Module):
             if self.attention is False:
                 if self.graph_norm:
                     h = h * norm
-
-            # if self.graph_norm:
-            #     h = h * norm
 
             h = self.alpha * h + self.alpha * ri + (1 - self.alpha) * h_pre
             h_pre = h
