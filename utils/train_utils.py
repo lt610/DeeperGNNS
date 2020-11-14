@@ -330,5 +330,30 @@ def generate_vblockgcn_dropedge_shells():
                 f.write(command)
         print("{}条命令".format(id))
 
+
+def generate_vblockgcn_attention_search_shells():
+    dataset = ['pubmed']
+    k = [2, 4, 8, 16, 24]
+    feat_drop = [0, 0.5, 0.8]
+    att_drop = [0, 0.3, 0.5]
+    learn_rate = [0.5, 0.3, 0.1, 0.01]
+    weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
+    filename = ['VBlockGCN_att_search']
+    id = 0
+    with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
+        f.write('#! /bin/bash\n')
+        for _ in range(4):
+            params = itertools.product(dataset, k, feat_drop, att_drop, learn_rate, weight_decay, filename)
+            for p in params:
+                command = "python train_block_vgcn_att.py --dataset {} --k {} --feat_drop {} --att_drop {} " \
+                          "--learn_rate {} --weight_decay {} --filename {} --cuda 3 --id {}\n".format(p[0], p[1],
+                                                                                                      p[2], p[3],
+                                                                                                      p[4], p[5],
+                                                                                                      p[6], id)
+                id += 1
+                f.write(command)
+        print("{}条命令".format(id))
+
+
 if __name__ == '__main__':
-    generate_vsgc_pre_search_full_shells()
+    generate_vblockgcn_attention_search_shells()

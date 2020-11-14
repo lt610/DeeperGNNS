@@ -199,7 +199,7 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    filename = "VSGC_Pre_search_full_cornell"
+    filename = "VSGC_mlp_search_full_wisconsin"
 
     # extract_multi_result('../result/train_result/VBlockGCN_drop_important_cora.txt', 10)
 

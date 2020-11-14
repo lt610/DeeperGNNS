@@ -3,7 +3,7 @@ sys.path.append('../')
 import argparse
 import time
 import torch.nn.functional as F
-from nets.vsgc_net_pre_tmp import VSGCNetPre
+from nets.vsgc_net_pre_nsl import VSGCNetPre
 from train.early_stopping import EarlyStopping
 from train.early_stopping_both import EarlyStoppingBoth
 from train.metrics import evaluate_acc_loss
@@ -16,11 +16,11 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='cora')
-    parser.add_argument('--num_layers', type=int, default=42)
+    parser.add_argument('--dataset', type=str, default='citeseer')
+    parser.add_argument('--num_layers', type=int, default=16)
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=1)
-    parser.add_argument('--dropout', type=float, default=0.5)
+    parser.add_argument('--dropout', type=float, default=0)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=0.01)

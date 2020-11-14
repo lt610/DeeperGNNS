@@ -9,13 +9,14 @@ import torch.nn.functional as F
 
 
 class VGCNBlock(nn.Module):
-    def __init__(self, k=1, alpha=1, lambd=1, attention=False, epsilon=0):
+    def __init__(self, k=1, alpha=1, lambd=1, attention=False, att_drop=0, epsilon=5e-3):
         super(VGCNBlock, self).__init__()
 
         self.k = k
         self.alpha = alpha
         self.attention = attention
         self.epsilon = epsilon
+        self.att_drop = nn.Dropout(att_drop)
 
     def forward(self, graph, features, initial_features):
         g = graph.local_var()
@@ -26,6 +27,9 @@ class VGCNBlock(nn.Module):
             dif = g.edata.pop('dif')
             l2 = th.norm(dif, p=2, dim=1)
             att = 1 / (2 * l2 + self.epsilon)
+
+            att = self.att_drop(att)
+
             g.edata['att'] = att
             g.update_all(fn.copy_e('att', 'att'), fn.sum('att', 'degree'))
             degs = g.ndata.pop('degree')

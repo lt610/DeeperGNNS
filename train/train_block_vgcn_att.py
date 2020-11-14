@@ -13,17 +13,18 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='cora')
-    parser.add_argument('--k', type=int, default=32)
+    parser.add_argument('--dataset', type=str, default='pubmed')
+    parser.add_argument('--k', type=int, default=16)
     parser.add_argument('--num_blocks', type=int, default=2)
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=1)
-    parser.add_argument('--dropout', type=float, default=0.8)
+    parser.add_argument('--feat_drop', type=float, default=0)
     parser.add_argument('--attention', action='store_true', default=True)
+    parser.add_argument('--att_drop', type=float, default=0.5)
 
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--learn_rate', type=float, default=0.3)
-    parser.add_argument('--weight_decay', type=float, default=5e-6)
+    parser.add_argument('--learn_rate', type=float, default=0.01)
+    parser.add_argument('--weight_decay', type=float, default=0)
     parser.add_argument('--num_epochs', type=int, default=1500)
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
@@ -35,7 +36,7 @@ if __name__ == '__main__':
 
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
     model = VGCNBlockNet(num_feats, num_classes, args.k, args.num_blocks, alpha=args.alpha, lambd=args.lambd,
-                         dropout=args.dropout, attention=args.attention)
+                         feat_drop=args.feat_drop, attention=args.attention, att_drop=args.att_drop)
 
     # set_seed(args.seed)
 

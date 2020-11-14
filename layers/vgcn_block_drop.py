@@ -9,73 +9,47 @@ import torch.nn.functional as F
 
 
 class VGCNBlock(nn.Module):
-    def __init__(self, in_dim, out_dim, bias=True, k=1, graph_norm=True, alpha=1, lambd=1, activation=None,
-                 residual=False, dropout=0, attention=False, droprate=0):
+    def __init__(self, k=1, alpha=1, lambd=1, attention=False, att_drop=0.5, epsilon=5e-3):
         super(VGCNBlock, self).__init__()
 
-        self.linear = nn.Linear(in_dim, out_dim, bias=bias)
         self.k = k
-        self.graph_norm = graph_norm
         self.alpha = alpha
-        self.activation = activation
-        self.residual = residual
-        if residual:
-            if in_dim != out_dim:
-                self.res_fc = nn.Linear(in_dim, out_dim, bias)
-            else:
-                self.res_fc = Identity()
-        else:
-            self.register_buffer('res_fc', None)
-        self.dropout = nn.Dropout(dropout)
         self.attention = attention
-        self.droprate = droprate
-        self.reset_parameters()
+        self.epsilon = epsilon
+        self.att_drop = att_drop
 
-    def reset_parameters(self):
-        gain = cal_gain(self.activation)
-        nn.init.xavier_uniform_(self.linear.weight, gain=gain)
-        if self.linear.bias is not None:
-            nn.init.zeros_(self.linear.bias)
-        if isinstance(self.res_fc, nn.Linear):
-            nn.init.xavier_normal_(self.res_fc.weight, gain=gain)
-            if self.res_fc.bias is not None:
-                nn.init.zeros_(self.res_fc.bias)
-
-    def forward(self, graph, features):
+    def forward(self, graph, features, initial_features):
         g = graph.local_var()
-        if self.graph_norm:
-            degs = g.in_degrees().float()
+
+        if self.attention:
+            g.ndata['h'] = features
+            g.apply_edges(fn.u_sub_v('h', 'h', 'dif'))
+            dif = g.edata.pop('dif')
+            l2 = th.norm(dif, p=2, dim=1)
+            att = 1 / (2 * l2 + self.epsilon)
+
+            if self.att_drop > 0:
+                k = int(att.shape[0] * self.att_drop)
+                _, drop_idxs = att.topk(k, largest=False, sorted=False)
+                att[drop_idxs] = 0
+
+            g.edata['att'] = att
+            g.update_all(fn.copy_e('att', 'att'), fn.sum('att', 'degree'))
+            degs = g.ndata.pop('degree')
             norm = th.pow(degs + 1, -0.5)
             norm = norm.to(features.device).unsqueeze(1)
 
-        # dropedge
-        e = th.ones(g.number_of_edges(), 1).to(features.device)
-        if self.droprate > 0:
-            g.ndata['h'] = features
-            g.apply_edges(fn.u_sub_v('h', 'h', 'l1'))
-            l1 = g.edata.pop('l1')
-            l1 = th.norm(l1, p=1, dim=1)
-            k = int(l1.shape[0] * self.droprate)
-            _, drop = l1.topk(k, largest=False, sorted=False)
-            e[drop] = 0
-        g.edata['att'] = e
+        else:
+            degs = g.in_degrees().float()
+            norm = th.pow(degs + 1, -0.5)
+            norm = norm.to(features.device).unsqueeze(1)
+            g.edata['att'] = th.ones(g.number_of_edges(), 1).to(features.device)
 
-
-        h_last = features
-        h = self.dropout(features)
-        h = self.linear(h)
-
-        h_pre = h
-        ri = h * norm * norm
-
+        h_pre = initial_features
+        h = initial_features
+        ri = initial_features * norm * norm
         for _ in range(self.k):
-
-            if self.attention is False:
-                if self.graph_norm:
-                    h = h * norm
-
-            # if self.graph_norm:
-            #     h = h * norm
+            h = h * norm
 
             g.ndata['h'] = h
 
@@ -83,19 +57,9 @@ class VGCNBlock(nn.Module):
 
             h = g.ndata.pop('h')
 
-            # if self.graph_norm:
-            #     h = h * norm
-
-            if self.attention is False:
-                if self.graph_norm:
-                    h = h * norm
+            h = h * norm
 
             h = self.alpha * h + self.alpha * ri + (1 - self.alpha) * h_pre
             h_pre = h
-
-        if self.activation is not None:
-            h = self.activation(h)
-        if self.residual:
-            h = h + self.res_fc(h_last)
 
         return h
