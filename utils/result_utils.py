@@ -66,13 +66,22 @@ def extract_search_result(filename, times=5):
     print(result2[..., idx2[0][0]])
 
     print('test_acc_second')
-    test_accs2_mean = np.mean(test_accs2, 0)
-    idx2 = np.where(test_accs2_mean == np.max(test_accs2_mean))
     test_accs2_mean[idx2] = 0
     idx2 = np.where(test_accs2_mean == np.max(test_accs2_mean))
     print('mean_test:{}'.format(np.mean(test_accs2[..., idx2[0][0]])))
     print(result2[..., idx2[0][0]])
 
+    print('test_acc_third')
+    test_accs2_mean[idx2] = 0
+    idx2 = np.where(test_accs2_mean == np.max(test_accs2_mean))
+    print('mean_test:{}'.format(np.mean(test_accs2[..., idx2[0][0]])))
+    print(result2[..., idx2[0][0]])
+
+    print('test_acc_fourth')
+    test_accs2_mean[idx2] = 0
+    idx2 = np.where(test_accs2_mean == np.max(test_accs2_mean))
+    print('mean_test:{}'.format(np.mean(test_accs2[..., idx2[0][0]])))
+    print(result2[..., idx2[0][0]])
 
 def extract_final_result(filename):
     result = extract_result(filename)
@@ -100,7 +109,8 @@ def extract_dropedge_result(filename, times):
     test_accs2 = np.array(test_accs)
     test_accs2.resize([times, gap])
     test_accs2_mean = np.mean(test_accs2, 0)
-    print(test_accs2_mean)
+    print(test_accs2_mean * 100)
+
 
 def check_missing_cmd(sh_file, out_file):
     shs = []
@@ -199,15 +209,15 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    filename = "MLP_search_full_chameleon"
+    filename = "VBlockGCN_att_search_citeseer"
 
-    extract_dropedge_result('../result/train_result/VBlockGCN_drop_important_cora.txt', 10)
+    extract_dropedge_result('../result/train_result/VBlockGCN_drop_unimportant_cora.txt', 10)
 
-    # extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 10)
+    # extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 3)
 
     # extract_search_result('../result/train_result/repair_{}.txt'.format(filename), 5)
 
-    # extract_final_result('../result/train_result/final_result/VBlockGCN_nsl_att_l2_result3_pubmed.txt')
+    # extract_final_result('../result/train_result/final_result/VBlockGCN_att_result1_1_cora.txt')
 
     # check_missing_cmd("../shells/10.192.9.122/{}.sh".format(filename),
     #                   "../result/train_result/des_result/{}.txt".format(filename))

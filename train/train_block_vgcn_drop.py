@@ -21,7 +21,7 @@ if __name__ == '__main__':
     parser.add_argument('--feat_drop', type=float, default=0)
     parser.add_argument('--attention', action='store_true', default=True)
     parser.add_argument('--edge_drop', type=float, default=0.3)
-    parser.add_argument('--important', action='store_true', default=True)
+    parser.add_argument('--important', action='store_true', default=False)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=0.01)
