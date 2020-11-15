@@ -207,7 +207,7 @@ def generate_vsgc_search_shells():
         for _ in range(5):
             params = itertools.product(dataset, num_k, num_layers, alpha, lambd, dropout, learn_rate, weight_decay, filename)
             for p in params:
-                command = 'python train_vsgc.py --dataset {} --num_k {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
+                command = 'python train_vsgc_after.py --dataset {} --num_k {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
                           '--learn_rate {} --weight_decay {} --filename {} --cuda 0\n'.format(p[0], p[1], p[2], p[3], p[4],
                                                                                      p[5], p[6], p[7], p[8])
                 id += 1
@@ -225,7 +225,7 @@ def generate_vsgc_result_shells():
 
         for ps in params:
             for _ in range(100):
-                command = 'python train_vsgc.py --dataset {} --num_k {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
+                command = 'python train_vsgc_after.py --dataset {} --num_k {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
                           '--learn_rate {} --weight_decay {} --filename VSGC_result --cuda 2\n'.format(ps['dataset'], ps['num_k'],
                             ps['num_layers'], ps['alpha'], ps['lambd'], ps['dropout'], ps['learn_rate'], ps['weight_decay'])
                 f.write(command)
@@ -279,11 +279,12 @@ def generate_vblockgcn_result_shells():
                             ps['alpha'], ps['lambd'], ps['dropout'], ps['learn_rate'],ps['weight_decay'], filename)
                 f.write(command)
 
+
 def generate_mlp_search_full_shells():
     # dataset = ['cornell', 'texas', 'wisconsin']
     # dataset = ['cora']
     # num_layers = [2, 4, 8, 16, 24, 32, 40, 48]
-    dataset = ['cornell', 'texas', 'wisconsin']
+    dataset = ['cora', 'citeseer', 'pubmed', 'chameleon']
     num_layers = [2]
     dropout = [0, 0.5, 0.8]
     learn_rate = [0.5, 0.3, 0.1, 0.01]
@@ -297,42 +298,15 @@ def generate_mlp_search_full_shells():
             for p in params:
                 split = '../data/splits/{}_split_0.6_0.2_{}.npz'.format(p[0], i)
                 command = 'python train_mlp.py --dataset {} --num_layers {} --dropout {} ' \
-                          '--learn_rate {} --weight_decay {} --filename {} --cuda 2 --split {} --id {}\n'.format(p[0], p[1], p[2], p[3], p[4],
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 3 --split {} --id {}\n'.format(p[0], p[1], p[2], p[3], p[4],
                                                                  p[5], split, id)
                 id += 1
                 f.write(command)
     print("{}条命令".format(id))
 
 
-def generate_vblockgcn_dropedge_shells():
-    dataset = ['cora']
-    k = [4]
-    # num_blocks = [2, 3, 4]
-    num_blocks = [2]
-    alpha = [1]
-    lambd = [1]
-    dropout = [0]
-    learn_rate = [0.01]
-    weight_decay = [0]
-    droprate = [0, 0.01, 0.05, 0.1, 0.3, 0.5]
-    filename = ['VBlockGCN_drop_unimportant']
-    id = 0
-    with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
-        for _ in range(10):
-            params = itertools.product(dataset, k, num_blocks, alpha, lambd, dropout, learn_rate, weight_decay, filename, droprate)
-            for p in params:
-                command = 'python train_block_vgcn_drop.py --dataset {} --k {} --num_blocks {} --alpha {} --lambd {} --dropout {} ' \
-                          '--learn_rate {} --weight_decay {} --filename {} --cuda 0 --droprate {} --id {}\n'.format(p[0], p[1], p[2],
-                                                                                              p[3], p[4],
-                                                                                              p[5], p[6], p[7],
-                                                                                              p[8], p[9], id)
-                id += 1
-                f.write(command)
-        print("{}条命令".format(id))
-
-
 def generate_vblockgcn_attention_search_shells():
-    dataset = ['pubmed']
+    dataset = ['cora']
     k = [2, 4, 8, 16, 24]
     feat_drop = [0, 0.5, 0.8]
     att_drop = [0, 0.3, 0.5]
@@ -342,11 +316,11 @@ def generate_vblockgcn_attention_search_shells():
     id = 0
     with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
         f.write('#! /bin/bash\n')
-        for _ in range(4):
+        for _ in range(3):
             params = itertools.product(dataset, k, feat_drop, att_drop, learn_rate, weight_decay, filename)
             for p in params:
                 command = "python train_block_vgcn_att.py --dataset {} --k {} --feat_drop {} --att_drop {} " \
-                          "--learn_rate {} --weight_decay {} --filename {} --cuda 3 --id {}\n".format(p[0], p[1],
+                          "--learn_rate {} --weight_decay {} --filename {} --cuda 1 --id {}\n".format(p[0], p[1],
                                                                                                       p[2], p[3],
                                                                                                       p[4], p[5],
                                                                                                       p[6], id)
@@ -355,5 +329,20 @@ def generate_vblockgcn_attention_search_shells():
         print("{}条命令".format(id))
 
 
+def generate_dropedge_shells():
+    dataset = ['cora']
+    edge_drop = [0, 0.03, 0.05, 0.1, 0.3, 0.5, 0.8, 0.9]
+    filename = ['VBlockGCN_drop_important']
+    id = 0
+    with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
+        for _ in range(10):
+            params = itertools.product(dataset, edge_drop, filename)
+            for p in params:
+                command = 'python train_block_vgcn_drop.py --dataset {} --edge_drop {} --filename {} --important --cuda 0 --id {}\n'.format(p[0], p[1], p[2], id)
+                id += 1
+                f.write(command)
+        print("{}条命令".format(id))
+
+
 if __name__ == '__main__':
-    generate_vblockgcn_attention_search_shells()
+    generate_dropedge_shells()

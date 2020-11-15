@@ -13,13 +13,15 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='citeseer')
+    parser.add_argument('--dataset', type=str, default='cora')
     parser.add_argument('--k', type=int, default=8)
     parser.add_argument('--num_blocks', type=int, default=2)
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=1)
-    parser.add_argument('--dropout', type=float, default=0)
+    parser.add_argument('--feat_drop', type=float, default=0)
     parser.add_argument('--attention', action='store_true', default=True)
+    parser.add_argument('--edge_drop', type=float, default=0.3)
+    parser.add_argument('--important', action='store_true', default=True)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=0.01)
@@ -35,7 +37,8 @@ if __name__ == '__main__':
 
     graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
     model = VGCNBlockNet(num_feats, num_classes, args.k, args.num_blocks, alpha=args.alpha, lambd=args.lambd,
-                         dropout=args.dropout, attention=args.attention)
+                         feat_drop=args.feat_drop, attention=args.attention, edge_drop=args.edge_drop,
+                         important=args.important)
 
     # set_seed(args.seed)
 

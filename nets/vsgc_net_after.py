@@ -1,4 +1,4 @@
-from layers.vsgc_layer import VSGCLayer
+from layers.vsgc_layer_after import VSGCLayer
 from layers.mlp_layer import MLPLayer
 import torch.nn as nn
 from dgl.nn.pytorch import SGConv

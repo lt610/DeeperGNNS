@@ -13,14 +13,14 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='pubmed')
-    parser.add_argument('--k', type=int, default=16)
+    parser.add_argument('--dataset', type=str, default='cora')
+    parser.add_argument('--k', type=int, default=8)
     parser.add_argument('--num_blocks', type=int, default=2)
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=1)
     parser.add_argument('--feat_drop', type=float, default=0)
     parser.add_argument('--attention', action='store_true', default=True)
-    parser.add_argument('--att_drop', type=float, default=0.5)
+    parser.add_argument('--att_drop', type=float, default=0)
 
     parser.add_argument('--seed', type=int, default=42)
     parser.add_argument('--learn_rate', type=float, default=0.01)

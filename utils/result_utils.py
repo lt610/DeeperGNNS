@@ -88,7 +88,7 @@ def extract_final_result(filename):
     print('mean:{}'.format(mean))
     print('std:{}'.format(std))
 
-def extract_multi_result(filename, times):
+def extract_dropedge_result(filename, times):
     result = extract_result(filename)
     length = len(result)
     print(length)
@@ -199,11 +199,11 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    filename = "VSGC_mlp_search_full_wisconsin"
+    filename = "MLP_search_full_chameleon"
 
-    # extract_multi_result('../result/train_result/VBlockGCN_drop_important_cora.txt', 10)
+    extract_dropedge_result('../result/train_result/VBlockGCN_drop_important_cora.txt', 10)
 
-    extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 10)
+    # extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 10)
 
     # extract_search_result('../result/train_result/repair_{}.txt'.format(filename), 5)
 

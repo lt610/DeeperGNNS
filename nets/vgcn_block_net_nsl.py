@@ -10,8 +10,8 @@ class VGCNBlockNet(nn.Module):
         self.blocks = nn.ModuleList()
         self.blocks.append(VGCNBlock(num_feats, num_hidden, bias, k, graph_norm, alpha, lambd, activation, residual, dropout))
         for i in range(0, num_blocks - 2):
-            self.blocks.append(VGCNBlock(num_hidden, num_hidden, bias, k, graph_norm, alpha, lambd, activation, residual, dropout, attention))
-        self.blocks.append(VGCNBlock(num_hidden, num_classes, bias, k, graph_norm, alpha, lambd, None, residual, dropout, attention))
+            self.blocks.append(VGCNBlock(num_hidden, num_hidden, bias, k, graph_norm, alpha, lambd, activation, residual, dropout))
+        self.blocks.append(VGCNBlock(num_hidden, num_classes, bias, k, graph_norm, alpha, lambd, None, residual, dropout))
 
     def forward(self, graph, features):
         h = features
