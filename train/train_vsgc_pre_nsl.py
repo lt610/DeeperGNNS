@@ -16,7 +16,7 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='citeseer')
+    parser.add_argument('--dataset', type=str, default='cora')
     parser.add_argument('--num_layers', type=int, default=16)
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=1)
@@ -29,8 +29,8 @@ if __name__ == '__main__':
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='VSGC_Pre')
-    parser.add_argument('--split', type=str, default='semi')
-    # parser.add_argument('--split', type=str, default='../data/splits/wisconsin_split_0.6_0.2_9.npz')
+    # parser.add_argument('--split', type=str, default='semi')
+    parser.add_argument('--split', type=str, default='../data/splits/cora_split_0.6_0.2_0.npz')
     parser.add_argument('--id', type=int, default=0)
     args = parser.parse_args()
 

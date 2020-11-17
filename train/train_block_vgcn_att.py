@@ -32,11 +32,11 @@ if __name__ == '__main__':
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='VBlockGCN')
     parser.add_argument('--split', type=str, default='semi')
-    # parser.add_argument('--split', type=str, default='../data/splits/cornell_split_0.6_0.2_0.npz')
+    # parser.add_argument('--split', type=str, default='../data/splits/cora_split_0.6_0.2_0.npz')
     parser.add_argument('--id', type=int, default=0)
     args = parser.parse_args()
 
-    test_print = True
+    test_print = False
     print("attention:{}".format(args.attention))
 
     if args.split != 'semi':

@@ -9,7 +9,7 @@ import torch.nn.functional as F
 
 
 class VGCNBlock(nn.Module):
-    def __init__(self, k=1, alpha=1, lambd=1, attention=False, att_drop=0, epsilon=5e-3):
+    def __init__(self, k=1, alpha=1, lambd=1, attention=False, att_drop=0, epsilon=1):
         super(VGCNBlock, self).__init__()
 
         self.k = k

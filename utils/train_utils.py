@@ -185,10 +185,10 @@ def generate_vsgc_pre_search_full_shells():
     # dataset = ['cornell', 'texas', 'wisconsin']
     # dataset = ['cora']
     # num_layers = [2, 4, 8, 16, 24, 32, 40, 48]
-    dataset = ['wisconsin']
+    dataset = ['film']
     num_layers = [2, 4, 6, 8]
     alpha = [1]
-    lambd = [-0.05, -0.01, -0.001, 0, 0.001, 0.01, 0.05, 0.1]
+    lambd = [-0.01, -0.001, 0, 0.001, 0.01, 0.05, 0.1]
     dropout = [0, 0.5, 0.8]
     learn_rate = [0.5, 0.3, 0.1, 0.01]
     weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
@@ -201,7 +201,7 @@ def generate_vsgc_pre_search_full_shells():
             for p in params:
                 split = '../data/splits/{}_split_0.6_0.2_{}.npz'.format(p[0], i)
                 command = 'python train_vsgc_mlp.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
-                          '--learn_rate {} --weight_decay {} --filename {} --cuda 0 --split {} --id {}\n'.format(p[0],
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 3 --split {} --id {}\n'.format(p[0],
                                                                                                                  p[1],
                                                                                                                  p[2],
                                                                                                                  p[3],
@@ -424,6 +424,36 @@ def generate_vblockgcn_attention_search_shells():
         print("{}条命令".format(id))
 
 
+def generate_vblockgcn_attention_search_full_shells():
+    dataset = ['pubmed']
+    k = [2, 4, 6]
+    feat_drop = [0, 0.5, 0.8]
+    att_drop = [0, 0.5, 0.8]
+    learn_rate = [0.5, 0.3, 0.1, 0.01]
+    weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
+    filename = ['VSGC_mlp_search_full']
+    id = 0
+    with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
+        f.write('#! /bin/bash\n')
+        for i in range(10):
+            params = itertools.product(dataset, k, feat_drop, att_drop, learn_rate, weight_decay, filename)
+            for p in params:
+                split = '../data/splits/{}_split_0.6_0.2_{}.npz'.format(p[0], i)
+                command = 'python train_block_vgcn_att.py --dataset {} --k {} --feat_drop {} --att_drop {} ' \
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 3 --split {} --id {}\n'.format(p[0],
+                                                                                                                 p[1],
+                                                                                                                 p[2],
+                                                                                                                 p[3],
+                                                                                                                 p[4],
+                                                                                                                 p[5],
+                                                                                                                 p[6],
+                                                                                                                 split,
+                                                                                                                 id)
+                id += 1
+                f.write(command)
+    print("{}条命令".format(id))
+
+
 def generate_vblockgcn_attention_result_shells():
     filename = 'VBlockGCN_att_result2_4'
     with open('../shells/{}.sh'.format(filename), 'w') as f:
@@ -462,4 +492,4 @@ def generate_dropedge_shells():
 
 
 if __name__ == '__main__':
-    generate_vblockgcn_attention_result_shells()
+    generate_vblockgcn_attention_search_full_shells()
