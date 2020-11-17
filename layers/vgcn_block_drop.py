@@ -46,6 +46,31 @@ class VGCNBlock(nn.Module):
             norm = norm.to(features.device).unsqueeze(1)
             g.edata['att'] = th.ones(g.number_of_edges(), 1).to(features.device)
 
+        # # unweighted graph
+        # if self.edge_drop > 0:
+        #     g.ndata['h'] = features
+        #     g.apply_edges(fn.u_sub_v('h', 'h', 'dif'))
+        #     dif = g.edata.pop('dif')
+        #     l2 = th.norm(dif, p=2, dim=1)
+        #     att = 1 / (2 * l2 + self.epsilon)
+        #
+        #     if self.edge_drop > 0:
+        #         k = int(att.shape[0] * self.edge_drop)
+        #         _, drop_idxs = att.topk(k, largest=self.important, sorted=False)
+        #         att[:] = 1
+        #         att[drop_idxs] = 0
+        #
+        #     g.edata['att'] = att
+        #     g.update_all(fn.copy_e('att', 'att'), fn.sum('att', 'degree'))
+        #     degs = g.ndata.pop('degree')
+        #     norm = th.pow(degs + 1, -0.5)
+        #     norm = norm.to(features.device).unsqueeze(1)
+        # else:
+        #     degs = g.in_degrees().float()
+        #     norm = th.pow(degs + 1, -0.5)
+        #     norm = norm.to(features.device).unsqueeze(1)
+        #     g.edata['att'] = th.ones(g.number_of_edges(), 1).to(features.device)
+
         h_pre = initial_features
         h = initial_features
         ri = initial_features * norm * norm

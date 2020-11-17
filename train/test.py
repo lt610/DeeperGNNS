@@ -170,8 +170,6 @@ import dgl
 # graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default("cora")
 # # print(th.max(features[:, 254]))
 
-g = dgl.graph(([0, 1, 2, 3, 3], [1, 2, 3, 4, 1]))
-g.edata['att'] = th.Tensor([1.1, 1.2, 2.1, 2.2, 6.8])
-g.update_all(fn.copy_e('att', 'att'), fn.sum('att', 'degree'))
-print(g.ndata['degree'])
-print(g.in_degrees())
+a = th.Tensor([1, 2, 3, 4])
+a[:] = 0
+print(a)

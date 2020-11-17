@@ -1,4 +1,6 @@
 import sys
+from utils.data_geom import load_data_from_file
+
 sys.path.append('../')
 import argparse
 import time
@@ -29,15 +31,24 @@ if __name__ == '__main__':
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='VBlockGCN')
+    parser.add_argument('--split', type=str, default='semi')
+    # parser.add_argument('--split', type=str, default='../data/splits/cornell_split_0.6_0.2_0.npz')
     parser.add_argument('--id', type=int, default=0)
     args = parser.parse_args()
 
+    test_print = True
     print("attention:{}".format(args.attention))
 
-    graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
+    if args.split != 'semi':
+        graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_from_file(
+            args.dataset, splits_file_path=args.split)
+    else:
+        graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(
+            args.dataset)
+
     model = VGCNBlockNet(num_feats, num_classes, args.k, args.num_blocks, alpha=args.alpha, lambd=args.lambd,
                          feat_drop=args.feat_drop, attention=args.attention, att_drop=args.att_drop)
-
+    labels = labels.squeeze()
     # set_seed(args.seed)
 
     optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
@@ -70,10 +81,20 @@ if __name__ == '__main__':
         optimizer.step()
         if epoch >= 3:
             dur.append(time.time() - t0)
+
         train_loss, train_acc = evaluate_acc_loss(model, graph, features, labels, train_mask)
         val_loss, val_acc = evaluate_acc_loss(model, graph, features, labels, val_mask)
-        print("Epoch {:05d} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Time(s) {:.4f}".
-              format(epoch, train_loss, train_acc, val_loss, val_acc, np.mean(dur)))
+        if test_print:
+            test_loss, test_acc = evaluate_acc_loss(model, graph, features, labels, test_mask)
+            print("Epoch {:05d} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Test_Loss "
+                  "{:.4f} | Test Acc {:.4f} | Time(s) {:.4f}".
+                  format(epoch, train_loss, train_acc, val_loss, val_acc, test_loss, test_acc, np.mean(dur)))
+        else:
+            print(
+                "Epoch {:05d} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Time(s) {"
+                ":.4f}".
+                format(epoch, train_loss, train_acc, val_loss, val_acc, np.mean(dur)))
+
         early_stopping(-val_loss, model)
         if early_stopping.is_stop:
             print("Early stopping")

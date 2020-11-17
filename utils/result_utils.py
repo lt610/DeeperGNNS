@@ -209,15 +209,15 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    filename = "VBlockGCN_att_search_citeseer"
+    filename = "VBlockGCN_att_search_pubmed"
 
-    extract_dropedge_result('../result/train_result/VBlockGCN_drop_unimportant_cora.txt', 10)
+    # extract_dropedge_result('../result/train_result/VBlockGCN_drop_unimportant_cora.txt', 10)
 
     # extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 3)
 
     # extract_search_result('../result/train_result/repair_{}.txt'.format(filename), 5)
 
-    # extract_final_result('../result/train_result/final_result/VBlockGCN_att_result1_1_cora.txt')
+    extract_final_result('../result/train_result/final_result/VBlockGCN_att_result2_4_citeseer.txt')
 
     # check_missing_cmd("../shells/10.192.9.122/{}.sh".format(filename),
     #                   "../result/train_result/des_result/{}.txt".format(filename))

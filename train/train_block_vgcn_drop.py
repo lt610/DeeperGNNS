@@ -1,4 +1,7 @@
 import sys
+
+from utils.data_geom import load_data_from_file
+
 sys.path.append('../')
 import argparse
 import time
@@ -13,14 +16,14 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='cora')
+    parser.add_argument('--dataset', type=str, default='cornell')
     parser.add_argument('--k', type=int, default=8)
     parser.add_argument('--num_blocks', type=int, default=2)
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=1)
     parser.add_argument('--feat_drop', type=float, default=0)
     parser.add_argument('--attention', action='store_true', default=True)
-    parser.add_argument('--edge_drop', type=float, default=0.3)
+    parser.add_argument('--edge_drop', type=float, default=0)
     parser.add_argument('--important', action='store_true', default=False)
 
     parser.add_argument('--seed', type=int, default=42)
@@ -30,12 +33,20 @@ if __name__ == '__main__':
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='VBlockGCN')
+    # parser.add_argument('--split', type=str, default='semi')
+    parser.add_argument('--split', type=str, default='../data/splits/cornell_split_0.6_0.2_0.npz')
     parser.add_argument('--id', type=int, default=0)
     args = parser.parse_args()
 
     print("attention:{}".format(args.attention))
 
-    graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
+    if args.split != 'semi':
+        graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_from_file(
+            args.dataset, splits_file_path=args.split)
+    else:
+        graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(
+            args.dataset)
+    labels = labels.squeeze()
     model = VGCNBlockNet(num_feats, num_classes, args.k, args.num_blocks, alpha=args.alpha, lambd=args.lambd,
                          feat_drop=args.feat_drop, attention=args.attention, edge_drop=args.edge_drop,
                          important=args.important)

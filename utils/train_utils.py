@@ -425,18 +425,18 @@ def generate_vblockgcn_attention_search_shells():
 
 
 def generate_vblockgcn_attention_result_shells():
-    filename = 'VBlockGCN_att_result2_1'
+    filename = 'VBlockGCN_att_result2_4'
     with open('../shells/{}.sh'.format(filename), 'w') as f:
         f.write('#! /bin/bash\n')
         params = []
-        # params.append({'dataset': 'cora', 'k': 4, 'num_blocks': 2, 'alpha': 1, 'lambd': 1, 'feat_drop': 0.8, 'attention': True, 'att_drop': 0.0, 'seed': 42, 'learn_rate': 0.1, 'weight_decay': 5e-05, 'num_epochs': 1500, 'patience': 100, 'cuda': 1, 'filename': 'VBlockGCN_att_search', 'id': 1456, 'train_loss': 0.1444486528635025, 'train_acc': 0.9571428571428572, 'val_loss': 0.5441444516181946, 'val_acc': 0.824, 'test_loss': 0.5049077868461609, 'test_acc': 0.847})
-        params.append({'dataset': 'citeseer', 'k': 8, 'num_blocks': 2, 'alpha': 1, 'lambd': 1, 'feat_drop': 0.5, 'attention': True, 'att_drop': 0.3, 'seed': 42, 'learn_rate': 0.01, 'weight_decay': 0.001, 'num_epochs': 1500, 'patience': 100, 'cuda': 2, 'filename': 'VBlockGCN_att_search', 'id': 548, 'train_loss': 0.5260554552078247, 'train_acc': 0.925, 'val_loss': 1.0703332424163818, 'val_acc': 0.726, 'test_loss': 1.0527722835540771, 'test_acc': 0.733})
-        # params.append({'dataset': 'pubmed', 'num_hidden': 64, 'k': 8, 'num_blocks': 2, 'alpha': 1.0, 'lambd': 1.0, 'residual': False, 'dropout': 0.8, 'attention': True, 'seed': 42, 'learn_rate': 0.1, 'weight_decay': 0.001, 'num_epochs': 1500, 'patience': 100, 'cuda': 2, 'filename': 'VBlockGCN_nsl_att_l2_search', 'id': 494, 'train_loss': 0.15329453349113464, 'train_acc': 0.9666666666666667, 'val_loss': 0.509773313999176, 'val_acc': 0.81, 'test_loss': 0.5485361218452454, 'test_acc': 0.813})
+        # params.append({'dataset': 'cora', 'k': 4, 'num_blocks': 2, 'alpha': 1, 'lambd': 1, 'feat_drop': 0.8, 'attention': True, 'att_drop': 0.5, 'seed': 42, 'learn_rate': 0.1, 'weight_decay': 0.0, 'num_epochs': 1500, 'patience': 100, 'cuda': 1, 'filename': 'VBlockGCN_att_search', 'id': 420, 'train_loss': 0.18000134825706482, 'train_acc': 0.9642857142857143, 'val_loss': 0.5737669467926025, 'val_acc': 0.836, 'test_loss': 0.5311302542686462, 'test_acc': 0.849})
+        params.append({'dataset': 'citeseer', 'k': 2, 'num_blocks': 2, 'alpha': 1, 'lambd': 1, 'feat_drop': 0.5, 'attention': True, 'att_drop': 0.5, 'seed': 42, 'learn_rate': 0.01, 'weight_decay': 0.001, 'num_epochs': 1500, 'patience': 100, 'cuda': 2, 'filename': 'VBlockGCN_att_search', 'id': 140, 'train_loss': 0.44558876752853394, 'train_acc': 0.95, 'val_loss': 1.071750521659851, 'val_acc': 0.732, 'test_loss': 1.0564533472061157, 'test_acc': 0.739})
+        # params.append({'dataset': 'pubmed', 'k': 24, 'num_blocks': 2, 'alpha': 1, 'lambd': 1, 'feat_drop': 0.8, 'attention': True, 'att_drop': 0.3, 'seed': 42, 'learn_rate': 0.01, 'weight_decay': 0.001, 'num_epochs': 1500, 'patience': 100, 'cuda': 3, 'filename': 'VBlockGCN_att_search', 'id': 1052, 'train_loss': 0.23233814537525177, 'train_acc': 0.9833333333333333, 'val_loss': 0.5480921864509583, 'val_acc': 0.82, 'test_loss': 0.5674958229064941, 'test_acc': 0.812})
 
         for ps in params:
             for _ in range(100):
                 command = 'python train_block_vgcn_att.py --dataset {} --k {} --feat_drop {} --att_drop {} ' \
-                          '--learn_rate {} --weight_decay {} --filename {} --cuda 2\n'.format(ps['dataset'], ps['k'],
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 0\n'.format(ps['dataset'], ps['k'],
                                                                                             ps['feat_drop'],
                                                                                             ps['att_drop'],
                                                                                             ps['learn_rate'],
