@@ -64,7 +64,7 @@ if __name__ == '__main__':
     train_mask = train_mask.to(device)
     val_mask = val_mask.to(device)
     test_mask = test_mask.to(device)
-    print(model)
+    # print(model)
     model = model.to(device)
 
     dur = []
