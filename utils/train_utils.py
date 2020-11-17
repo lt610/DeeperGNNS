@@ -425,13 +425,13 @@ def generate_vblockgcn_attention_search_shells():
 
 
 def generate_vblockgcn_attention_search_full_shells():
-    dataset = ['pubmed']
+    dataset = ['cora']
     k = [2, 4, 6]
     feat_drop = [0, 0.5, 0.8]
     att_drop = [0, 0.5, 0.8]
     learn_rate = [0.5, 0.3, 0.1, 0.01]
     weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
-    filename = ['VSGC_mlp_search_full']
+    filename = ['VBlockGCN_att_search_full']
     id = 0
     with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
         f.write('#! /bin/bash\n')
@@ -440,7 +440,7 @@ def generate_vblockgcn_attention_search_full_shells():
             for p in params:
                 split = '../data/splits/{}_split_0.6_0.2_{}.npz'.format(p[0], i)
                 command = 'python train_block_vgcn_att.py --dataset {} --k {} --feat_drop {} --att_drop {} ' \
-                          '--learn_rate {} --weight_decay {} --filename {} --cuda 3 --split {} --id {}\n'.format(p[0],
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 1 --split {} --id {}\n'.format(p[0],
                                                                                                                  p[1],
                                                                                                                  p[2],
                                                                                                                  p[3],
