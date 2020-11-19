@@ -14,9 +14,9 @@ class VGCNBlockNet(nn.Module):
         # self.block2 = VGCNBlock(k, alpha, lambd, attention, att_drop=att_drop)
 
         # 每个Block的W都不同
-        self.mlp1 = MLPLayer(num_feats, 64, bias=True, dropout=feat_drop)
-        self.block1 = VGCNBlock(k, alpha, lambd)
-        self.mlp2 = MLPLayer(64, num_classes, bias=True, dropout=feat_drop)
+        self.mlp1 = MLPLayer(num_feats, num_classes, bias=True, dropout=0.8)
+        self.block1 = VGCNBlock(8, alpha, lambd)
+        self.mlp2 = MLPLayer(num_classes, num_classes, bias=True, dropout=feat_drop)
         self.block2 = VGCNBlock(k, alpha, lambd, attention, att_drop=att_drop)
 
     def forward(self, graph, features):

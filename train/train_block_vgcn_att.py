@@ -50,7 +50,11 @@ if __name__ == '__main__':
     labels = labels.squeeze()
     # set_seed(args.seed)
 
-    optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
+    # optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
+
+    optimizer = th.optim.Adam([{'params': model.mlp1.parameters(), 'lr': 0.3, 'weight_decay': 5e-5},
+                               {'params': model.mlp2.parameters(), 'lr': args.learn_rate, 'weight_decay': args.weight_decay}])
+
     early_stopping = EarlyStopping(args.patience, file_name='{}_{}'.format(args.filename, args.dataset))
     # early_stopping = EarlyStoppingBoth()
 
@@ -64,7 +68,7 @@ if __name__ == '__main__':
     train_mask = train_mask.to(device)
     val_mask = val_mask.to(device)
     test_mask = test_mask.to(device)
-    # print(model)
+
     model = model.to(device)
 
     dur = []

@@ -223,11 +223,11 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    filename = "VSGC_mlp_search_full_wisconsin"
+    filename = "MLP_search_full_film"
 
     # extract_dropedge_result('../result/train_result/VBlockGCN_drop_unimportant_cora.txt', 10)
 
-    extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 10, 4, False)
+    extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 10)
 
     # extract_search_result('../result/train_result/repair_{}.txt'.format(filename), 5)
 

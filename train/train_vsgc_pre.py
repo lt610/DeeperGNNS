@@ -16,23 +16,24 @@ import numpy as np
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='cornell')
+    parser.add_argument('--dataset', type=str, default='cora')
     parser.add_argument('--num_layers', type=int, default=8)
     parser.add_argument('--alpha', type=float, default=1)
     parser.add_argument('--lambd', type=float, default=1)
-    parser.add_argument('--dropout', type=float, default=0)
+    parser.add_argument('--dropout', type=float, default=0.8)
 
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--learn_rate', type=float, default=0.01)
-    parser.add_argument('--weight_decay', type=float, default=0)
+    parser.add_argument('--learn_rate', type=float, default=0.3)
+    parser.add_argument('--weight_decay', type=float, default=5e-5)
     parser.add_argument('--num_epochs', type=int, default=1500)
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
     parser.add_argument('--filename', type=str, default='VSGC_Pre')
-    # parser.add_argument('--split', type=str, default='semi')
-    parser.add_argument('--split', type=str, default='../data/splits/cornell_split_0.6_0.2_0.npz')
+    parser.add_argument('--split', type=str, default='semi')
+    # parser.add_argument('--split', type=str, default='../data/splits/cornell_split_0.6_0.2_0.npz')
     parser.add_argument('--id', type=int, default=0)
     args = parser.parse_args()
+    test_print = False
 
     if args.split != 'semi':
         graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_from_file(args.dataset, splits_file_path=args.split)
@@ -74,8 +75,16 @@ if __name__ == '__main__':
             dur.append(time.time() - t0)
         train_loss, train_acc = evaluate_acc_loss(model, graph, features, labels, train_mask)
         val_loss, val_acc = evaluate_acc_loss(model, graph, features, labels, val_mask)
-        print("Epoch {:05d} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Time(s) {:.4f}".
-              format(epoch, train_loss, train_acc, val_loss, val_acc, np.mean(dur)))
+        if test_print:
+            test_loss, test_acc = evaluate_acc_loss(model, graph, features, labels, test_mask)
+            print("Epoch {:05d} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Test_Loss "
+                  "{:.4f} | Test Acc {:.4f} | Time(s) {:.4f}".
+                  format(epoch, train_loss, train_acc, val_loss, val_acc, test_loss, test_acc, np.mean(dur)))
+        else:
+            print(
+                "Epoch {:05d} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Time(s) {"
+                ":.4f}".
+                format(epoch, train_loss, train_acc, val_loss, val_acc, np.mean(dur)))
         early_stopping(-val_loss, model)
         # early_stopping(val_acc, val_loss, model)
         if early_stopping.is_stop:

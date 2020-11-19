@@ -185,14 +185,14 @@ def generate_vsgc_pre_search_full_shells():
     # dataset = ['cornell', 'texas', 'wisconsin']
     # dataset = ['cora']
     # num_layers = [2, 4, 8, 16, 24, 32, 40, 48]
-    dataset = ['film']
+    dataset = ['pubmed']
     num_layers = [2, 4, 6, 8]
     alpha = [1]
-    lambd = [-0.01, -0.001, 0, 0.001, 0.01, 0.05, 0.1]
+    lambd = [1.05]
     dropout = [0, 0.5, 0.8]
     learn_rate = [0.5, 0.3, 0.1, 0.01]
     weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
-    filename = ['VSGC_mlp_search_full']
+    filename = ['VSGC_mlp_search_full_1.05']
     id = 0
     with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
         f.write('#! /bin/bash\n')
@@ -201,7 +201,7 @@ def generate_vsgc_pre_search_full_shells():
             for p in params:
                 split = '../data/splits/{}_split_0.6_0.2_{}.npz'.format(p[0], i)
                 command = 'python train_vsgc_mlp.py --dataset {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
-                          '--learn_rate {} --weight_decay {} --filename {} --cuda 3 --split {} --id {}\n'.format(p[0],
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 2 --split {} --id {}\n'.format(p[0],
                                                                                                                  p[1],
                                                                                                                  p[2],
                                                                                                                  p[3],
@@ -373,7 +373,7 @@ def generate_mlp_search_full_shells():
     # dataset = ['cornell', 'texas', 'wisconsin']
     # dataset = ['cora']
     # num_layers = [2, 4, 8, 16, 24, 32, 40, 48]
-    dataset = ['cora', 'citeseer', 'pubmed', 'chameleon']
+    dataset = ['film']
     num_layers = [2]
     dropout = [0, 0.5, 0.8]
     learn_rate = [0.5, 0.3, 0.1, 0.01]
@@ -402,7 +402,7 @@ def generate_mlp_search_full_shells():
 
 def generate_vblockgcn_attention_search_shells():
     dataset = ['cora']
-    k = [2, 4, 8, 16, 24]
+    k = [2, 4, 8, 16]
     feat_drop = [0, 0.5, 0.8]
     att_drop = [0, 0.3, 0.5]
     learn_rate = [0.5, 0.3, 0.1, 0.01]
@@ -492,4 +492,4 @@ def generate_dropedge_shells():
 
 
 if __name__ == '__main__':
-    generate_vblockgcn_attention_search_full_shells()
+    generate_mlp_search_full_shells()
