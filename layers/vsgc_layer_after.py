@@ -52,7 +52,7 @@ class VSGCLayer(nn.Module):
         if self.cashed_h is not None:
             h = self.cashed_h
         else:
-            degs = g.in_degrees().float().clamp(min=1) - 1.0
+            degs = g.in_degrees().float() - 1.0
             norm_lambd_1 = th.pow(self.lambd * degs + 1.0, -1)
             norm_lambd_1 = norm_lambd_1.to(features.device).unsqueeze(1)
 
