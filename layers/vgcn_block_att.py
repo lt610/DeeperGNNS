@@ -16,7 +16,8 @@ class VGCNBlock(nn.Module):
         self.alpha = alpha
         self.attention = attention
         self.epsilon = epsilon
-        self.att_drop = nn.Dropout(att_drop)
+        if attention:
+            self.att_drop = nn.Dropout(att_drop)
 
     def forward(self, graph, features, initial_features):
         g = graph.local_var()
