@@ -6,7 +6,7 @@ import torch.nn.functional as F
 
 class VGCNBlockNet(nn.Module):
     def __init__(self, num_feats, num_classes, k, num_blocks=2, bias=True, alpha=1, lambd=1,
-                 feat_drop=0, attention=False, att_drop=0):
+                 feat_drop=0, attention=False, att_drop=0, best_params=None):
         super(VGCNBlockNet, self).__init__()
         # # 每个Block共享一个W
         # self.mlp = MLPLayer(num_feats, num_classes, bias=True, dropout=feat_drop)
@@ -14,8 +14,12 @@ class VGCNBlockNet(nn.Module):
         # self.block2 = VGCNBlock(k, alpha, lambd, attention, att_drop=att_drop)
 
         # 每个Block的W都不同
-        self.mlp1 = MLPLayer(num_feats, num_classes, bias=True, dropout=0.8)
-        self.block1 = VGCNBlock(8, alpha, lambd)
+        if best_params:
+            self.mlp1 = MLPLayer(num_feats, num_classes, bias=True, dropout=best_params['dropout'])
+            self.block1 = VGCNBlock(best_params['k'], alpha, lambd)
+        else:
+            self.mlp1 = MLPLayer(num_feats, num_classes, bias=True, dropout=feat_drop)
+            self.block1 = VGCNBlock(k, alpha, lambd)
         self.mlp2 = MLPLayer(num_classes, num_classes, bias=True, dropout=feat_drop)
         self.block2 = VGCNBlock(k, alpha, lambd, attention, att_drop=att_drop)
 

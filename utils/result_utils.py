@@ -227,11 +227,11 @@ if __name__ == '__main__':
 
     # extract_dropedge_result('../result/train_result/VBlockGCN_drop_unimportant_cora.txt', 10)
 
-    extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 5, topk=4, all=True)
+    # extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 5, topk=4, all=True)
 
     # extract_search_result('../result/train_result/repair_{}.txt'.format(filename), 5)
 
-    # extract_final_result('../result/train_result/final_result/VBlockGCN_att_result1_2_cora.txt')
+    extract_final_result('../result/train_result/final_result/VBlockGCN_att_result3_1_pubmed.txt')
 
     # check_missing_cmd("../shells/10.192.9.122/{}.sh".format(filename),
     #                   "../result/train_result/des_result/{}.txt".format(filename))

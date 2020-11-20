@@ -394,12 +394,12 @@ def generate_mlp_search_full_shells():
 
 def generate_vblockgcn_attention_search_shells():
     dataset = ['cora']
-    k = [2, 4, 8, 16, 24]
+    k = [2, 4, 8, 16]
     feat_drop = [0, 0.5, 0.8]
     att_drop = [0, 0.3, 0.5]
     learn_rate = [0.5, 0.3, 0.1, 0.01]
     weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
-    filename = ['VBlockGCN_att_search']
+    filename = ['VBlockGCN_att_search_based']
     id = 0
     with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
         f.write('#! /bin/bash\n')
@@ -407,7 +407,7 @@ def generate_vblockgcn_attention_search_shells():
             params = itertools.product(dataset, k, feat_drop, att_drop, learn_rate, weight_decay, filename)
             for p in params:
                 command = "python train_block_vgcn_att.py --dataset {} --k {} --feat_drop {} --att_drop {} " \
-                          "--learn_rate {} --weight_decay {} --filename {} --cuda 1 --id {}\n".format(p[0], p[1],
+                          "--learn_rate {} --weight_decay {} --filename {} --cuda 0 --id {}\n".format(p[0], p[1],
                                                                                                       p[2], p[3],
                                                                                                       p[4], p[5],
                                                                                                       p[6], id)
@@ -487,4 +487,4 @@ def generate_dropedge_shells():
 
 
 if __name__ == '__main__':
-    generate_vsgc_pre_result_shells()
+    generate_vblockgcn_attention_search_shells()
