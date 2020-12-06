@@ -447,18 +447,18 @@ def generate_vblockgcn_attention_search_full_shells():
 
 
 def generate_vblockgcn_attention_result_shells():
-    filename = 'VBlockGCN_att_result2_6'
+    filename = 'VBlockGCN_att_result3_1'
     with open('../shells/{}.sh'.format(filename), 'w') as f:
         f.write('#! /bin/bash\n')
         params = []
-        #params.append({'dataset': 'citeseer', 'k': 8, 'num_blocks': 2, 'alpha': 1, 'lambd': 1, 'feat_drop': 0.5, 'attention': True, 'att_drop': 0.3, 'share': False, 'seed': 42, 'learn_rate': 0.01, 'weight_decay': 0.01, 'num_epochs': 1500, 'patience': 100, 'cuda': 1, 'filename': 'VBlockGCN_att_search_based', 'split': 'semi', 'id': 547, 'train_loss': 0.2927473783493042, 'train_acc': 0.9583333333333334, 'val_loss': 0.9310759902000427, 'val_acc': 0.734, 'test_loss': 0.9133132100105286, 'test_acc': 0.734})
-        #params.append({'dataset': 'citeseer', 'k': 2, 'num_blocks': 2, 'alpha': 1, 'lambd': 1, 'feat_drop': 0.5, 'attention': True, 'att_drop': 0.0, 'share': False, 'seed': 42, 'learn_rate': 0.5, 'weight_decay': 0.01, 'num_epochs': 1500, 'patience': 100, 'cuda': 1, 'filename': 'VBlockGCN_att_search_based', 'split': 'semi', 'id': 73, 'train_loss': 0.23764464259147644, 'train_acc': 0.9666666666666667, 'val_loss': 0.9483376145362854, 'val_acc': 0.708, 'test_loss': 0.9211918711662292, 'test_acc': 0.727})
-        params.append({'dataset': 'citeseer', 'k': 4, 'num_blocks': 2, 'alpha': 1, 'lambd': 1, 'feat_drop': 0.8, 'attention': True, 'att_drop': 0.0, 'share': False, 'seed': 42, 'learn_rate': 0.5, 'weight_decay': 0.01, 'num_epochs': 1500, 'patience': 100, 'cuda': 1, 'filename': 'VBlockGCN_att_search_based', 'split': 'semi', 'id': 2089, 'train_loss': 0.36772486567497253, 'train_acc': 0.9416666666666667, 'val_loss': 0.9439233541488647, 'val_acc': 0.718, 'test_loss': 0.9433701038360596, 'test_acc': 0.739})
+        #params.append({'dataset': 'cora', 'k': 16, 'num_blocks': 2, 'alpha': 1, 'lambd': 1, 'feat_drop': 0.0, 'attention': True, 'att_drop': 0.5, 'share': True, 'seed': 42, 'learn_rate': 0.1, 'weight_decay': 0.0005, 'num_epochs': 1500, 'patience': 100, 'cuda': 0, 'filename': 'VBlockGCN_att_search_share', 'split': 'semi', 'id': 711, 'train_loss': 0.2049902081489563, 'train_acc': 0.9928571428571429, 'val_loss': 0.6608872413635254, 'val_acc': 0.782, 'test_loss': 0.6407530903816223, 'test_acc': 0.823})
+        #params.append({'dataset': 'citeseer', 'k': 4, 'num_blocks': 2, 'alpha': 1, 'lambd': 1, 'feat_drop': 0.5, 'attention': True, 'att_drop': 0.0, 'share': True, 'seed': 42, 'learn_rate': 0.1, 'weight_decay': 0.001, 'num_epochs': 1500, 'patience': 100, 'cuda': 1, 'filename': 'VBlockGCN_att_search_share', 'split': 'semi', 'id': 302, 'train_loss': 0.3761827051639557, 'train_acc': 0.9583333333333334, 'val_loss': 0.9685620665550232, 'val_acc': 0.736, 'test_loss': 0.9409490823745728, 'test_acc': 0.731})
+        params.append({'dataset': 'pubmed', 'k': 4, 'num_blocks': 2, 'alpha': 1, 'lambd': 1, 'feat_drop': 0.0, 'attention': True, 'att_drop': 0.3, 'share': True, 'seed': 42, 'learn_rate': 0.1, 'weight_decay': 0.0005, 'num_epochs': 1500, 'patience': 100, 'cuda': 2, 'filename': 'VBlockGCN_att_search_share', 'split': 'semi', 'id': 1335, 'train_loss': 0.08483234792947769, 'train_acc': 0.9833333333333333, 'val_loss': 0.518507182598114, 'val_acc': 0.786, 'test_loss': 0.5306892991065979, 'test_acc': 0.796})
 
         for ps in params:
             for _ in range(100):
                 command = 'python train_block_vgcn_att.py --dataset {} --k {} --feat_drop {} --att_drop {} ' \
-                          '--learn_rate {} --weight_decay {} --filename {} --cuda 1\n'.format(ps['dataset'], ps['k'],
+                          '--learn_rate {} --weight_decay {} --share --filename {} --cuda 3\n'.format(ps['dataset'], ps['k'],
                                                                                             ps['feat_drop'],
                                                                                             ps['att_drop'],
                                                                                             ps['learn_rate'],
@@ -483,5 +483,31 @@ def generate_dropedge_shells():
         print("{}条命令".format(id))
 
 
+def generate_vsgc_search_shells():
+    dataset = ['pubmed']
+    num_k = [2, 4, 8, 16, 24, 32, 40, 48, 56, 64]
+    num_layers = [1, 2, 3, 4]
+    alpha = [1]
+    lambd = [1]
+    dropout = [0, 0.5, 0.6, 0.7, 0.8]
+    learn_rate = [0.5, 0.3, 0.1, 0.01]
+    weight_decay = [0, 1e-2, 1e-3, 5e-4, 5e-5, 5e-6]
+    filename = ['VSGC_search']
+    id = 0
+    with open('../shells/{}_{}.sh'.format(filename[0], '_'.join(dataset)), 'w') as f:
+        f.write('#! /bin/bash\n')
+        for _ in range(5):
+            params = itertools.product(dataset, num_k, num_layers, alpha, lambd, dropout, learn_rate, weight_decay,
+                                       filename)
+            for p in params:
+                command = 'python train_vsgc_after.py --dataset {} --num_k {} --num_layers {} --alpha {} --lambd {} --dropout {} ' \
+                          '--learn_rate {} --weight_decay {} --filename {} --cuda 0\n'.format(p[0], p[1], p[2], p[3],
+                                                                                              p[4],
+                                                                                              p[5], p[6], p[7], p[8])
+                id += 1
+                f.write(command)
+    print("{}条命令".format(id))
+
+
 if __name__ == '__main__':
-    generate_vblockgcn_attention_search_shells()
+    generate_vblockgcn_attention_result_shells()

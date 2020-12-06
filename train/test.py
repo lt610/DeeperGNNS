@@ -18,7 +18,7 @@ import dgl.function as fn
 from utils.data_geom import load_data_from_file
 from utils.data_mine import print_graph_info, load_data_default
 import os
-from utils.result_utils import extract_test_accs
+from utils.result_utils import extract_test_accs, get_noisy_edges
 import dgl
 """测试按引用赋值"""
 # x = th.Tensor([1, 2, 3])
@@ -168,8 +168,43 @@ import dgl
 
 
 # graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default("cora")
-# # print(th.max(features[:, 254]))
+# # edges = graph.edges()
+# # print(edges)
+# graph = graph.remove_self_loop()
+# print(graph.number_of_edges())
+# es = get_noisy_edges(graph, labels)
+# print(len(es))
 
-a = th.Tensor([1, 2, 3, 4])
-a[:] = 0
-print(a)
+# a = th.Tensor([1, 2, 3, 4, 5])
+# b = th.Tensor([3, 4, 5, 6, 7])
+# count = 0
+# for t in a:
+#     if t in b:
+#         count += 1
+# print(count)
+
+def remove_reverse_edges(graph):
+    edges = graph.edges()
+    m = graph.num_edges()
+    edges_set = set()
+    remove_eids = []
+    for i in range(m):
+        u, v = edges[0][i].item(), edges[1][i].item()
+        if u > v:
+            e = (v, u)
+        else:
+            e = (u, v)
+        if e in edges_set:
+            remove_eids.append(i)
+        else:
+            edges_set.add(e)
+
+    graph.remove_edges(th.LongTensor(remove_eids))
+
+
+graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default("citeseer")
+graph = graph.remove_self_loop()
+print(graph.num_edges())
+remove_reverse_edges(graph)
+print(graph.num_edges())
+

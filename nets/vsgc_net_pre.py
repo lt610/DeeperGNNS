@@ -7,7 +7,7 @@ from layers.vsgcwo_layer import VSGCWOLayer
 
 
 class VSGCNetPre(nn.Module):
-    def __init__(self, num_feats, num_classes, num_layers, bias=True, alpha=1, lambd=1, dropout=0):
+    def __init__(self, num_feats, num_classes, num_layers, bias=True, alpha=1, lambd=1, dropout=0, type=0):
         super(VSGCNetPre, self).__init__()
         self.vsgc = VSGCLayerPre(num_feats, num_classes, bias, num_layers, alpha, lambd, dropout)
 

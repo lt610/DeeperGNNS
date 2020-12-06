@@ -8,6 +8,8 @@ from ogb.nodeproppred import DglNodePropPredDataset
 from utils.data_geom import load_data_from_file
 
 
+
+
 def split_data(data, train_ratio=0.6, val_ratio=0.2, random_seed=None):
     if random_seed:
         np.random.seed(random_seed)

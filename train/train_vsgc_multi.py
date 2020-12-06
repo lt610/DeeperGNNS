@@ -1,50 +1,55 @@
 import sys
 sys.path.append('../')
+from utils.data_mine import load_data_default
 import argparse
 import time
 import torch.nn.functional as F
+from nets.vsgc_net_multi import VSGCNetMulti
 from train.early_stopping import EarlyStopping
 from train.metrics import evaluate_acc_loss
-from nets.asgc_net import ASGCNet
-from utils.data_mine import load_data_default
 import torch as th
 import numpy as np
 
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='pubmed')
-    parser.add_argument('--num_hidden', type=int, default=64)
-    parser.add_argument('--num_layers', type=int, default=8)
+    parser.add_argument('--dataset', type=str, default='cora')
+    parser.add_argument('--k', type=int, default=2)
     parser.add_argument('--dropout', type=float, default=0.8)
+    parser.add_argument('--propagation', type=int, default=1)
 
     parser.add_argument('--seed', type=int, default=42)
-    parser.add_argument('--learn_rate', type=float, default=1e-2)
-    parser.add_argument('--weight_decay', type=float, default=5e-4)
+    parser.add_argument('--learn_rate', type=float, default=0.01)
+    parser.add_argument('--weight_decay', type=float, default=5e-5)
     parser.add_argument('--num_epochs', type=int, default=1500)
     parser.add_argument('--patience', type=int, default=100)
     parser.add_argument('--cuda', type=int, default=0)
-    parser.add_argument('--filename', type=str, default='VASGC')
-
+    parser.add_argument('--filename', type=str, default='VSGC_Multi')
+    parser.add_argument('--id', type=int, default=0)
     args = parser.parse_args()
+    test_print = False
 
-    graph, features, labels, train_mask, val_mask, test_mask, num_feats, num_classes = load_data_default(args.dataset)
-    model = ASGCNet(num_feats, num_classes, args.num_hidden, args.num_layers,
-                    dropout=args.dropout)
+    graph, features, labels, train_mask, val_mask, test_mask,\
+    num_feats, num_classes = load_data_default(args.dataset)
+
+    model = VSGCNetMulti(num_feats, num_classes, k=args.k,
+                         dropout=args.dropout, propagation=args.propagation)
     labels = labels.squeeze()
+
     # set_seed(args.seed)
 
     optimizer = th.optim.Adam(model.parameters(), lr=args.learn_rate, weight_decay=args.weight_decay)
+
     early_stopping = EarlyStopping(args.patience, file_name='{}_{}'.format(args.filename, args.dataset))
 
     device = th.device("cuda:{}".format(args.cuda) if th.cuda.is_available() else "cpu")
+
     graph = graph.to(device)
     features = features.to(device)
     labels = labels.to(device)
     train_mask = train_mask.to(device)
     val_mask = val_mask.to(device)
     test_mask = test_mask.to(device)
-    print(model)
     model = model.to(device)
 
     dur = []
@@ -62,13 +67,21 @@ if __name__ == '__main__':
             dur.append(time.time() - t0)
         train_loss, train_acc = evaluate_acc_loss(model, graph, features, labels, train_mask)
         val_loss, val_acc = evaluate_acc_loss(model, graph, features, labels, val_mask)
-        print("Epoch {:05d} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Time(s) {:.4f}".
-              format(epoch, train_loss, train_acc, val_loss, val_acc, np.mean(dur)))
+        if test_print:
+            test_loss, test_acc = evaluate_acc_loss(model, graph, features, labels, test_mask)
+            print("Epoch {:05d} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Test_Loss "
+                  "{:.4f} | Test Acc {:.4f} | Time(s) {:.4f}".
+                  format(epoch, train_loss, train_acc, val_loss, val_acc, test_loss, test_acc, np.mean(dur)))
+        else:
+            print(
+                "Epoch {:05d} | Train Loss {:.4f} | Train Acc {:.4f} | Val Loss {:.4f} | Val Acc {:.4f} | Time(s) {"
+                ":.4f}".
+                format(epoch, train_loss, train_acc, val_loss, val_acc, np.mean(dur)))
         early_stopping(-val_loss, model)
         if early_stopping.is_stop:
             print("Early stopping")
-            model.load_state_dict(early_stopping.load_checkpoint())
             break
+    model.load_state_dict(early_stopping.load_checkpoint())
     train_loss, train_acc = evaluate_acc_loss(model, graph, features, labels, train_mask)
     val_loss, val_acc = evaluate_acc_loss(model, graph, features, labels, val_mask)
     test_loss, test_acc = evaluate_acc_loss(model, graph, features, labels, test_mask)

@@ -1,6 +1,42 @@
 import numpy as np
 import networkx as nx
 import matplotlib.pyplot as plt
+import torch as th
+
+
+def get_noisy_edges(graph, labels):
+    graph = graph.local_var()
+    edges = graph.edges()
+    ne = len(edges[0])
+    nosiy_edges = []
+    for i in range(ne):
+        u, v = edges[0][i], edges[1][i]
+        if labels[u] != labels[v]:
+            nosiy_edges.append(i)
+
+    nosiy_edges = th.LongTensor(nosiy_edges)
+    return nosiy_edges
+
+
+
+def draw_loss_acc(train_loss, val_loss, test_loss, train_acc, val_acc, test_acc):
+    x = np.arange(0, 1500, 1)
+    fig = plt.figure()
+    ax1 = fig.add_subplot(111)
+    ax1.plot(x, train_loss, color='green', linestyle='-', label="train_loss")
+    ax1.plot(x, val_loss, color='orange', linestyle='-', label="val_loss")
+    # ax1.plot(x, test_loss, color='blueviolet', linestyle=':', label="test_loss")
+    ax1.legend(loc=0)
+    ax1.set_ylabel('Loss')
+    ax2 = ax1.twinx()  # this is the important function
+    ax2.plot(x, train_acc, color='red', linestyle='-', label="train_acc")
+    ax2.plot(x, val_acc, color='blue', linestyle='-', label="val_acc")
+    # ax2.plot(x, test_acc, color='blueviolet', linestyle='-', label="test_acc")
+    ax2.legend(loc=0)
+    ax2.set_xlim([0, 1500])
+    ax2.set_ylabel('Accuracy')
+    ax2.set_xlabel('Epoch')
+    plt.show()
 
 
 def draw_part_graph(graph, nodes=None):
@@ -225,15 +261,15 @@ if __name__ == '__main__':
     # print(result[i1])
     # print(result[i2])
 
-    filename = "VBlockGCN_att_search_based_cora"
+    filename = "VBlockGCN_att_search_share_citeseer"
 
     # extract_dropedge_result('../result/train_result/VBlockGCN_drop_unimportant_cora.txt', 10)
 
-    # extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 3, topk=8, all=True)
+    extract_search_result('../result/train_result/des_result/{}.txt'.format(filename), 3, topk=6, all=True)
 
-    extract_search_result('../result/train_result/repair_{}.txt'.format(filename), 3)
+    # extract_search_result('../result/train_result/repair_{}.txt'.format(filename), 3)
 
-    # extract_final_result('../result/train_result/final_result/VBlockGCN_att_result2_4_citeseer.txt')
+    # extract_final_result('../result/train_result/final_result/VBlockGCN_att_result1_2_cora.txt')
 
     # check_missing_cmd("../shells/10.192.9.122/{}.sh".format(filename),
     #                   "../result/train_result/des_result/{}.txt".format(filename))

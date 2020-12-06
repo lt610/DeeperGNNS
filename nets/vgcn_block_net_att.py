@@ -2,6 +2,9 @@ from layers.vgcn_block_att import VGCNBlock
 from layers.mlp_layer import MLPLayer
 import torch.nn as nn
 import torch.nn.functional as F
+import torch as th
+import dgl.function as fn
+import matplotlib.pyplot as plt
 
 
 class VGCNBlockNet(nn.Module):
@@ -30,9 +33,43 @@ class VGCNBlockNet(nn.Module):
         # h = self.block2(graph, h, initial_features)
 
         # 每个Block的W都不同
+
         initial1 = self.mlp1(graph, features)
         h = self.block1(graph, initial1, initial1)
+
         initial2 = self.mlp2(graph, features)
         h = self.block2(graph, h, initial2)
 
         return h
+
+    # def compute_top_rate(self, graph, features, noisy_edges, name):
+    #     if noisy_edges is None:
+    #         return
+    #     g = graph.local_var()
+    #     g.ndata['h'] = features
+    #     g.apply_edges(fn.u_sub_v('h', 'h', 'dif'))
+    #     dif = g.edata.pop('dif')
+    #     l2 = th.norm(dif, p=2, dim=1)
+    #     att = 1 / (2 * l2 + 1)
+    #     _, idxs = att.topk(len(noisy_edges), largest=False, sorted=False)
+    #     _, idxs2 = att.topk(len(noisy_edges), largest=True, sorted=False)
+    #
+    #     plt.hist(att.cpu(), range=[0, 1])
+    #     plt.savefig("all_{}.png".format(name))
+    #     plt.close()
+    #     count = 0
+    #     for i in range(len(noisy_edges)):
+    #         if idxs[i] in noisy_edges:
+    #             count += 1
+    #     print("1:{}".format(count / len(noisy_edges)))
+    #
+    #     count = 0
+    #     for i in range(len(noisy_edges)):
+    #         if idxs2[i] in noisy_edges:
+    #             count += 1
+    #     print("2:{}".format(count / len(noisy_edges)))
+    #
+    #     plt.hist(att[noisy_edges].cpu(), range=[0, 1])
+    #     plt.savefig("noisy_{}.png".format(name))
+    #     plt.close()
+    #     return
